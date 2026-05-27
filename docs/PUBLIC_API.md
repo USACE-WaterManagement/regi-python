@@ -1,6 +1,6 @@
 # ScriptableCalc Public API
 
-This document lists the public API for implementations of `ScriptableCalc`. These classes provide scriptable interfaces for various calculation and data management tasks within the Regi headless environment.
+This document lists the public API for implementations of `ScriptableCalc`. These classes provide scriptable interfaces for various calculation and data management tasks within the REGI environment.
 
 ## Common Base: AbstractScriptableCalc
 Most implementations inherit from `AbstractScriptableCalc`, which provides access to core domain objects.
