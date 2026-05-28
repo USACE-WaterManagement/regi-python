@@ -10,21 +10,23 @@
 
 ## Public API Recommendations
 ### Public API Removal Recommendations
-| Classes                                | Used in recent Examples | Used in District Scripts | Used in older Examples | Recommended for Removal | Notes          |
-|----------------------------------------|-------------------------|--------------------------|------------------------|-------------------------|----------------|
-| **ScriptableExportTSAssociationsImpl** | No                      | No                       | Yes                    | Yes                     | Unused calc    |
-| **ScriptableExportSigStagesImpl**      | Yes                     | No                       | Yes                    | Yes                     | Unused calc    |
-| **ScriptableImportSigStagesImpl**      | Yes                     | No                       | Yes                    | Yes                     | Unused calc    |
-| **RetrieveSigStagesImpl**              | Yes                     | No                       | Yes                    | Yes                     | Unused calc    |
-| **ScriptableGateFlowImpl**             | Yes                     | Yes                      | Yes                    | No                      |                |
-| **ScriptableGateSettingsImpl**         | Yes                     | Yes                      | Yes                    | No                      |                |
-| **ScriptableInflowImpl**               | Yes                     | Yes                      | Yes                    | No                      |                |
-| **ScriptablePoolPercentImpl**          | Yes                     | No                       | Yes                    | Yes                     | Being replaced |
-| **ScriptableStatusGraphicImpl**        | Yes                     | No                       | Yes                    | Yes                     | Being replaced |
+| Classes                                | Description                                                     | Used in recent Examples | Used in District Scripts | Used in older Examples | Recommended for Removal | Notes          |
+|----------------------------------------|-----------------------------------------------------------------|-------------------------|--------------------------|------------------------|-------------------------|----------------|
+| **ScriptableExportTSAssociationsImpl** | [Description](PUBLIC_API.md#scriptableexporttsassociationsimpl) | No                      | No                       | Yes                    | Yes                     | Unused calc    |
+| **ScriptableExportSigStagesImpl**      | [Description](PUBLIC_API.md#scriptableexportsigstagesimpl)      | Yes                     | No                       | Yes                    | Yes                     | Unused calc    |
+| **ScriptableImportSigStagesImpl**      | [Description](PUBLIC_API.md#scriptableimportsigstagesimpl)      | Yes                     | No                       | Yes                    | Yes                     | Unused calc    |
+| **RetrieveSigStagesImpl**              | [Description](PUBLIC_API.md#retrievesigstagesimpl)              | Yes                     | No                       | Yes                    | Yes                     | Unused calc    |
+| **ScriptableGateFlowImpl**             | [Description](PUBLIC_API.md#scriptablegateflowimpl)             | Yes                     | Yes                      | Yes                    | No                      |                |
+| **ScriptableGateSettingsImpl**         | [Description](PUBLIC_API.md#scriptablegatesettingsimpl)         | Yes                     | Yes                      | Yes                    | No                      |                |
+| **ScriptableInflowImpl**               | [Description](PUBLIC_API.md#scriptableinflowimpl)               | Yes                     | Yes                      | Yes                    | No                      |                |
+| **ScriptablePoolPercentImpl**          | [Description](PUBLIC_API.md#scriptablepoolpercentimpl)          | Yes                     | No                       | Yes                    | Yes                     | Being replaced |
+| **ScriptableStatusGraphicImpl**        | [Description](PUBLIC_API.md#scriptablestatusgraphicimpl)        | Yes                     | No                       | Yes                    | Yes                     | Being replaced |
 
 ### Public API Changes
 
 #### ScriptableInflowImpl
+See [ScriptableInflowImpl](PUBLIC_API.md#scriptableinflowimpl)
+
 | Method                                                                                            | Used in recent Examples | Used in District Scripts | Used in older Examples | Recommended for Removal | Notes                                                |
 |---------------------------------------------------------------------------------------------------|-------------------------|--------------------------|------------------------|-------------------------|------------------------------------------------------|
 | `autoAdjust(String, String, Date)`                                                                | Yes                     | Yes                      | Yes                    | No                      |                                                      |
@@ -37,6 +39,8 @@
 | `setComputationStorageOptions(InflowComputationStorageOption, InflowComputationStorageOption...)` | No                      | No                       | No                     | Maybe                   | No longer used in recent scripts or District Scripts |
 
 #### **ScriptableGateSettingsImpl**
+See [ScriptableGateSettingsImpl](PUBLIC_API.md#scriptablegatesettingsimpl)
+
 | Method                                                                       | Used in recent Examples | Used in District Scripts | Used in older Examples | Recommended for Removal | Notes                                                     |
 |------------------------------------------------------------------------------|-------------------------|--------------------------|------------------------|-------------------------|-----------------------------------------------------------|
 | `createGateSettings(String, String, Date, Date)`                             | Yes                     | No                       | Yes                    | Maybe                   | Unused by District Scripts, may want to consider removing |
@@ -45,6 +49,7 @@
 | `createGateSettingsGroup(String, String, Date, Date, String)`                | Yes                     | No                       | Yes                    | Maybe                   | Unused by District Scripts, may want to consider removing |
 
 #### **ScriptableGateFlowImpl**
+See [ScriptableGateFlowImpl](PUBLIC_API.md#scriptablegateflowimpl)
 | Method                                                   | Used in recent Examples | Used in District Scripts | Used in older Examples | Recommended for Removal | Notes           |
 |----------------------------------------------------------|-------------------------|--------------------------|------------------------|-------------------------|-----------------|
 | `computeAll(String, String, Date, Date)`                 | Yes                     | Yes                      | Yes                    | No                      |                 |
