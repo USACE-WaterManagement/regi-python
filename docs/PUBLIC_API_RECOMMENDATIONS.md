@@ -50,6 +50,7 @@ See [ScriptableGateSettingsImpl](PUBLIC_API.md#scriptablegatesettingsimpl)
 
 #### **ScriptableGateFlowImpl**
 See [ScriptableGateFlowImpl](PUBLIC_API.md#scriptablegateflowimpl)
+
 | Method                                                   | Used in recent Examples | Used in District Scripts | Used in older Examples | Recommended for Removal | Notes           |
 |----------------------------------------------------------|-------------------------|--------------------------|------------------------|-------------------------|-----------------|
 | `computeAll(String, String, Date, Date)`                 | Yes                     | Yes                      | Yes                    | No                      |                 |
