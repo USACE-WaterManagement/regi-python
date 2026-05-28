@@ -15,7 +15,7 @@ Most implementations inherit from `AbstractScriptableCalc`, which provides acces
 ## Implementations
 
 ### ScriptableExportTSAssociationsImpl
-Handles exporting time series associations.
+Handles exporting time series associations. (Found usages in `/regi-headless/src/test/resources/usace/rowcps/headless/examples`)
 
 - `exportAllTSAssociations(String fileLoc, String lineDelimiter, String valueDelimiter)`: Exports all time series associations for all projects to the specified file.
 - `exportTSAssociations(String projectId, String fileLoc, String lineDelimiter, String valueDelimiter)`: Exports time series associations for a specific project to the specified file.
@@ -50,7 +50,7 @@ Retrieves significant stages from external sources and writes them to CSV.
 - `getSpecifiedLevelOverride(Type type)`: Returns the override text for a specific level type.
 
 ### ScriptableGateFlowImpl
-Computes gate flows for locations. Found usages in `regi-headless-installer-common/scripts`.
+Computes gate flows for locations. Found usages in `/district scripts`.
 
 - `computeAll(String officeId, String locationId, Date start, Date end)`: Computes all gate flows for a location within the specified date range. (Used in scripts)
 - `computeAll(String officeId, String[] locationIds, Date start, Date end)`: Computes all gate flows for multiple locations within the specified date range.
@@ -58,7 +58,7 @@ Computes gate flows for locations. Found usages in `regi-headless-installer-comm
 - `computeFlowGroup(String officeId, String[] locationIds, Date start, Date end, String groupId)`: Computes gate flows for a specific group across multiple locations.
 
 ### ScriptableGateSettingsImpl
-Manages and creates gate settings. Found usages in `regi-headless-installer-common/scripts`.
+Manages and creates gate settings. Found usages in `/district scripts`.
 
 - `createGateSettings(String officeId, String locationStr, Date startDate, Date end)`: Creates gate settings for all outlets at a location.
 - `createGateSettingsOutlet(String officeId, String locationStr, Date startDate, Date end, String outletId)`: Creates gate settings for a specific outlet.
@@ -66,7 +66,7 @@ Manages and creates gate settings. Found usages in `regi-headless-installer-comm
 - `createGateSettingsGroup(String officeId, String locationStr, Date startDate, Date end, String groupId)`: Creates gate settings for a specific group of outlets.
 
 ### ScriptableInflowImpl
-Handles inflow calculations and adjustments. Found usages in `regi-headless-installer-common/scripts`.
+Handles inflow calculations and adjustments. Found usages in `/district scripts`.
 
 - `autoAdjust(String officeId, String locationStr, Date startDate)`: Automatically adjusts inflows starting from the specified date.
 - `autoAdjust(String officeId, String locationStr, Date startDate, boolean useLimits, boolean freezeRain)`: Automatically adjusts inflows with optional limits and rain freezing.
