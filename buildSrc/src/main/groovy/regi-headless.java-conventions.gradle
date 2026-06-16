@@ -2,9 +2,8 @@ plugins {
     id 'java-library'
 }
 
-compileJava {
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+tasks.withType(JavaCompile).configureEach {
+    options.release = 21
 }
 
 dependencies {
@@ -15,14 +14,4 @@ dependencies {
 
 test {
     useJUnitPlatform()
-}
-
-task sourcesJar(type: Jar) {
-    from sourceSets.main.allJava
-    archiveClassifier = 'sources'
-}
-
-task javadocJar(type: Jar) {
-    from javadoc
-    archiveClassifier = 'javadoc'
 }
