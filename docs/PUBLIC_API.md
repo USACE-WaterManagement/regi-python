@@ -53,9 +53,13 @@ Retrieves significant stages from external sources and writes them to CSV.
 Computes gate flows for locations. Found usages in `/district scripts`.
 
 - `computeAll(String officeId, String locationId, Date start, Date end)`: Computes all gate flows for a location within the specified date range. (Used in scripts)
+- `computeAll(String officeId, String locationId, long startTime, long endTime)`: Computes all gate flows for a location using epoch milliseconds.
 - `computeAll(String officeId, String[] locationIds, Date start, Date end)`: Computes all gate flows for multiple locations within the specified date range.
+- `computeAll(String officeId, String[] locationIds, long startTime, long endTime)`: Computes all gate flows for multiple locations using epoch milliseconds.
 - `computeFlowGroup(String officeId, String locationId, Date start, Date end, String groupId)`: Computes gate flows for a specific group at a location. (Used in scripts)
+- `computeFlowGroup(String officeId, String locationId, long startTime, long endTime, String groupId)`: Computes gate flows for a specific group at a location using epoch milliseconds.
 - `computeFlowGroup(String officeId, String[] locationIds, Date start, Date end, String groupId)`: Computes gate flows for a specific group across multiple locations.
+- `computeFlowGroup(String officeId, String[] locationIds, long startTime, long endTime, String groupId)`: Computes gate flows for a specific group across multiple locations using epoch milliseconds.
 
 ### ScriptableGateSettingsImpl
 Manages and creates gate settings. Found usages in `/district scripts`.
@@ -68,14 +72,18 @@ Manages and creates gate settings. Found usages in `/district scripts`.
 ### ScriptableInflowImpl
 Handles inflow calculations and adjustments. Found usages in `/district scripts`.
 
-- `autoAdjust(String officeId, String locationStr, Date startDate)`: Automatically adjusts inflows starting from the specified date.
-- `autoAdjust(String officeId, String locationStr, Date startDate, boolean useLimits, boolean freezeRain)`: Automatically adjusts inflows with optional limits and rain freezing.
+- `autoAdjust(String officeId, String locationStr, Date startDate)`: Automatically adjusts inflows starting from the specified date. (Uses default: `useLimits=false`, `freezeRain=false`)
+- `autoAdjust(String officeId, String locationStr, Date startDate, boolean useLimits, boolean freezeRain)`: Automatically adjusts inflows. `useLimits` toggles applying limits during adjustment; `freezeRain` toggles rain freezing (holding rain constant) during adjustment.
 - `cloneInflows(String officeId, String locationStr, Date startDate)`: Clones inflows at a location starting from the specified date.
 - `zeroNegatives(String officeId, String locationStr, Date startDate)`: Sets negative inflow values to zero starting from the specified date.
 - `balanceAll(String officeId, String locationStr, Date startDate)`: Balances all inflows for a location starting from the specified date.
 - `computeEvapAsFlow(String officeId, String locationStr, Date startDate, Date endDate)`: Computes evaporation as flow for the specified period. (Used in scripts)
 - `computeInflow(String officeId, String locationStr, Date startDate, Date endDate)`: Computes inflow for the specified location and period. (Used in scripts)
-- `setComputationStorageOptions(InflowComputationStorageOption option, InflowComputationStorageOption... options)`: Sets storage options for inflow computations. (Used in scripts)
+- `setComputationStorageOptions(InflowComputationStorageOption option, InflowComputationStorageOption... options)`: **Unsupported.** This method now throws an `UnsupportedOperationException`. Inflow computation storage is now handled automatically by `computeInflow`.
+    - **Available Options (Historical):**
+        - `EVAP_AS_FLOW`: Project Evaporation as Flow.
+        - `PROJECT_RELEASES`: Average Project Releases.
+    - **Current Behavior:** `computeInflow` automatically saves Evaporation as Flow, Average Releases, and Daily Computed Inflow.
 
 ### ScriptablePoolPercentImpl
 Calculates pool percentage time series.
