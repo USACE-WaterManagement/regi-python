@@ -14,14 +14,3 @@ allprojects {
     group = 'mil.army.wmist.regi-headless'
     version = versionLabel(versionDetails())
 }
-
-tasks.register('logTeamCityBuildStatus') {
-    doLast {
-        def message = "##teamcity[buildStatus text='SonarQube Results' description='Available at https://sonarqube.hecdev.net/dashboard?id=mil.army.wmist.regi-headless%3Aregi-headless-parent']"
-        logger.info(message)
-    }
-}
-
-tasks.named('sonar').configure {
-    finalizedBy logTeamCityBuildStatus
-}
