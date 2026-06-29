@@ -1,0 +1,4 @@
+interface:
+  display_name: "REGI Python Bridge Maintenance"
+  short_description: "Maintain the JPype bridge layer"
+  default_prompt: "Use $regi-python-bridge-maintenance to update or troubleshoot the regi_python JPype bridge and runtime."
