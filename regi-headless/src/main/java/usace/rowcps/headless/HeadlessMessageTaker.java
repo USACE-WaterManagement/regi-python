@@ -37,13 +37,13 @@ public class HeadlessMessageTaker implements MessageTaker
 		logger.log(Level.INFO, "{0} {1}", new String[]{string, msg.toString()});
 	}
 
-//	@Override
+	@Override
 	public void addMessage(String string, String string1, boolean showProgress)
 	{
 		logger.log(Level.INFO, "{0} {1}", new String[]{string, string1});
 	}
 
-//	@Override
+	@Override
 	public void addMessage(String string, Message msg, boolean showProgress)
 	{
 		logger.log(Level.INFO, "{0} {1}", new String[]{string, msg.toString()});

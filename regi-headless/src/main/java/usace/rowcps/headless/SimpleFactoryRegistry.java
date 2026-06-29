@@ -30,16 +30,6 @@ public class SimpleFactoryRegistry extends CalcFactoryRegistry
 		return factories;
 	}
 
-//	public void printNames()
-//	{
-//		CalcFactoryRegistry aDefault = getRegistry(DEFAULT_VERSION);
-//		Collection<ScriptableCalcFactory> factories = aDefault.getFactories();
-//		for (ScriptableCalcFactory factory : factories) {
-//			//System.out.println("Found factory:" + factory.getName());
-//			logger.log(Level.FINE, "Found factory:" + factory.getName());
-//		}
-//	}
-
 	@Override
 	public ScriptableCalcFactory getFactory(String name)
 	{

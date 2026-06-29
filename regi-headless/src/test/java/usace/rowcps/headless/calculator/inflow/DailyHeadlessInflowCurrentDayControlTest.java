@@ -6,13 +6,13 @@
  */
 package usace.rowcps.headless.calculator.inflow;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.NavigableSet;
 import java.util.TimeZone;
 import java.util.logging.Logger;
-
-import org.junit.Test;
 
 import hec.data.DataSetException;
 import hec.data.location.LocationTemplate;
@@ -20,10 +20,9 @@ import hec.data.tx.DataSetTxIllegalArgumentException;
 import hec.db.DbConnectionException;
 import hec.db.DbException;
 import hec.db.DbIoException;
+import org.junit.jupiter.api.Test;
 import usace.rowcps.regi.executor.ManagerIdType;
 import usace.rowcps.regi.model.ManagerId;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  *

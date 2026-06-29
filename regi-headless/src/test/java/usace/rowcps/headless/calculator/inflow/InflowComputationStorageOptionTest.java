@@ -6,10 +6,11 @@
  */
 package usace.rowcps.headless.calculator.inflow;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
-import static org.junit.Assert.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import usace.rowcps.data.inflow.InflowDataType;
 
 /**
@@ -38,7 +39,7 @@ public class InflowComputationStorageOptionTest
 		
 		if (!nonUniqueDataTypes.isEmpty())
 		{
-			assertTrue("Non unique data types found: " + nonUniqueDataTypes.toString(), false);
+			assertTrue(false, "Non unique data types found: " + nonUniqueDataTypes);
 		}
 	}
 }

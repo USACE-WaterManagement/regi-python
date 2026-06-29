@@ -6,9 +6,11 @@
  */
 package usace.rowcps.headless.calculator.inflow;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.Arrays;
-import static org.junit.Assert.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import usace.rowcps.data.inflow.InflowDataType;
 
 /**

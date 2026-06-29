@@ -1,5 +1,6 @@
 package usace.rowcps.headless;
 
+import java.io.IOException;
 import usace.rowcps.headless.interfaces.ScriptEvaluator;
 import hec.db.DbConnectionException;
 import hec.db.DbIoException;
@@ -45,7 +46,7 @@ public class RegiCLI
 		{
 			runHeadless(parser, args, opt);
 		}
-		catch (DbConnectionException | DbPluginNotFoundException | InvalidDbConnectionException ex)
+		catch (DbConnectionException | DbPluginNotFoundException | InvalidDbConnectionException | IOException ex)
 		{
 			LOGGER.log(Level.SEVERE, "Headless error connecting to database.", ex);
 			System.exit(-1);
@@ -73,21 +74,23 @@ public class RegiCLI
 	 * @throws CmdLineException
 	 * @throws DbPluginNotFoundException 
 	 */
-	static void runHeadlessTest(String[] args) throws DbConnectionException, InvalidDbConnectionException, CmdLineException, DbPluginNotFoundException
-	{
+	static void runHeadlessTest(String[] args)
+          throws DbConnectionException, InvalidDbConnectionException, CmdLineException, DbPluginNotFoundException,
+          IOException {
 		CLIOptions opt = new CLIOptions(System.getProperties());
 		CmdLineParser parser = new CmdLineParser(opt);
 		runHeadless(parser, args, opt);
 	}
 
-	private static void runHeadless(CmdLineParser parser, String[] args, CLIOptions opt) throws DbConnectionException, InvalidDbConnectionException, CmdLineException, DbPluginNotFoundException
-	{
+	private static void runHeadless(CmdLineParser parser, String[] args, CLIOptions opt)
+          throws DbConnectionException, InvalidDbConnectionException, CmdLineException, DbPluginNotFoundException,
+          IOException {
 		parser.parseArgument(args);
 		System.setProperties(opt.getProperties());
 		
 		HeadlessRegiDomainFactory factory = new HeadlessRegiDomainFactory();
-		ManagerId managerId = factory.getManagerId(opt);
-		RegiDomain regiDomain = factory.createDomain(opt, managerId);
+		ManagerId managerId = factory.getManagerId();
+		RegiDomain regiDomain = factory.createDomain();
 		
 		if (regiDomain != null)
 		{

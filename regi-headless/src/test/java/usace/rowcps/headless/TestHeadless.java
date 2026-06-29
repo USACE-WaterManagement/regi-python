@@ -7,8 +7,7 @@
 package usace.rowcps.headless;
 
 import java.util.TimeZone;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
 import usace.rowcps.cwms.Installer;
 import usace.rowcps.headless.tests.TestVariables;
 
@@ -149,7 +148,7 @@ public class TestHeadless
 		return args;
 	}
 	
-	@BeforeClass
+	@BeforeAll
 	public static void beforeClass()
 	{
 		//Sets up DB info

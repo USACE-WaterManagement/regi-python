@@ -81,7 +81,6 @@ import usace.rowcps.data.association.ITimeSeriesAssociation;
 import usace.rowcps.data.project.TsUsageId;
 import usace.rowcps.headless.calculator.AbstractScriptableCalc;
 import usace.rowcps.headless.calculator.inflow.AbstractThreadedBlockRetriever;
-import static usace.rowcps.headless.calculator.status.ScriptableStatusGraphicImpl.LATCH_SECONDS;
 import usace.rowcps.headless.interfaces.ScriptableCalc;
 import usace.rowcps.metrics.RegiMetricsService;
 import usace.rowcps.regi.event.IThreadedBlockRetriever;
@@ -103,6 +102,7 @@ import usace.rowcps.regi.util.GateSettingsUtil;
 
 public class ScriptableGateSettingsImpl extends AbstractScriptableCalc implements ScriptableCalc, ScriptableGateSettings {
 
+	public final static String LATCH_SECONDS = "rowcps.latchseconds";
 	private static final Logger LOGGER = Logger.getLogger(ScriptableGateSettings.class.getName());
 
 	public ScriptableGateSettingsImpl(RegiDomain regiDomain, ManagerId managerId) {

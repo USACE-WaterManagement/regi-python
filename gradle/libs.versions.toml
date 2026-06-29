@@ -1,14 +1,12 @@
 [versions]
 
 # HEC Dependencies
-service-annotations = "1.2.2"
-win-java-heclib = "7-IE-win-x64"
-solaris-java-heclib = "7-IE-Solaris64"
-hec-core = "6.1-SNAPSHOT" # required for PasswordFileEditor
+service-annotations = "2.1.0"
+hec-server-suite = "8.4.5"
 
 # REGI Dependencies
-regi-tools = "3.4.3"
-regi = "3.4.4"
+regi-tools = "9.1.1"
+regi = "3.5.0-alpha001"
 
 # Third Party
 jython-standalone = "2.7.2"
@@ -20,15 +18,16 @@ solaris-jre = "1.8.0_202-Solaris-SPARC"
 jython-starter = "2.2.4.0"
 
 # Test
-junit4 = "4.13.2"
-junit = "5.9.3"
+junit = "6.1.0"
 
 [libraries]
 # HEC Dependencies
 service-annotations = { module = "mil.army.usace.hec:service-annotations", version.ref = "service-annotations" }
-hec-core = { module="mil.army.usace.hec:hec-core", version.ref = "hec-core" }
-win-java-heclib = {module="mil.army.usace.hec:javaHeclib", version.ref = "win-java-heclib"}
-solaris-java-heclib = {module="mil.army.usace.hec:javaHeclib", version.ref = "solaris-java-heclib"}
+serversuite = { module = "mil.army.usace.hec:hec-server-suite", version.ref = "hec-server-suite" }
+serversuite-cda = { module = "mil.army.usace.hec:cda-server-suite", version.ref = "hec-server-suite" }
+serversuite-jdbc = { module = "mil.army.usace.hec:jdbc-server-suite", version.ref = "hec-server-suite" }
+hec-db-cda = { module = "mil.army.usace.hec:hec-db-cda", version = "14.1.0" }
+hec-cwms-ratings-cda = { module = "mil.army.usace.hec:hec-cwms-ratings-io-cda", version = "4.2.2"}
 
 # REGI Dependencies
 regi-basinpie-ui = {module = "mil.army.wmist.regi:basin-pie-ui", version.ref = "regi"}
@@ -42,46 +41,27 @@ regi-tools-regi-core = {module = "mil.army.wmist.regi-tools:regi-core", version.
 regi-tools-regi-data = {module = "mil.army.wmist.regi-tools:regi-data", version.ref = "regi-tools"}
 regi-tools-regi-dao = {module = "mil.army.wmist.regi-tools:regi-dao", version.ref = "regi-tools"}
 regi-tools-regi-cwms = {module = "mil.army.wmist.regi-tools:regi-cwms", version.ref = "regi-tools"}
-# Required for reservoir status graphics
-regi-tools-regi-cache-ui = {module = "mil.army.wmist.regi-tools:regi-cache-ui", version.ref = "regi-tools"}
 
 # Third Party
 jython-standalone = {module = "org.python:jython-standalone", version.ref = "jython-standalone"}
 args4j = {module = "args4j:args4j", version.ref = "args4j"}
-
-# Natives
-windows_jre = { module = "com.oracle:oracle-jre", version.ref = "windows-jre" }
-solaris_jre = { module = "com.oracle:jre", version.ref = "solaris-jre" }
-jython-starter = { module = 'mil.army.usace.hec.javastarter:javastarter-Jython', version.ref = "jython-starter"}
+otel = {module = "io.opentelemetry:opentelemetry-api", version="1.58.0"}
 
 # Test
-junit4 = { module = "junit:junit", version.ref = "junit4" }
 junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit" }
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
-junit-vintage-engine = { module = "org.junit.vintage:junit-vintage-engine", version.ref = "junit" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
 
 [bundles]
-regi = [
-    "regi-basinpie-ui",
-    "regi-computation",
-    "regi-decisionsupport-ui",
-    "regi-mappanel-ui",
-    "regi-ui"]
+regi = ["regi-computation"]
 regi-tools = [
     "regi-tools-regi-core",
-    "regi-tools-regi-cache-ui",
     "regi-tools-regi-cwms",
     "regi-tools-regi-dao",
     "regi-tools-regi-data"
 ]
-hec = [
-    "hec-core"
-]
-sys = [
-    "args4j",
-    "jython-standalone"
-]
+serversuite = ["serversuite", "serversuite-cda", "serversuite-jdbc", "hec-db-cda"]
 
-junit-api = ["junit-jupiter-api", "junit-jupiter-params", "junit4"]
-junit-engine = ["junit-jupiter-engine", "junit-vintage-engine"]
+junit-api = ["junit-jupiter-api", "junit-jupiter-params"]
+junit-engine = ["junit-jupiter-engine", "junit-platform-launcher"]

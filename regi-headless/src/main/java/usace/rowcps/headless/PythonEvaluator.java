@@ -27,21 +27,8 @@ public class PythonEvaluator implements ScriptEvaluator
 		// I think this would let us restrict the classes loadable by python.
 		ClassLoader ctxtLoader = Thread.currentThread().getContextClassLoader();
 
-//		try {
-//			Class<?> aClass = ctxtLoader.loadClass("usace.rowcps.regi.model.AtLocationMananger");
-//		} catch (ClassNotFoundException ex) {
-//			Logger.getLogger(PythonEvaluator.class.getName()).log(Level.SEVERE, null, ex);
-//		}
 		ScriptEngineManager scriptManager = new ScriptEngineManager(ctxtLoader);
 		ScriptEngine pythonEngine = scriptManager.getEngineByName(ENGINE_NAME);
-
-//		if (pythonEngine instanceof (PyScriptEngine)) {
-//			(PyScriptEngine) object = ((PyScriptEngine)) pythonEngine;
-//
-//		}
-
-		//new PythonScriptContainer()
-		//ScriptEngineFactory factory = pythonEngine.getFactory();
 
 		SimpleScriptContext context = (SimpleScriptContext) pythonEngine.getContext();
 
