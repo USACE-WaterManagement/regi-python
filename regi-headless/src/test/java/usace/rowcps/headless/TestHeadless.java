@@ -7,8 +7,6 @@
 package usace.rowcps.headless;
 
 import java.util.TimeZone;
-import org.junit.jupiter.api.BeforeAll;
-import usace.rowcps.cwms.Installer;
 import usace.rowcps.headless.tests.TestVariables;
 
 /**
@@ -146,13 +144,5 @@ public class TestHeadless
 		};
 
 		return args;
-	}
-	
-	@BeforeAll
-	public static void beforeClass()
-	{
-		//Sets up DB info
-		Installer installer = new Installer();
-		installer.restored();
 	}
 }

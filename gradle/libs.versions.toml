@@ -12,11 +12,6 @@ regi = "3.5.0-alpha001"
 jython-standalone = "2.7.2"
 args4j = "2.32"
 
-# Natives
-windows-jre = "1.8.0_201"
-solaris-jre = "1.8.0_202-Solaris-SPARC"
-jython-starter = "2.2.4.0"
-
 # Test
 junit = "6.1.0"
 
@@ -30,11 +25,7 @@ hec-db-cda = { module = "mil.army.usace.hec:hec-db-cda", version = "14.1.0" }
 hec-cwms-ratings-cda = { module = "mil.army.usace.hec:hec-cwms-ratings-io-cda", version = "4.2.2"}
 
 # REGI Dependencies
-regi-basinpie-ui = {module = "mil.army.wmist.regi:basin-pie-ui", version.ref = "regi"}
 regi-computation = {module = "mil.army.wmist.regi:computation", version.ref = "regi"}
-regi-decisionsupport-ui = {module = "mil.army.wmist.regi:decision-support-ui", version.ref = "regi"}
-regi-mappanel-ui = {module = "mil.army.wmist.regi:map-panel-ui", version.ref = "regi"}
-regi-ui = {module = "mil.army.wmist.regi:regi-ui", version.ref = "regi"}
 
 # Regi-tools Dependencies
 regi-tools-regi-core = {module = "mil.army.wmist.regi-tools:regi-core", version.ref = "regi-tools"}
@@ -45,7 +36,6 @@ regi-tools-regi-cwms = {module = "mil.army.wmist.regi-tools:regi-cwms", version.
 # Third Party
 jython-standalone = {module = "org.python:jython-standalone", version.ref = "jython-standalone"}
 args4j = {module = "args4j:args4j", version.ref = "args4j"}
-otel = {module = "io.opentelemetry:opentelemetry-api", version="1.58.0"}
 
 # Test
 junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }

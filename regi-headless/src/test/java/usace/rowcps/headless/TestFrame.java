@@ -43,7 +43,6 @@ public class TestFrame extends JFrame
 
 	public static void main(String[] args)
 	{
-		TestHeadless.beforeClass();
 		TestFrame frame = new TestFrame();
 		frame.pack();
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
