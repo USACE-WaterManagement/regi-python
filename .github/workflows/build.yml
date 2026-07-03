@@ -5,6 +5,9 @@ on:
     branches:
       - main
   pull_request:
+  release:
+    types:
+      - created
 
 permissions:
   contents: read
@@ -33,7 +36,33 @@ jobs:
         run: chmod +x ./gradlew
         
       - name: Build and test
-        run: ./gradlew clean build
+        run: ./gradlew clean build buildPythonWheel
+      - name: Upload Python wheel artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-wheel
+          path: "**/build/install/*/dist/*.whl"
+          if-no-files-found: error
+
+  publish-wheel:
+    name: Publish Python wheel to GitHub Release
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release'
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download Python wheel artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: python-wheel
+          path: dist
+
+      - name: Publish wheel to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/**/*.whl
 
   dependency-submission:
     name: Submit Gradle dependencies
