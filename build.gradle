@@ -3,14 +3,52 @@ plugins {
     id "org.sonarqube" version "7.3.1.8318"
 }
 
-def versionLabel(gitInfo) {
-    def branch = gitInfo.branchName // all branches are snapshots, only tags get released
-    def tag = gitInfo.lastTag
-    // tag is returned as is. Branch may need cleanup
-    return branch == null ? tag : "99." + branch.replace("/","-") + "-SNAPSHOT"
+def gitOutput(String... args) {
+    return providers.exec {
+        commandLine(['git'] + args.toList())
+        ignoreExitValue = true
+    }.standardOutput.asText.get().trim()
+}
+
+def pep440VersionFromLatestTag() {
+    def tag = gitOutput('describe', '--tags', '--abbrev=0')
+    if (!tag) {
+        tag = '0.0.0'
+    }
+
+    def baseVersion = tag.startsWith('v') ? tag.substring(1) : tag
+
+    def distanceText = tag == '0.0.0'
+            ? gitOutput('rev-list', 'HEAD', '--count')
+            : gitOutput('rev-list', "${tag}..HEAD", '--count')
+    def distance = distanceText?.isInteger() ? distanceText.toInteger() : 0
+
+    def hash = gitOutput('rev-parse', '--short=7', 'HEAD')
+    def dirty = gitOutput('status', '--porcelain') ? true : false
+
+    if (distance == 0 && !dirty) {
+        return baseVersion
+    }
+
+    def version = "${baseVersion}.post${distance}"
+    def localParts = []
+
+    if (hash) {
+        localParts.add("g${hash}")
+    }
+
+    if (dirty) {
+        localParts.add("dirty")
+    }
+
+    if (!localParts.isEmpty()) {
+        version += "+" + localParts.join(".")
+    }
+
+    return version
 }
 
 allprojects {
-    group = 'mil.army.wmist.regi-headless'
-    version = versionLabel(versionDetails())
+    group = 'mil.army.wmist.regi-python'
+    version = pep440VersionFromLatestTag()
 }

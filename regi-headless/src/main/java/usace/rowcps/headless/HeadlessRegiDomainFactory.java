@@ -27,10 +27,6 @@ import usace.rowcps.regi.model.DatabaseConnectionManager;
 import usace.rowcps.regi.model.ManagerId;
 import usace.rowcps.regi.model.RegiDomain;
 
-/**
- *
- * @author ryan
- */
 public class HeadlessRegiDomainFactory
 {
 
@@ -40,11 +36,11 @@ public class HeadlessRegiDomainFactory
 	public RegiDomain createDomain() throws DbConnectionException,
 		DbPluginNotFoundException, IOException {
 
-		Path projectDir = Paths.get("regi-projects", "regi-cli");
+		Path projectDir = Paths.get("regi-projects", "regi-python");
 		logger.log(Level.INFO, "Creating project dir: "+ projectDir);
 		Files.createDirectories(projectDir);
 
-		Path projectFile = projectDir.resolve("regi-cli.prj");
+		Path projectFile = projectDir.resolve("regi-python.prj");
 		if(!Files.exists(projectFile)) {
 			Files.createFile(projectFile);
 		}
@@ -66,15 +62,15 @@ public class HeadlessRegiDomainFactory
 		}
 
 		String cdaUrl = System.getenv("CDA_URL");
-		String apiKey = System.getenv("API_KEY");
+		String apiKey = System.getenv("CDA_API_KEY");
 		String officeId = System.getenv("OFFICE_ID");
 
 		CdaAuthenticationSource cdaAuthenticationSource = new CdaAuthenticationSource("", cdaUrl, officeId, new CwmsApiKeyAuthExtension(apiKey));
 		try
 		{
-			ServerSuite serverSuite = ServerSuiteUtil.login("REGI CLI", cdaAuthenticationSource, false, false, false);
+			ServerSuite serverSuite = ServerSuiteUtil.login("regi-python", cdaAuthenticationSource, false, false, false);
 			DataAccessFactory dataAccessFactory = serverSuite.getDataAccessFactory();
-			try(var key = dataAccessFactory.getDataAccessKey("REGI CLI")) {
+			try(var key = dataAccessFactory.getDataAccessKey("regi-python")) {
 				String username = dataAccessFactory.getDao(CwmsSecurityDao.class).getCurrentUserId(key);
 				connectionManager.setUsername(username);
 			}
