@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "regi-python"
+version = "@VERSION@"
+description = "USACE Regi-Headless Python Bridge"
+dependencies = [
+    "JPype1>=1.4.1",
+]
+
+[tool.setuptools]
+packages = ["regi-python"]
+
+[tool.setuptools.package-data]
+"regi-python" = ["lib/*.jar"]
