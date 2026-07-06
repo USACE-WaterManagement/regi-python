@@ -49,7 +49,7 @@ def configure_logging():
 def configure_jul_to_python_logging(python_logger):
     global _java_log_sink
 
-    from java.util.logging import Logger, Level
+    from java.util.logging import Logger
     from usace.rowcps.headless import PythonJulHandler
 
     java_level = _python_level_to_jul_level(python_logger.getEffectiveLevel())
@@ -60,24 +60,27 @@ def configure_jul_to_python_logging(python_logger):
     for handler in root_logger.getHandlers():
         root_logger.removeHandler(handler)
 
+    PythonLogSink = _create_python_log_sink_class()
     _java_log_sink = PythonLogSink(python_logger)
 
     handler = PythonJulHandler(_java_log_sink)
     handler.setLevel(java_level)
 
     root_logger.addHandler(handler)
-    
+
 
 def _python_level_to_jul_level(python_level):
     from java.util.logging import Level
 
+    if python_level <= logging.NOTSET:
+        return Level.ALL
     if python_level <= logging.DEBUG:
         return Level.FINE
     if python_level <= logging.INFO:
         return Level.INFO
     if python_level <= logging.WARNING:
         return Level.WARNING
-    if python_level <= logging.ERROR:
+    if python_level <= logging.CRITICAL:
         return Level.SEVERE
     return Level.OFF
 
@@ -91,23 +94,32 @@ def _jul_level_to_python_level(jul_level_name):
         "FINE": logging.DEBUG,
         "FINER": logging.DEBUG,
         "FINEST": logging.DEBUG,
+        "ALL": logging.NOTSET,
+        "OFF": logging.CRITICAL + 10,
     }
     return mapping.get(str(jul_level_name), logging.INFO)
 
 
-@JImplements("usace.rowcps.headless.PythonLogSink")
-class PythonLogSink:
-    def __init__(self, python_logger):
-        self._logger = python_logger
+def _create_python_log_sink_class():
+    # JPype resolves @JImplements interfaces immediately, so define this class only
+    # after the JVM has started; otherwise importing this module would fail.
+    from jpype import JImplements, JOverride
 
-    @JOverride
-    def log(self, record, message):
-        level = _jul_level_to_python_level(record.getLevel().getName())
-        name = str(record.getLoggerName() or "java")
-        message = str(message)
+    @JImplements("usace.rowcps.headless.PythonLogSink")
+    class PythonLogSink:
+        def __init__(self, python_logger):
+            self._logger = python_logger
 
-        thrown = record.getThrown()
-        if thrown is not None:
-            message = f"{message}\n{thrown}"
+        @JOverride
+        def log(self, record, message):
+            level = _jul_level_to_python_level(record.getLevel().getName())
+            name = str(record.getLoggerName() or "java")
+            message = str(message)
 
-        self._logger.log(level, "[%s] %s", name, message)
+            thrown = record.getThrown()
+            if thrown is not None:
+                message = f"{message}\n{thrown}"
+
+            self._logger.log(level, "[%s] %s", name, message)
+
+    return PythonLogSink
