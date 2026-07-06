@@ -57,31 +57,31 @@ pythonPlugin {
 
 tasks.register('installPythonBuildTools', VenvTask) {
     group = 'build setup'
-    description = 'Installs Python packages needed to build the wheel.'
+    description = 'Installs Python packages needed to build and test the wheel.'
 
     venvExec = 'pip'
-    args = ['install', '--upgrade', 'pip', 'build']
-}
+    args = ['install', '--upgrade', 'pip', 'build', 'pytest']
 
-tasks.register('buildPythonWheel', VenvTask) {
-    group = "distribution"
-    description = "Builds a Python .whl file using the Gradle-managed Python environment."
-
-    dependsOn bundlePython
-    dependsOn installPythonBuildTools
-
-    workingDir = file("${buildDir}/install/regi-python")
-    venvExec = "python"
-    args = ["-m", "build", "--wheel"]
+    outputs.file(layout.buildDirectory.file("python-build-tools/install.marker"))
 
     doLast {
-        println "Python Wheel built in: ${workingDir}/dist"
+        def markerFile = layout.buildDirectory.file("python-build-tools/install.marker").get().asFile
+        markerFile.parentFile.mkdirs()
+        markerFile.text = "pip build pytest installed\n"
     }
 }
 
 tasks.register('bundlePython', Sync) {
     description = 'Bundles Python scripts and creates the java_lib directory'
-    into "${buildDir}/install/regi-python/"
+
+    dependsOn jar
+
+    into layout.buildDirectory.dir("install/regi-python")
+
+    inputs.dir("src/main/python")
+    inputs.file(jar.archiveFile)
+    inputs.files(configurations.runtimeClasspath)
+    inputs.property("version", project.version.toString())
 
     from('src/main/python') {
         include 'pyproject.toml'
@@ -99,34 +99,70 @@ tasks.register('bundlePython', Sync) {
     }
 }
 
-tasks.register('testPythonWheel') {
-    group = 'verification'
-    description = 'Creates a venv, installs the wheel, and runs a test script.'
-    dependsOn buildPythonWheel
+tasks.register('buildPythonWheel', VenvTask) {
+    group = "distribution"
+    description = "Builds a Python .whl file using the Gradle-managed Python environment."
+
+    dependsOn bundlePython
+    dependsOn installPythonBuildTools
+
+    workingDir = layout.buildDirectory.dir("install/regi-python").get().asFile
+    venvExec = "python"
+    args = ["-m", "build", "--wheel"]
+
+    inputs.files(fileTree(layout.buildDirectory.dir("install/regi-python")) {
+        exclude "dist/**"
+        exclude "build/**"
+        exclude "*.egg-info/**"
+    })
+    inputs.property("version", project.version.toString())
+    outputs.dir(layout.buildDirectory.dir("install/regi-python/dist"))
+
+    doFirst {
+        delete layout.buildDirectory.dir("install/regi-python/dist")
+    }
 
     doLast {
-        def venvName = "test_venv"
-        def wheelDir = "${projectDir}/build/install/regi-headless/dist"
-        def testScript = "src\\test\\resources\\usace\\rowcps\\headless\\examples\\GateFlowCalc2_Jpype.py"
-
-        // 1. Create VENV if it doesn't exist
-        exec {
-            commandLine 'cmd', '/c', "python -m venv ${venvName}"
-        }
-
-        // 2. Install Wheel and Run Script
-        // We chain these using '&&' so they run in the same shell session where the venv is active
-        exec {
-            workingDir projectDir
-            def wheelFile = fileTree(dir: wheelDir, include: '*.whl').singleFile.absolutePath
-            def venvActivate = file("${venvName}/Scripts/activate.bat").absolutePath
-            environment 'CDA_URL', project.findProperty('CDA_URL') ?: ""
-            environment 'API_KEY', project.findProperty('API_KEY') ?: ""
-            environment 'OFFICE_ID', project.findProperty('OFFICE_ID') ?: ""
-            environment 'JAVA_HOME', System.getProperty('java.home')
-            commandLine 'cmd', '/c', "\"${venvActivate}\" && pip install --force-reinstall \"${wheelFile}\" && python -u  ${testScript}"
-            standardOutput = System.out
-            errorOutput = System.err
-        }
+        println "Python Wheel built in: ${workingDir}/dist"
     }
+}
+
+tasks.register('installPythonWheelForSmokeTest', VenvTask) {
+    group = 'verification'
+    description = 'Installs the built Python wheel into the Gradle-managed Python environment.'
+
+    dependsOn buildPythonWheel
+
+    venvExec = 'pip'
+
+    inputs.files(fileTree(dir: "${buildDir}/install/regi-python/dist", include: '*.whl'))
+    outputs.file(layout.buildDirectory.file("test-python-wheel/install.marker"))
+
+    doFirst {
+        def wheelFile = fileTree(dir: "${buildDir}/install/regi-python/dist", include: '*.whl').singleFile
+        args = ['install', '--force-reinstall', wheelFile.absolutePath]
+    }
+
+    doLast {
+        def wheelFile = fileTree(dir: "${buildDir}/install/regi-python/dist", include: '*.whl').singleFile
+        def markerFile = layout.buildDirectory.file("test-python-wheel/install.marker").get().asFile
+        markerFile.parentFile.mkdirs()
+        markerFile.text = "${wheelFile.name}\n${wheelFile.length()} bytes\n"
+    }
+}
+tasks.register('testPythonWheel', VenvTask) {
+    group = 'verification'
+    description = 'Runs pytest against the installed Python wheel.'
+
+    dependsOn installPythonWheelForSmokeTest
+
+    venvExec = 'python'
+    args = ['-m', 'pytest', 'src/test/python']
+
+    inputs.files(fileTree(dir: 'src/test/python', include: '**/*.py'))
+    outputs.upToDateWhen { false }
+}
+
+check {
+    dependsOn testPythonWheel
 }
