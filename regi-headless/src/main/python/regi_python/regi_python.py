@@ -1,15 +1,8 @@
-#  Copyright (c) 2026
-#  United States Army Corps of Engineers - Hydrologic Engineering Center (USACE/HEC)
-#  All Rights Reserved.  USACE PROPRIETARY/CONFIDENTIAL.
-#  Source may not be released without written approval from HEC
-
 import os
-import logging
 import jpype
 import jpype.imports
 from contextlib import contextmanager
-from pathlib import Path
-from .regi_python_logging import configure_logging
+from .regi_python_logging import configure_logging, configure_jul_to_python_logging
 
 logger = configure_logging()
 
@@ -35,6 +28,7 @@ def regi_session():
             convertStrings=True,
             classpath=[LIB_PATH]
         )
+        configure_jul_to_python_logging(logger)
 
     try:
         yield
