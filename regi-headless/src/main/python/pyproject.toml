@@ -5,13 +5,13 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "regi-python"
 version = "@VERSION@"
-description = "USACE Regi-Headless Python Bridge"
+description = "USACE REGI Python Bridge"
 dependencies = [
     "JPype1>=1.4.1",
 ]
 
 [tool.setuptools]
-packages = ["regi-python"]
+packages = ["regi_python"]
 
 [tool.setuptools.package-data]
-"regi-python" = ["lib/*.jar"]
+"regi_python" = ["lib/*.jar"]
