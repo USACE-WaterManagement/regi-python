@@ -9,7 +9,7 @@ import jpype
 import jpype.imports
 from contextlib import contextmanager
 from pathlib import Path
-from regi_python_logging import configure_logging
+from .regi_python_logging import configure_logging
 
 logger = configure_logging()
 

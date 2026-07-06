@@ -76,7 +76,7 @@ tasks.register('bundlePython', Sync) {
 
     dependsOn jar
 
-    into layout.buildDirectory.dir("install/regi-python")
+    into layout.buildDirectory.dir("install/regi_python")
 
     inputs.dir("src/main/python")
     inputs.file(jar.archiveFile)
@@ -92,7 +92,7 @@ tasks.register('bundlePython', Sync) {
         exclude 'pyproject.toml'
     }
 
-    into('regi-python/lib') {
+    into('regi_python/lib') {
         from configurations.runtimeClasspath
         from jar.archiveFile
         exclude "**/*.nbm"
@@ -106,20 +106,20 @@ tasks.register('buildPythonWheel', VenvTask) {
     dependsOn bundlePython
     dependsOn installPythonBuildTools
 
-    workingDir = layout.buildDirectory.dir("install/regi-python").get().asFile
+    workingDir = layout.buildDirectory.dir("install/regi_python").get().asFile
     venvExec = "python"
     args = ["-m", "build", "--wheel"]
 
-    inputs.files(fileTree(layout.buildDirectory.dir("install/regi-python")) {
+    inputs.files(fileTree(layout.buildDirectory.dir("install/regi_python")) {
         exclude "dist/**"
         exclude "build/**"
         exclude "*.egg-info/**"
     })
     inputs.property("version", project.version.toString())
-    outputs.dir(layout.buildDirectory.dir("install/regi-python/dist"))
+    outputs.dir(layout.buildDirectory.dir("install/regi_python/dist"))
 
     doFirst {
-        delete layout.buildDirectory.dir("install/regi-python/dist")
+        delete layout.buildDirectory.dir("install/regi_python/dist")
     }
 
     doLast {
@@ -135,16 +135,16 @@ tasks.register('installPythonWheelForSmokeTest', VenvTask) {
 
     venvExec = 'pip'
 
-    inputs.files(fileTree(dir: "${buildDir}/install/regi-python/dist", include: '*.whl'))
+    inputs.files(fileTree(dir: "${buildDir}/install/regi_python/dist", include: '*.whl'))
     outputs.file(layout.buildDirectory.file("test-python-wheel/install.marker"))
 
     doFirst {
-        def wheelFile = fileTree(dir: "${buildDir}/install/regi-python/dist", include: '*.whl').singleFile
+        def wheelFile = fileTree(dir: "${buildDir}/install/regi_python/dist", include: '*.whl').singleFile
         args = ['install', '--force-reinstall', wheelFile.absolutePath]
     }
 
     doLast {
-        def wheelFile = fileTree(dir: "${buildDir}/install/regi-python/dist", include: '*.whl').singleFile
+        def wheelFile = fileTree(dir: "${buildDir}/install/regi_python/dist", include: '*.whl').singleFile
         def markerFile = layout.buildDirectory.file("test-python-wheel/install.marker").get().asFile
         markerFile.parentFile.mkdirs()
         markerFile.text = "${wheelFile.name}\n${wheelFile.length()} bytes\n"
