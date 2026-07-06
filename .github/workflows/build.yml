@@ -5,68 +5,22 @@ on:
     branches:
       - main
   pull_request:
-  release:
-    types:
-      - created
 
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  build:
+  build-wheel:
     name: Build and test
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
-
-      - name: Set up Java
-        uses: actions/setup-java@v5
-        with:
-          distribution: temurin
-          java-version: 21
-          
-      - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v6
-
-      - name: Make Gradle wrapper executable
-        run: chmod +x ./gradlew
-        
-      - name: Build and test
-        run: ./gradlew clean build buildPythonWheel
-      - name: Upload Python wheel artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: python-wheel
-          path: "**/build/install/*/dist/*.whl"
-          if-no-files-found: error
-
-  publish-wheel:
-    name: Publish Python wheel to GitHub Release
-    needs: build
-    runs-on: ubuntu-latest
-    if: github.event_name == 'release'
-    permissions:
-      contents: write
-
-    steps:
-      - name: Download Python wheel artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: python-wheel
-          path: dist
-
-      - name: Publish wheel to GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: dist/**/*.whl
+    uses: ./.github/workflows/build-wheel.yml
 
   dependency-submission:
     name: Submit Gradle dependencies
-    needs: build
+    needs: build-wheel
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     permissions:
@@ -87,4 +41,3 @@ jobs:
 
       - name: Submit Gradle dependencies
         uses: gradle/actions/dependency-submission@v6
-        
