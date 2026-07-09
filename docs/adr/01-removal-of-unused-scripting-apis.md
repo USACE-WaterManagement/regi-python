@@ -1,8 +1,8 @@
-# ADR: Remove Approved Scriptable Public APIs
+# ADR: Remove Client-Approved Scriptable Public APIs Designated for Retirement
 
 ## Status
 
-Accepted
+Accepted during meeting with USACE on 2026-06-29
 
 ## Context
 

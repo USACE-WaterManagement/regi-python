@@ -2,24 +2,26 @@
 
 ## Status
 
-Accepted
+Accepted during meeting with USACE on 2026-06-29
 
 ## Context
 
-The project previously included support for Windows and Solaris distributions of REGI Headless, which
-will no longer be maintained in this GitHub repository as the HEC DevNet-hosted fork will be archived. 
-If additional maintenance for Windows and Solaris distributions is required, the HEC DevNet fork will be unarchived 
-and updates will be made accordingly.
+The project previously included support for Windows and Solaris distributions of REGI Headless. 
+Going forward, those distributions will no longer be maintained in this GitHub repository, 
+allowing development efforts to focus on CWBI Cloud compatibility. 
+The HEC DevNet-hosted fork will be archived and retained as the historical repository. 
+If future maintenance of the Windows or Solaris distributions becomes necessary, 
+the fork can be unarchived and updated accordingly.
 
-This repository will be the source of truth for future REGI Headless development targeting CWBI Cloud compatibility,
+This repository will be the source of truth for future REGI Headless development targeting CWBI Cloud compatibility, 
 with commit history preserved from the HEC DevNet fork.
 
 ## Decision
 
-Remove Windows and Solaris REGI Headless distribution support from this GitHub repository.
+Windows and Solaris REGI Headless distributions will no longer be built, tested, packaged, or released from this GitHub repository.
 
 Distribution-specific updates for Windows and Solaris will be made in the HEC DevNet-hosted fork.
-Future cloud-compatible development and will be made in this repository.
+Future cloud-compatible development will be made in this repository.
 
 ## Consequences
 
@@ -51,6 +53,6 @@ remain available for that work.
 
 Rejected. This GitHub repository will be the source of truth for future CWBI Cloud compatibility work,
 with commit history preserved from the HEC DevNet fork. This repository will produce a python wheel distribution
-that can be pulled into CWBI Cloud scripting deployments. See [cwbi-wm-images](https://github.com/USACE/cwbi-wm-images).
+that can be pulled into CWBI Cloud scripting deployments. 
 Keeping the commit history intact preserves the historical context of the codebase. The design of the Python 3 supported
 implementation will require minimal updates to the Java codebase.
