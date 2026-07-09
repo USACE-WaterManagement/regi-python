@@ -84,6 +84,7 @@ public class HeadlessRegiDomainFactory
 			TimeZoneDisplayService tsDS = ServiceLookup.getTimeZoneDisplayService();
 			tsDS.setTimeZone(connectionManager.getTimeZone());
 			regiDomain.connect(ServerSuiteUtil.getServerSuite());
+			//Resolve manager proxies to ensure they are initialized before saving the project
 			regiDomain.getManagerList();
 			regiDomain.saveProject();
 			RegiDomain.setCurrentProject(regiDomain);

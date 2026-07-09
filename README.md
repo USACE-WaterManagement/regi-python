@@ -2,7 +2,7 @@
 
 > [!IMPORTANT]
 > **Notice: Project Refactor in Progress**
-> This project is undergoing a large refactor for CWMS Data API support. 
+> This project is undergoing a large refactor for [CWMS Data API](https://github.com/USACE/cwms-data-api) support. 
 > It will transition from a Java project consuming Jython scripts to a **Python project** that 
 > utilizes **JPype** to call underlying REGI Java libraries.
 
@@ -30,7 +30,16 @@ scripts without the need for a graphical interface.
 ### Prerequisites
 
 - Java JDK 21 or higher.
-- Access to a CWMS
+
+### CWMS Data API Configuration
+
+The library reads the following environment variables when establishing the CWMS Data API data source:
+
+- `CDA_URL`: Base URL for the CWMS Data API endpoint.
+- `API_KEY`: API key used for CWMS Data API authentication and authorization.
+- `OFFICE_ID`: CWMS office identifier used to scope the session.
+
+The factory uses these values to authenticate, resolve the current user, and persist the connected office and time zone into the REGI project.
 
 ### Building
 

@@ -102,7 +102,7 @@ import usace.rowcps.regi.util.GateSettingsUtil;
 
 public class ScriptableGateSettingsImpl extends AbstractScriptableCalc implements ScriptableCalc, ScriptableGateSettings {
 
-	public final static String LATCH_SECONDS = "rowcps.latchseconds";
+	private static final String LATCH_SECONDS = "rowcps.latchseconds";
 	private static final Logger LOGGER = Logger.getLogger(ScriptableGateSettings.class.getName());
 
 	public ScriptableGateSettingsImpl(RegiDomain regiDomain, ManagerId managerId) {
