@@ -12,9 +12,9 @@
 ### /district scripts
 Scripts provided by the districts.  These are currently running and actively used by their associated districts.
 
-- SWF Scripts were provided by **James Moffitt**
-- SWT Scripts were provided by **Andrew Miller**
-- SWL Scripts were provided by **Erin Krebs**
+- SWF Scripts were provided by **James M.**
+- SWT Scripts were provided by **Andrew M.**
+- SWL Scripts were provided by **Eric K.**
 
 ### /regi-headless/src/test/resources/usace/rowcps/headless/examples
 These appear to be older example scripts that haven't been updated since 2019.  They are out of sync with other scripts.
