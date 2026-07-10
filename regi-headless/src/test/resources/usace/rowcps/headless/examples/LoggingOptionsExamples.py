@@ -1,4 +1,4 @@
-from usace.rowcps.headless import LoggingOptions
+from regi_python import regi_session, run_headless
 
 # Description of: LoggingOptions.setDbMessageLevel(int level)
 #
@@ -16,7 +16,11 @@ from usace.rowcps.headless import LoggingOptions
 # >4            | Same as 4, but shows all values retrieved from each time series.  Higher values do not change behavior.                       |
 # --------------|-------------------------------------------------------------------------------------------------------------------------------|
 
-LoggingOptions.setDbMessageLevel(2)
+def configure_logging_options(registry):
+    # Java imports must happen after regi_session starts the JVM.
+    from usace.rowcps.headless import LoggingOptions
+
+    LoggingOptions.setDbMessageLevel(2)
 
 
 # Description of: LoggingOptions.setMetricsEnabled(boolean value)
@@ -30,7 +34,7 @@ LoggingOptions.setDbMessageLevel(2)
 #
 # By default, Metrics are disabled.
 
-LoggingOptions.setMetricsEnabled(True)
+    LoggingOptions.setMetricsEnabled(True)
 
 # Description of: LoggingOptions.enableAbridgedFlowGroupCompLogging()
 #
@@ -43,7 +47,7 @@ LoggingOptions.setMetricsEnabled(True)
 #
 # By default flow group computation logging is disabled.
 
-LoggingOptions.enableAbridgedFlowGroupCompLogging()
+    LoggingOptions.enableAbridgedFlowGroupCompLogging()
 
 # Description of: LoggingOptions.enableAbridgedFlowGroupCompLogging()
 #
@@ -58,7 +62,7 @@ LoggingOptions.enableAbridgedFlowGroupCompLogging()
 #
 # By default flow group computation logging is disabled.
 
-LoggingOptions.enableFullFlowGroupCompLogging()
+    LoggingOptions.enableFullFlowGroupCompLogging()
 
 # Description of: LoggingOptions.disableFlowGroupCompLogging()
 #
@@ -66,4 +70,9 @@ LoggingOptions.enableFullFlowGroupCompLogging()
 # to be called unless LoggingOptions.enableAbridgedFlowGroupCompLogging() or LoggingOptions.enableFullFlowGroupCompLogging()
 # have been called.
 
-LoggingOptions.disableFlowGroupCompLogging()
+    LoggingOptions.disableFlowGroupCompLogging()
+
+
+if __name__ == "__main__":
+    with regi_session():
+        run_headless(configure_logging_options)
