@@ -38,7 +38,7 @@
 The library reads the following environment variables when establishing the CWMS Data API data source:
 
 - `CDA_URL`: Base URL for the CWMS Data API endpoint.
-- `API_KEY`: API key used for CWMS Data API authentication and authorization.
+- `CDA_API_KEY`: API key used for CWMS Data API authentication and authorization.
 - `OFFICE_ID`: CWMS office identifier used to scope the session.
 
 The factory uses these values to authenticate, resolve the current user, and persist the connected office and time zone into the REGI project.
