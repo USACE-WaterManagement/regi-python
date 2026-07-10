@@ -31,3 +31,39 @@ LoggingOptions.setDbMessageLevel(2)
 # By default, Metrics are disabled.
 
 LoggingOptions.setMetricsEnabled(True)
+
+# Description of: LoggingOptions.enableAbridgedFlowGroupCompLogging()
+#
+# Enables the abridged flow group computation logging.  This only applies to flow group computations, and will log
+# information similar to a non-verbose REGI computation log.
+#
+# Example Output:
+# Flow Group: Gated_Total 30Jun2018 2400 CDT 90.00 (cfs)
+#   Primary Time Series:	 SKIA.Flow-Controlled.Inst.1Hour.0.Rev-Regi-Flowgroup 	90.00 (cfs) 	External Time Series:	 none	Flow Group Computation:	 Total: 	90.00 (cfs)
+#
+# By default flow group computation logging is disabled.
+
+LoggingOptions.enableAbridgedFlowGroupCompLogging()
+
+# Description of: LoggingOptions.enableAbridgedFlowGroupCompLogging()
+#
+# Enables the full flow group computation logging.  This only applies to flow group computations, and will log
+# information similar to a verbose REGI computation log.
+#
+# Example Output:
+#   Primary Time Series:
+#       TXKT2-Gated_Total.Flow-Out.Inst.1Hour.0.Rev-SWF-REGI 		87.00 (cfs) 				*	External Time Series:	 none	Flow Group Computation:	 Total: 	87.00 (cfs) 	| 	Merge Rule: 	Replace All	 Override Protection: 	false
+#
+#
+#
+# By default flow group computation logging is disabled.
+
+LoggingOptions.enableFullFlowGroupCompLogging()
+
+# Description of: LoggingOptions.disableFlowGroupCompLogging()
+#
+# Disables the logging of flow group computations.  This is the default state of the LoggingOptions and does not need
+# to be called unless LoggingOptions.enableAbridgedFlowGroupCompLogging() or LoggingOptions.enableFullFlowGroupCompLogging()
+# have been called.
+
+LoggingOptions.disableFlowGroupCompLogging()

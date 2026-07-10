@@ -1,24 +1,29 @@
-# the java Calendar class is used to create java Date objects
-from java.util import Calendar
-from java.util import TimeZone
-from usace.rowcps.headless.calculator.inflow import InflowComputationStorageOption
-
-# this gets a ScriptableInflow instance.
-inflowCalc = registry.getCalculation(1.0, "Inflow")
-
-# configure the start calendar
-startCal = Calendar.getInstance(TimeZone.getTimeZone('US/Central'))
+from regi_python import regi_session, run_headless
 
 
-startCal.clear()
-startCal.set(Calendar.YEAR, 2018)
-startCal.set(Calendar.MONTH, 4)
+def calculate_inflow(registry):
+    # Java imports must happen after regi_session starts the JVM.
+    from java.util import Calendar, TimeZone
 
-endCal = Calendar.getInstance(TimeZone.getTimeZone('US/Central'))
-endCal.clear()
-endCal.set(Calendar.YEAR, 2018)
-endCal.set(Calendar.MONTH, 4)
-endCal.set(Calendar.DAY_OF_MONTH, 4)
+    # this gets a ScriptableInflow instance.
+    inflow_calc = registry.getCalculation(1.0, "Inflow")
 
-# This computes and saves inflow for EUFA in May 2018 given the computation options set above
-inflowCalc.computeInflow("SWT", "EUFA", startCal.getTime(), endCal.getTime())
+    # configure the start calendar
+    start_cal = Calendar.getInstance(TimeZone.getTimeZone("US/Central"))
+    start_cal.clear()
+    start_cal.set(Calendar.YEAR, 2018)
+    start_cal.set(Calendar.MONTH, 4)
+
+    end_cal = Calendar.getInstance(TimeZone.getTimeZone("US/Central"))
+    end_cal.clear()
+    end_cal.set(Calendar.YEAR, 2018)
+    end_cal.set(Calendar.MONTH, 4)
+    end_cal.set(Calendar.DAY_OF_MONTH, 4)
+
+    # This computes and saves inflow for EUFA in May 2018 given the computation options set above
+    inflow_calc.computeInflow("SWT", "EUFA", start_cal.getTime(), end_cal.getTime())
+
+
+if __name__ == "__main__":
+    with regi_session():
+        run_headless(calculate_inflow)

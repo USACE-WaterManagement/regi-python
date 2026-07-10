@@ -1,103 +1,49 @@
-from hec.data import Duration
-from hec.data import Interval
-from hec.data import ParameterType
-from hec.data import Version
-from hec.data.location import LocationTemplate
-from java.lang import System
-from java.util import Calendar
-from java.util import Collections
-from java.util import List
-from java.util import TimeZone
 import os.path
 import sys
-from usace.rowcps.computation.flowgroup import FlowGroupCalc
-from usace.rowcps.regi.model import AtFlowGroupManager
-from usace.rowcps.regi.model import AtManagerType
-from usace.rowcps.regi.model import AtOutletManager
-from usace.rowcps.regi.model import AtProjectManager
-from usace.rowcps.regi.model import CacheUsage
+
+from regi_python import regi_session, run_headless
 
 
-print "Now executing GateFlowCalc.py"
-print "os.arch:", System.getProperty("os.arch")
+def calculate_gate_flow(registry):
+    # Java imports must happen after regi_session starts the JVM.
+    from java.lang import System
+    from java.util import Calendar, TimeZone
 
-print "sys.path", sys.path
-#curDir = open(".")
-print "Working dir:", os.path.abspath(".")
+    print("Now executing GateFlowCalc.py")
+    print("os.arch:", System.getProperty("os.arch"))
+    print("sys.path", sys.path)
+    print("Working dir:", os.path.abspath("."))
+    print("Library path:", System.getProperty("java.library.path"))
 
-property = System.getProperty("java.library.path")
-print "Library path: ", property
+    sys.stdout.flush()
 
-sys.stdout.flush()
+    gate_calc = registry.getCalculation(1.0, "Gate Flow")
 
-print "regiDomain.getName()", regiDomain.getName()
+    office_id = "SWF"
+    project_id = "LEWT2"
+    flow_group_id = "Flow.LEWT2.ConduitGate_Total"
 
-#print AtManagerType
-#print AtManagerType.DATABASE
-#RegiDomain regiDomain = getRegiDomain()
+    # Time zone must be set because the Solaris time zone is UTC
+    time_zone = TimeZone.getTimeZone("US/Central")
+    start_cal = Calendar.getInstance(time_zone)
+    start_cal.clear()
+    start_cal.set(Calendar.YEAR, 2015)
+    start_cal.set(Calendar.MONTH, 1)
 
-#lets get a lot of managers. remember that the managers can be pulled from regidomain thru the following:
-#
-#regiDomain.getAtProjectManager()
-#
-#but its coded below to make sure that we have the Oracle manager.
-projManager = regiDomain.getAtManager(managerId, AtManagerType.DATABASE, AtProjectManager.AT_PROJECT_MANAGER_NAME, AtProjectManager)
-#
-outletManager = regiDomain.getAtManager(managerId, AtManagerType.DATABASE, AtOutletManager.AT_OUTLET_MANAGER_NAME, AtOutletManager)
-##
-flowGroupManager = regiDomain.getAtManager(managerId, AtManagerType.DATABASE, AtFlowGroupManager.AT_FLOW_GROUP_MANAGER_NAME, AtFlowGroupManager)
+    end_cal = Calendar.getInstance(time_zone)
+    end_cal.clear()
+    end_cal.set(Calendar.YEAR, 2013)
+    end_cal.set(Calendar.MONTH, 1)
 
-#our office
-officeId = "SWF"
-#this stuff would be grabbed from the project descriptor.
-projectId = "LEWT2"
-projectLocRef = LocationTemplate(officeId, projectId, None)
-cg1LocRef = LocationTemplate(officeId, projectId + "-CG1", None)
-
-conduitGateFlowGroupMap = flowGroupManager.retrieveFlowGroups(projectLocRef, None, CacheUsage.NORMAL)
-entrySet = conduitGateFlowGroupMap.entrySet()
-
-conduitGateFlowGroup = None
-for entry in entrySet:
-    key = entry.getKey()
-    value = entry.getValue()
-    if "ConduitGate_Total" in key.getId():
-		conduitGateFlowGroup = key
-		break
+    gate_calc.computeFlowGroup(
+        office_id,
+        project_id,
+        start_cal.getTimeInMillis(),
+        end_cal.getTimeInMillis(),
+        flow_group_id,
+    )
 
 
-if conduitGateFlowGroup is None:
-#    Assert.fail("Couldnt find conduit gate flow group")
-	print "Couldnt find conduit gate flow group"
-else:
-	# Time zone must be set because the Solaris time zone is UTC
-	timeZone = TimeZone.getTimeZone("US/Central")
-	startCal = Calendar.getInstance(timeZone)
-	startCal.clear()
-	startCal.set(Calendar.YEAR, 2015)
-	startCal.set(Calendar.MONTH, 1)
-	startTime = startCal.getTimeInMillis()
-
-	#this could be INST too.
-	parameterType = ParameterType(ParameterType.AVE)
-	interval = Interval("5Minutes")
-	duration = Duration("5Minutes")
-	version = Version("CALC")
-	intervalOffsetSeconds = 0
-	newFlowGroupTimeSeries = conduitGateFlowGroup.newFlowGroupTimeSeries(parameterType, interval, duration, version, intervalOffsetSeconds, startCal.getTime(), None)
-
-	flowGroupCalc = FlowGroupCalc()
-	outputTimeSeriesList = Collections.singletonList(newFlowGroupTimeSeries)
-
-	endCal = Calendar.getInstance(timeZone)
-	endCal.clear()
-	endCal.set(Calendar.YEAR, 2013)
-	endCal.set(Calendar.MONTH, 1)
-	endTime = endCal.getTimeInMillis()
-
-	calcTimeSeries = flowGroupCalc.calcTimeSeries(managerId, conduitGateFlowGroup, startTime, endTime, outputTimeSeriesList)
-	computationResult = calcTimeSeries.get(newFlowGroupTimeSeries)
-	#it could also be an error
-	computationData = computationResult
-	timeSeriesData = computationData.getTimeSeriesData()
-	timeSeriesData.tabulateValues()
+if __name__ == "__main__":
+    with regi_session():
+        run_headless(calculate_gate_flow)
