@@ -10,7 +10,7 @@ regi = "3.5.0-alpha001"
 
 # Third Party
 jython-standalone = "2.7.2"
-args4j = "2.32"
+args4j = "2.37"
 
 # Test
 junit = "6.1.0"
