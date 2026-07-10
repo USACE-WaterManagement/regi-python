@@ -42,6 +42,12 @@ Install the built wheel into a Python environment:
 pip install regi_python-*.whl
 ```
 
+### Notes
+
+- The Python package name is `regi_python`.
+- The wheel metadata name is `regi-python`.
+- The bundled Java jars are packaged inside `regi_python/lib/`.
+
 ## Releases
 
 Releases are published from the GitHub repository at [USACE-WaterManagement/regi-python](https://github.com/USACE-WaterManagement/regi-python). A release build attaches the Python wheel and checksum file to the GitHub Release for the matching tag.
@@ -105,12 +111,6 @@ Run the script/API compatibility smoke test:
 ```
 
 `./gradlew check` runs both along with Java unit tests.
-
-## Notes
-
-- The Python package name is `regi_python`.
-- The wheel metadata name is `regi-python`.
-- The bundled Java jars are packaged inside `regi_python/lib/`.
 
 ## Maintainers
 
