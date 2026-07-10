@@ -1,3 +1,5 @@
+"""Runtime bridge for executing REGI calculations from Python."""
+
 import os
 import jpype
 import jpype.imports
@@ -16,10 +18,7 @@ if java_bin not in os.environ['PATH']:
 @contextmanager
 def regi_session():
     """
-    Context manager to handle JVM lifecycle. 
-    Usage:
-        with regi_session():
-            run_headless(my_func)
+    Start the JVM on entry and shut it down when the context exits.
     """
     if not jpype.isJVMStarted():
         logger.info("Starting JVM...")
@@ -38,7 +37,8 @@ def regi_session():
             jpype.shutdownJVM()
 
 def run_headless(calculation_callback):
-    # We must import these inside the function or after JVM starts
+    """Run a callback against a headless REGI domain."""
+    # Import these only after the JVM has started.
     from usace.rowcps.headless import HeadlessRegiDomainFactory, RegiCalcRegistry
     from usace.rowcps.regi.factories import RowcpsExecutorService
     from java.util.concurrent import TimeUnit
@@ -60,6 +60,7 @@ def run_headless(calculation_callback):
         finally:
             _shutdown_executor(manager_id)
             regi_domain.closing()
+
 
 def _shutdown_executor(manager_id):
     from usace.rowcps.regi.factories import RowcpsExecutorService

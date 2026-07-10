@@ -1,3 +1,5 @@
+"""Logging helpers for the REGI Python bridge."""
+
 import os
 import logging
 from jpype import JImplements, JOverride
@@ -15,6 +17,7 @@ def _get_log_level():
 
 
 def configure_logging():
+    """Configure the bridge logger."""
     log_level, invalid_log_level, log_level_name = _get_log_level()
 
     log_format = os.environ.get(
@@ -47,6 +50,7 @@ def configure_logging():
 
 
 def configure_jul_to_python_logging(python_logger):
+    """Forward Java JUL records into Python logging."""
     global _java_log_sink
 
     from java.util.logging import Logger

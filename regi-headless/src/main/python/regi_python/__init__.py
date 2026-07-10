@@ -1,3 +1,5 @@
+"""Public package surface for the REGI Python bridge."""
+
 from .regi_python import regi_session, run_headless
 from importlib.metadata import version, PackageNotFoundError
 
