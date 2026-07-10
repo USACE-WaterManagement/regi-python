@@ -31,6 +31,7 @@ Treat this repo as a Python orchestration layer over REGI Java libraries.
   - keep them aligned with the district-script pattern
 - `docs/`
   - useful for historical context and documentation of features moving forward
+  - `docs/agent-guides/` is the shared source of truth for agent-facing workflow guidance
 
 ## Working Rules
 
