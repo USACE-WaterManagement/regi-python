@@ -2,6 +2,9 @@
 
 `regi-python` is the Python bridge over the REGI Java libraries.
 
+The client-facing Python API is documented in [docs/PYTHON_API.md](docs/PYTHON_API.md).
+For script migration guidance, see [docs/JYTHON_TO_JPYPE_MIGRATION.md](docs/JYTHON_TO_JPYPE_MIGRATION.md).
+
 ## What Lives Where
 
 - `regi-headless/src/main/python/regi_python/`
