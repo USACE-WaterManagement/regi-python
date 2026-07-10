@@ -9,7 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import usace.rowcps.headless.metrics.RegiHeadlessMetricsServiceProvider;
 import usace.rowcps.metrics.RegiMetricsService;
-import wcds.dbi.DbiProperties;
+import hec.db.cwms.DbiProperties;
 
 /**
  *

@@ -1,1 +1,0 @@
-print "Python Script - Hello, world!", regiDomain.getName()

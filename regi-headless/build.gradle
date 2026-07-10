@@ -4,21 +4,47 @@ plugins {
 }
 
 dependencies {
-    implementation(libs.bundles.hec)
+    implementation(libs.bundles.serversuite)
     implementation(libs.jython.standalone)
     implementation(libs.args4j)
     implementation(libs.bundles.regi)
     implementation(libs.bundles.regi) {artifact {extension = "jar"}}
     implementation(libs.bundles.regi.tools)
     implementation(libs.bundles.regi.tools) {artifact {extension = "jar"} }
-
+    runtimeOnly(libs.hec.cwms.ratings.cda)
 
     testImplementation(libs.bundles.junit.api)
     testRuntimeOnly(libs.bundles.junit.engine)
+}
+
+configurations.configureEach {
+    exclude group: 'mil.army.usace.hec', module: 'hec-cwmsvue'
+    exclude group: 'mil.army.usace.hec', module: 'hec-gt-crs'
+    exclude group: 'org.openjfx', module: '*'
+    exclude group: 'mil.army.usace.hec.swingx', module: '*'
+    exclude group: 'org.swinglabs', module: '*'
+    exclude group: 'org.jfree', module: '*'
+    exclude group: 'org.netbeans.modules', module: '*'
+    exclude group: 'org.netbeans.api', module: '*'
+    exclude group: 'mil.army.usace.hec.map', module: 'hec-osmmap'
+    exclude group: 'mil.army.usace.hec', module: 'hec-geojson'
+    exclude group: 'mil.army.usace.hec', module: 'dssplugin-excel'
+    exclude group: 'mil.army.usace.hec', module: 'dssgui'
+    exclude group: 'com.fifesoft', module: 'rstaui'
+    exclude group: 'mil.army.usace.hec', module: 'rma-javafx-core'
+    exclude group: 'mil.army.usace.hec', module: 'hec-vrt-io'
+    exclude group: 'org.apache.xmlgraphics', module: '*'
+    exclude group: 'org.apache.poi', module: '*'
+    exclude group: 'javax.media', module: '*'
+    exclude group: 'com.vividsolutions', module: 'jts'
 }
 
 jar {
     manifest {
         attributes('Implementation-Version': project.version)
     }
+}
+
+test {
+    useJUnitPlatform()
 }
