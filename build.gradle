@@ -10,13 +10,26 @@ def gitOutput(String... args) {
     }.standardOutput.asText.get().trim()
 }
 
+def normalizeReleaseTag(String tag) {
+    if (!tag) {
+        return null
+    }
+
+    return tag.startsWith('v') ? tag.substring(1) : tag
+}
+
 def pep440VersionFromLatestTag() {
+    def exactTag = gitOutput('describe', '--tags', '--exact-match')
+    if (exactTag) {
+        return normalizeReleaseTag(exactTag)
+    }
+
     def tag = gitOutput('describe', '--tags', '--abbrev=0')
     if (!tag) {
         tag = '0.0.0'
     }
 
-    def baseVersion = tag.startsWith('v') ? tag.substring(1) : tag
+    def baseVersion = normalizeReleaseTag(tag)
 
     def distanceText = tag == '0.0.0'
             ? gitOutput('rev-list', 'HEAD', '--count')
