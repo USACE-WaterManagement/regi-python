@@ -1,34 +1,40 @@
-# the java Calendar class is used to create java Date objects
-from java.util import Calendar
-from java.util import TimeZone
-# this gets a scriptable Pool Percent object
-inflowCalc = registry.getCalculation(1.0, "Inflow")
-
-# Time zone must be set because the Solaris time zone is UTC
-timeZone = TimeZone.getTimeZone("US/Central")
-# configure the start calendar
-startCal = Calendar.getInstance(timeZone)
-startCal.clear()
-startCal.set(Calendar.YEAR, 2015)
-startCal.set(Calendar.MONTH, 4)
+from regi_python import regi_session, run_headless
 
 
-# inflowCalc contains 4 callable methods:
-# autoAdjust
-# balanceAll
-# cloneInflows
-# zeroNegatives
+def calculate_inflow(registry):
+    # Java imports must happen after regi_session starts the JVM.
+    from java.util import Calendar, TimeZone
 
-# Each method takes the followind arguments:
-#   officeId
-#   locationId
-#   startDate
+    # this gets a scriptable Pool Percent object
+    inflow_calc = registry.getCalculation(1.0, "Inflow")
 
-# autoAdjust also takes booleans:
-#	useLimits
-#	freezeRain
+    # Time zone must be set because the Solaris time zone is UTC
+    time_zone = TimeZone.getTimeZone("US/Central")
+    # configure the start calendar
+    start_cal = Calendar.getInstance(time_zone)
+    start_cal.clear()
+    start_cal.set(Calendar.YEAR, 2015)
+    start_cal.set(Calendar.MONTH, 4)
 
-# This autoBalances ALAT2
-inflowCalc.autoAdjust("SWF", "ALAT2",  startCal.getTime(), False, False)
+    # inflow_calc contains 4 callable methods:
+    # autoAdjust
+    # balanceAll
+    # cloneInflows
+    # zeroNegatives
+
+    # Each method takes the following arguments:
+    #   officeId
+    #   locationId
+    #   startDate
+
+    # autoAdjust also takes booleans:
+    #   useLimits
+    #   freezeRain
+
+    # This autoBalances ALAT2
+    inflow_calc.autoAdjust("SWF", "ALAT2", start_cal.getTime(), False, False)
 
 
+if __name__ == "__main__":
+    with regi_session():
+        run_headless(calculate_inflow)
