@@ -163,6 +163,27 @@ tasks.register('testPythonWheel', VenvTask) {
     outputs.upToDateWhen { false }
 }
 
+tasks.register('smokeTestDistrictScripts', VenvTask) {
+    group = 'verification'
+    description = 'Validates migrated district and example scripts against the Python entrypoint shape and Java scriptable APIs.'
+
+    dependsOn installPythonBuildTools
+
+    venvExec = 'python'
+    args = [
+            '-m', 'pytest',
+            '-o', 'log_cli=true',
+            '--log-cli-level=INFO',
+            'src/test/python/test_district_scripts.py'
+    ]
+
+    inputs.files(fileTree(dir: '../district-scripts', include: '**/*.py'))
+    inputs.files(fileTree(dir: 'src/test/resources/usace/rowcps/headless/examples', include: '**/*.py'))
+    inputs.files(fileTree(dir: 'src/main/java/usace/rowcps/headless', include: '**/*.java'))
+    inputs.file('src/test/python/test_district_scripts.py')
+    outputs.upToDateWhen { false }
+}
+
 check {
     dependsOn testPythonWheel
 }
