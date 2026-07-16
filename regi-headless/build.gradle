@@ -1,6 +1,9 @@
+import com.pswidersk.gradle.python.VenvTask
+
 plugins {
     id 'regi-headless.deps-conventions'
     id 'regi-headless.java-conventions'
+    id 'com.pswidersk.python-plugin' version '3.2.16'
 }
 
 dependencies {
@@ -45,6 +48,143 @@ jar {
     }
 }
 
-test {
-    useJUnitPlatform()
+pythonPlugin {
+    pythonVersion = "3.11.15"
+    condaVersion = "26.3.2-2"
+    condaInstaller = "Miniforge3"
+    installDir = file(layout.buildDirectory.dir("python"))
+}
+
+tasks.register('installPythonBuildTools', VenvTask) {
+    group = 'build setup'
+    description = 'Installs Python packages needed to build and test the wheel.'
+
+    venvExec = 'pip'
+    args = ['install', '--upgrade', 'pip', 'build', 'pytest']
+
+    outputs.file(layout.buildDirectory.file("python-build-tools/install.marker"))
+
+    doLast {
+        def markerFile = layout.buildDirectory.file("python-build-tools/install.marker").get().asFile
+        markerFile.parentFile.mkdirs()
+        markerFile.text = "pip build pytest installed\n"
+    }
+}
+
+tasks.register('bundlePython', Sync) {
+    description = 'Bundles Python scripts and creates the java_lib directory'
+
+    dependsOn jar
+
+    into layout.buildDirectory.dir("install/regi_python")
+
+    inputs.dir("src/main/python")
+    inputs.file(jar.archiveFile)
+    inputs.files(configurations.runtimeClasspath)
+    inputs.property("version", project.version.toString())
+
+    from('src/main/python') {
+        include 'pyproject.toml'
+        filter { line -> line.replaceAll('@VERSION@', project.version.toString()) }
+    }
+
+    from('src/main/python') {
+        exclude 'pyproject.toml'
+    }
+
+    into('regi_python/lib') {
+        from configurations.runtimeClasspath
+        from jar.archiveFile
+        exclude "**/*.nbm"
+    }
+}
+
+tasks.register('buildPythonWheel', VenvTask) {
+    group = "distribution"
+    description = "Builds a Python .whl file using the Gradle-managed Python environment."
+
+    dependsOn bundlePython
+    dependsOn installPythonBuildTools
+
+    workingDir = layout.buildDirectory.dir("install/regi_python").get().asFile
+    venvExec = "python"
+    args = ["-m", "build", "--wheel"]
+
+    inputs.files(fileTree(layout.buildDirectory.dir("install/regi_python")) {
+        exclude "dist/**"
+        exclude "build/**"
+        exclude "*.egg-info/**"
+    })
+    inputs.property("version", project.version.toString())
+    outputs.dir(layout.buildDirectory.dir("install/regi_python/dist"))
+
+    doFirst {
+        delete layout.buildDirectory.dir("install/regi_python/dist")
+    }
+
+    doLast {
+        println "Python Wheel built in: ${workingDir}/dist"
+    }
+}
+
+tasks.register('installPythonWheelForSmokeTest', VenvTask) {
+    group = 'verification'
+    description = 'Installs the built Python wheel into the Gradle-managed Python environment.'
+
+    dependsOn buildPythonWheel
+
+    venvExec = 'pip'
+
+    inputs.files(fileTree(dir: "${buildDir}/install/regi_python/dist", include: '*.whl'))
+    outputs.file(layout.buildDirectory.file("test-python-wheel/install.marker"))
+
+    doFirst {
+        def wheelFile = fileTree(dir: "${buildDir}/install/regi_python/dist", include: '*.whl').singleFile
+        args = ['install', '--force-reinstall', wheelFile.absolutePath]
+    }
+
+    doLast {
+        def wheelFile = fileTree(dir: "${buildDir}/install/regi_python/dist", include: '*.whl').singleFile
+        def markerFile = layout.buildDirectory.file("test-python-wheel/install.marker").get().asFile
+        markerFile.parentFile.mkdirs()
+        markerFile.text = "${wheelFile.name}\n${wheelFile.length()} bytes\n"
+    }
+}
+tasks.register('testPythonWheel', VenvTask) {
+    group = 'verification'
+    description = 'Runs pytest against the installed Python wheel.'
+
+    dependsOn installPythonWheelForSmokeTest
+
+    venvExec = 'python'
+    args = ['-m', 'pytest', 'src/test/python']
+
+    inputs.files(fileTree(dir: 'src/test/python', include: '**/*.py'))
+    outputs.upToDateWhen { false }
+}
+
+tasks.register('smokeTestDistrictScripts', VenvTask) {
+    group = 'verification'
+    description = 'Validates migrated district and example scripts against the Python entrypoint shape and Java scriptable APIs.'
+
+    dependsOn installPythonBuildTools
+
+    venvExec = 'python'
+    args = [
+            '-m', 'pytest',
+            '-o', 'log_cli=true',
+            '--log-cli-level=INFO',
+            'src/test/python/test_district_scripts.py'
+    ]
+
+    inputs.files(fileTree(dir: '../district-scripts', include: '**/*.py'))
+    inputs.files(fileTree(dir: 'src/test/resources/usace/rowcps/headless/examples', include: '**/*.py'))
+    inputs.files(fileTree(dir: 'src/main/java/usace/rowcps/headless', include: '**/*.java'))
+    inputs.file('src/test/python/test_district_scripts.py')
+    outputs.upToDateWhen { false }
+}
+
+check {
+    dependsOn testPythonWheel
+    dependsOn smokeTestDistrictScripts
 }
