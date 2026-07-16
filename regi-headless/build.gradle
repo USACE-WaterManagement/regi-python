@@ -186,4 +186,5 @@ tasks.register('smokeTestDistrictScripts', VenvTask) {
 
 check {
     dependsOn testPythonWheel
+//    dependsOn smokeTestDistrictScripts
 }
