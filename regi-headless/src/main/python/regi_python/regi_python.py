@@ -19,7 +19,7 @@ def regi_session():
     started_jvm = False
     if not jpype.isJVMStarted():
         _prepend_java_home_to_path()
-        logger.info("Starting JVM...")
+        logger.debug("Starting JVM...")
         try:
             jpype.startJVM(
                 jpype.getDefaultJVMPath(),
@@ -40,7 +40,7 @@ def regi_session():
         yield
     finally:
         if started_jvm and jpype.isJVMStarted():
-            logger.info("Shutting down JVM...")
+            logger.debug("Shutting down JVM...")
             jpype.shutdownJVM()
 
 def run_headless(calculation_callback):
@@ -52,13 +52,13 @@ def run_headless(calculation_callback):
     from usace.rowcps.regi.factories import RowcpsExecutorService
     from java.util.concurrent import TimeUnit
     factory = HeadlessRegiDomainFactory()
-    logger.info("Attempting to create RegiDomain...")
+    logger.debug("Attempting to create RegiDomain...")
     regi_domain = factory.createDomain()
     manager_id = factory.getManagerId()
     registry = RegiCalcRegistry(regi_domain, manager_id)
 
     try:
-        logger.info("Executing callback...")
+        logger.debug("Executing callback...")
         calculation_callback(registry)
         regi_domain.commitData(manager_id)
     except Exception as e:
