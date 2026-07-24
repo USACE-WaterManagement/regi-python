@@ -18,8 +18,12 @@ Covers:
     while still shutting down the JVM it started.
   * regi_session surfaces a clear, chained error if the JVM fails to
     restart in the same process.
+  * _prepend_java_home_to_path() is a no-op without JAVA_HOME, prepends
+    JAVA_HOME/bin onto PATH when it's missing, and doesn't duplicate it
+    when it's already present.
 """
 
+import os
 import types
 
 import pytest
@@ -351,3 +355,43 @@ def test_regi_session_reports_restart_failure_with_context(monkeypatch):
     assert "Failed to start the JVM for regi_session()." in message
     assert isinstance(excinfo.value.__cause__, OSError)
     assert str(excinfo.value.__cause__) == "JVM cannot be restarted"
+
+
+def test_prepend_java_home_to_path_is_a_noop_without_java_home(monkeypatch):
+    """With JAVA_HOME unset, PATH is left untouched."""
+    import regi_python.regi_python as bridge
+
+    monkeypatch.delenv("JAVA_HOME", raising=False)
+    monkeypatch.setenv("PATH", "/usr/bin:/bin")
+
+    bridge._prepend_java_home_to_path()
+
+    assert os.environ["PATH"] == "/usr/bin:/bin"
+
+
+def test_prepend_java_home_to_path_prepends_java_bin(monkeypatch):
+    """With JAVA_HOME set and its bin/ not already on PATH, bin/ is prepended."""
+    import regi_python.regi_python as bridge
+
+    monkeypatch.setenv("JAVA_HOME", "/opt/java")
+    monkeypatch.setenv("PATH", "/usr/bin:/bin")
+
+    bridge._prepend_java_home_to_path()
+
+    java_bin = os.path.join("/opt/java", "bin")
+    assert os.environ["PATH"] == java_bin + os.pathsep + "/usr/bin:/bin"
+
+
+def test_prepend_java_home_to_path_does_not_duplicate_existing_entry(monkeypatch):
+    """If JAVA_HOME's bin/ is already on PATH, it is not added again."""
+    import regi_python.regi_python as bridge
+
+    java_bin = os.path.join("/opt/java", "bin")
+    existing_path = java_bin + os.pathsep + "/usr/bin"
+
+    monkeypatch.setenv("JAVA_HOME", "/opt/java")
+    monkeypatch.setenv("PATH", existing_path)
+
+    bridge._prepend_java_home_to_path()
+
+    assert os.environ["PATH"] == existing_path
