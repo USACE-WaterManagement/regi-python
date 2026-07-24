@@ -7,6 +7,8 @@ import importlib.metadata
 import importlib
 from pathlib import Path
 
+import pytest
+
 
 def test_wheel_distribution_metadata_is_installed():
     dist = importlib.metadata.distribution("regi-python")
@@ -82,3 +84,24 @@ def test_regi_session_only_shuts_down_jvm_it_started(monkeypatch):
     assert started == []
     assert stopped == []
     assert jul_configured == []
+
+
+def test_regi_session_reports_restart_failure_with_context(monkeypatch):
+    import regi_python.regi_python as bridge
+
+    monkeypatch.setattr(bridge.jpype, "isJVMStarted", lambda: False)
+    monkeypatch.setattr(
+        bridge.jpype,
+        "startJVM",
+        lambda *args, **kwargs: (_ for _ in ()).throw(OSError("JVM cannot be restarted")),
+    )
+    monkeypatch.setattr(bridge, "_prepend_java_home_to_path", lambda: None)
+
+    with pytest.raises(RuntimeError) as excinfo:
+        with bridge.regi_session():
+            pass
+
+    message = str(excinfo.value)
+    assert "Failed to start the JVM for regi_session()." in message
+    assert isinstance(excinfo.value.__cause__, OSError)
+    assert str(excinfo.value.__cause__) == "JVM cannot be restarted"

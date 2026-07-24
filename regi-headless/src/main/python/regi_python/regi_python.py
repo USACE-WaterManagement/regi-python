@@ -20,11 +20,19 @@ def regi_session():
     if not jpype.isJVMStarted():
         _prepend_java_home_to_path()
         logger.info("Starting JVM...")
-        jpype.startJVM(
-            jpype.getDefaultJVMPath(),
-            convertStrings=True,
-            classpath=[LIB_PATH]
-        )
+        try:
+            jpype.startJVM(
+                jpype.getDefaultJVMPath(),
+                convertStrings=True,
+                classpath=[LIB_PATH]
+            )
+        except OSError as exc:
+            raise RuntimeError(
+                "Failed to start the JVM for regi_session(). "
+                "A JVM cannot be restarted after it has been shut down in this "
+                "Python process. Start a fresh process instead of opening a "
+                "second regi_session()."
+            ) from exc
         configure_jul_to_python_logging(logger)
         started_jvm = True
 
