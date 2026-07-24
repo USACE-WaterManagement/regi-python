@@ -1,16 +1,26 @@
-#  Copyright (c) 2026
-#  United States Army Corps of Engineers - Hydrologic Engineering Center (USACE/HEC)
-#  All Rights Reserved.  USACE PROPRIETARY/CONFIDENTIAL.
-#  Source may not be released without written approval from HEC
+"""
+Packaging and public-API smoke tests for regi_python.
+
+Covers:
+  * the built wheel installs with correct distribution metadata and bundles
+    its Java libraries.
+  * the top-level package imports cleanly and exposes regi_session and
+    run_headless as its public API.
+  * run_headless fails fast with a clear error when required CDA env vars
+    are missing.
+  * the bridge module can be imported/reloaded without JAVA_HOME set.
+
+regi_session/run_headless runtime *state* behavior (JVM lifecycle, commit,
+shutdown, closing, exception propagation) lives in test_regi_python_runtime.py.
+"""
 
 import importlib.metadata
 import importlib
 from pathlib import Path
 
-import pytest
-
 
 def test_wheel_distribution_metadata_is_installed():
+    """The installed wheel reports the expected distribution name and a version."""
     dist = importlib.metadata.distribution("regi-python")
 
     assert dist.metadata["Name"] == "regi-python"
@@ -18,12 +28,14 @@ def test_wheel_distribution_metadata_is_installed():
 
 
 def test_wheel_can_import_top_level_package():
+    """The top-level regi_python package imports successfully."""
     import regi_python
 
     assert regi_python is not None
 
 
 def test_public_api_is_exposed():
+    """regi_session and run_headless are exposed as the package's public API."""
     import regi_python
 
     assert callable(regi_python.regi_session)
@@ -31,6 +43,7 @@ def test_public_api_is_exposed():
 
 
 def test_run_headless_requires_cda_environment(monkeypatch):
+    """run_headless fails fast with a clear message when CDA env vars are missing."""
     import regi_python
 
     monkeypatch.delenv("CDA_URL", raising=False)
@@ -48,6 +61,7 @@ def test_run_headless_requires_cda_environment(monkeypatch):
 
 
 def test_bundled_java_libraries_are_present():
+    """The package ships a lib/ directory containing at least one bundled jar."""
     import regi_python
     package_dir = Path(regi_python.__file__).parent
     lib_dir = package_dir / "lib"
@@ -57,6 +71,7 @@ def test_bundled_java_libraries_are_present():
 
 
 def test_bridge_import_does_not_require_java_home(monkeypatch):
+    """The bridge module imports/reloads cleanly even without JAVA_HOME set."""
     import regi_python.regi_python as bridge
 
     monkeypatch.delenv("JAVA_HOME", raising=False)
@@ -64,44 +79,3 @@ def test_bridge_import_does_not_require_java_home(monkeypatch):
     reloaded = importlib.reload(bridge)
 
     assert reloaded is bridge
-
-
-def test_regi_session_only_shuts_down_jvm_it_started(monkeypatch):
-    import regi_python.regi_python as bridge
-
-    started = []
-    stopped = []
-    jul_configured = []
-
-    monkeypatch.setattr(bridge.jpype, "isJVMStarted", lambda: True)
-    monkeypatch.setattr(bridge.jpype, "startJVM", lambda *args, **kwargs: started.append((args, kwargs)))
-    monkeypatch.setattr(bridge.jpype, "shutdownJVM", lambda: stopped.append(True))
-    monkeypatch.setattr(bridge, "configure_jul_to_python_logging", lambda logger: jul_configured.append(logger))
-
-    with bridge.regi_session():
-        pass
-
-    assert started == []
-    assert stopped == []
-    assert jul_configured == []
-
-
-def test_regi_session_reports_restart_failure_with_context(monkeypatch):
-    import regi_python.regi_python as bridge
-
-    monkeypatch.setattr(bridge.jpype, "isJVMStarted", lambda: False)
-    monkeypatch.setattr(
-        bridge.jpype,
-        "startJVM",
-        lambda *args, **kwargs: (_ for _ in ()).throw(OSError("JVM cannot be restarted")),
-    )
-    monkeypatch.setattr(bridge, "_prepend_java_home_to_path", lambda: None)
-
-    with pytest.raises(RuntimeError) as excinfo:
-        with bridge.regi_session():
-            pass
-
-    message = str(excinfo.value)
-    assert "Failed to start the JVM for regi_session()." in message
-    assert isinstance(excinfo.value.__cause__, OSError)
-    assert str(excinfo.value.__cause__) == "JVM cannot be restarted"

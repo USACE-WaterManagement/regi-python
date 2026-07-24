@@ -2,7 +2,7 @@
 
 import os
 import logging
-from jpype import JImplements, JOverride
+import jpype
 
 _java_log_sink = None
 
@@ -107,22 +107,20 @@ def _jul_level_to_python_level(jul_level_name):
 def _create_python_log_sink_class():
     # JPype resolves @JImplements interfaces immediately, so define this class only
     # after the JVM has started; otherwise importing this module would fail.
-    from jpype import JImplements, JOverride
 
-    @JImplements("usace.rowcps.headless.PythonLogSink")
+    @jpype.JImplements("usace.rowcps.headless.PythonLogSink")
     class PythonLogSink:
         def __init__(self, python_logger):
             self._logger = python_logger
 
-        @JOverride
-        def log(self, record, message):
+        @jpype.JOverride
+        def log(self, record, message, stack_trace):
             level = _jul_level_to_python_level(record.getLevel().getName())
             name = str(record.getLoggerName() or "java")
             message = str(message)
-
-            thrown = record.getThrown()
-            if thrown is not None:
-                message = f"{message}\n{thrown}"
+            stack_trace = str(stack_trace) if stack_trace else None
+            if stack_trace:
+                message = f"{message}\n{stack_trace}"
 
             self._logger.log(level, "[%s] %s", name, message)
 
