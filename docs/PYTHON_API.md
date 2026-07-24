@@ -43,6 +43,24 @@ with regi_session():
 
 Treat this context manager as the owner of the JVM lifecycle for the process.
 
+### Nested and repeated calls
+
+Only one JVM can ever exist in a Python process, and JPype cannot restart a JVM once it has been shut down. That gives `regi_session()` two rules:
+
+- **The outermost call owns the JVM.** The first `regi_session()` entered in a process is the one that actually starts the JVM, and it is the only one that shuts it down. If you nest another `regi_session()` inside that still-open context, the nested call sees the JVM already running, does nothing on entry, and does nothing on exit -- it defers to the outer context. The JVM only shuts down when the *outermost* context exits.
+- **A call after the first context has exited will fail.** Once the outermost `regi_session()` exits (and shuts the JVM down), that process cannot start a new JVM. A later, non-nested call to `regi_session()` -- one that opens after the first has already closed -- raises `RuntimeError` (wrapping JPype's `OSError`). Start a fresh process for each `regi_session()` you need; don't reopen one after a prior one has closed.
+
+```python
+with regi_session():        # starts the JVM; this is the owner
+    with regi_session():    # JVM already running -> no-op start, no-op stop
+        run_headless(my_callback)
+    run_headless(my_other_callback)
+# JVM shuts down here, when the outermost context exits
+
+with regi_session():        # raises RuntimeError: a JVM cannot be restarted
+    ...                      # in this process once it has been shut down
+```
+
 ## `run_headless(calculation_callback)`
 
 `run_headless()` creates a headless REGI domain and calls your callback with a `RegiCalcRegistry` instance.
@@ -113,4 +131,5 @@ Java JUL records are forwarded into the same Python logger once the JVM starts.
 - If imports fail after installation, confirm the wheel includes `regi_python/lib/*.jar` and that the package was installed from the built wheel.
 - If logs do not appear, lower `REGI_LOG_LEVEL` or override `REGI_LOG_FORMAT`.
 - If you are calling the package from a larger application, make sure some other code is not starting and stopping the JVM out from under `regi_session()`.
+- If a second `regi_session()` call raises `RuntimeError: Failed to start the JVM for regi_session()...`, you opened it after an earlier, non-nested `regi_session()` had already exited and shut the JVM down in this process. Nest the call inside the still-open outer session instead, or run it in a fresh process.
 
