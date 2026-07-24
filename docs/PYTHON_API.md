@@ -1,5 +1,7 @@
 # REGI Python API
 
+Migrating a  REGI Headless Jython script? See [Jython to JPype Migration Guide](JYTHON_TO_JPYPE_MIGRATION.md) first.
+
 `regi_python` is the client-facing Python package for the REGI headless bridge. It is intentionally small: import the package, open a JVM session, and run your callback against a REGI registry.
 
 ## Package Surface

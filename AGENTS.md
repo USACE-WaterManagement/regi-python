@@ -1,5 +1,7 @@
 # AGENTS.md
 
+This file provides repository-specific guidance for AI coding agents working in regi-python.
+
 ## Repository Overview
 
 `regi-headless` now uses a **Python-first execution model**.

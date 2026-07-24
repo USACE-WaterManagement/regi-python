@@ -1,4 +1,4 @@
-# REGI-Headless
+# regi-python
 
 `regi-python` is the Python bridge over the REGI Java libraries.
 
@@ -20,7 +20,7 @@ For script migration guidance, see [docs/JYTHON_TO_JPYPE_MIGRATION.md](docs/JYTH
 - Java JDK 21 or higher
 - Python 3.11 or higher
 
-### Environment variables
+### Environment Variables
 - `JAVA_HOME` set for JPype startup
 - `CDA_URL` url for CDA instance to connect to
 - `CDA_API_KEY` required for accessing and storing data in CDA
@@ -28,7 +28,7 @@ For script migration guidance, see [docs/JYTHON_TO_JPYPE_MIGRATION.md](docs/JYTH
 - `REGI_LOG_LEVEL` for logging verbosity
 - `REGI_LOG_FORMAT` overrides the default Python log format
 
-## Building The Wheel
+## Building the Wheel
 
 Build the Python wheel with Gradle:
 
