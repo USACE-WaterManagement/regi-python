@@ -3,6 +3,12 @@
 This guide captures the script migration pattern used in the district-scripts history, 
 moving from old Python 2 Jython-style top-level scripts to the current JPype-based `regi_python` bridge.
 
+### Callback Mechanism
+The key mental shift is that your script no longer procedurally runs from top to bottom. 
+Instead, you define your calculation logic inside a function – a callback – and hand that function to `run_headless()`. 
+The REGI framework starts the JVM, prepares the execution environment, and then calls your callback. 
+The top level of your script only needs to define and hand off the callback. 
+
 ## Core Migration Pattern
 
 Old scripts typically:
@@ -15,7 +21,7 @@ Old scripts typically:
 New scripts should:
 
 - import `regi_session` and `run_headless` from `regi_python`
-- move Java imports inside a handler function, such as `run_calculations(registry)` below, which `run_headless` invokes once the JVM has started
+- move Java imports inside a callback, such as `run_calculations(registry)` below, which `run_headless` invokes once the JVM has started
 - wrap the calculation logic in a function such as `run_calculations(registry)`
 - keep `registry.getCalculation(...)` and Java method calls unchanged
 - end with `if __name__ == "__main__": with regi_session(): run_headless(run_calculations)`
@@ -59,12 +65,10 @@ if __name__ == "__main__":
 
 ## Translation Rules
 
-### 1. Move Java imports inside the handler function
-
-A handler function is a Python function, such as `run_calculations(registry)`, that `run_headless()` invokes automatically after the JVM starts; the script itself never calls it directly.
+### 1. Move Java imports inside the callback
 
 JPype-backed imports should happen after the JVM starts. 
-Put them inside `run_calculations(registry)` or a nested helper only called from that handler function.
+Put them inside `run_calculations(registry)` or a nested helper only called from that callback.
 
 This is the biggest behavioral difference from Jython scripts.
 
@@ -78,7 +82,7 @@ The migration does not change the scriptable REGI API. Calls like these stay the
 
 The change is only the Python wrapper around those calls.
 
-### 3. Convert top-level execution into a handler function
+### 3. Convert top-level execution into a callback
 
 Scripts must be converted from immediate execution to a `run_calculations()` function. 
 That keeps import side effects out of the module.
@@ -99,7 +103,7 @@ print("Error Computing Flow Group")
 
 ### 5. Keep optional Java-side logging calls
 
-Calls such as `LoggingOptions.setDbMessageLevel(2)` and `LoggingOptions.setMetricsEnabled(True)` still belong in the script if the district workflow depends on them. They do not move to `regi_python`; they simply live inside the handler function now.
+Calls such as `LoggingOptions.setDbMessageLevel(2)` and `LoggingOptions.setMetricsEnabled(True)` still belong in the script if the district workflow depends on them. They do not move to `regi_python`; they simply live inside the callback now.
 
 ### 6. Remove the shell wrapper
 
