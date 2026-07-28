@@ -21,7 +21,11 @@ def _pct(rate_attr):
     try:
         return float(rate_attr) * 100
     except (TypeError, ValueError):
-        return 0.0
+        return None
+
+
+def _fmt_pct(value):
+    return "N/A" if value is None else f"{value:.1f}%"
 
 
 def main(argv):
@@ -47,9 +51,9 @@ def main(argv):
     print("## Python test coverage")
     print()
     print(
-        f"**Overall line coverage: {line_rate:.1f}%** "
+        f"**Overall line coverage: {_fmt_pct(line_rate)}** "
         f"({lines_covered}/{lines_valid} lines) &nbsp;|&nbsp; "
-        f"branch coverage: {branch_rate:.1f}%"
+        f"branch coverage: {_fmt_pct(branch_rate)}"
     )
     print()
     print("<details><summary>Per-file coverage</summary>")
@@ -70,7 +74,7 @@ def main(argv):
                 if int(line.get("hits", "0")) > 0:
                     covered += 1
 
-        print(f"| `{filename}` | {file_line_rate:.1f}% | {covered}/{total} |")
+        print(f"| `{filename}` | {_fmt_pct(file_line_rate)} | {covered}/{total} |")
 
     print()
     print("</details>")

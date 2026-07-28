@@ -6,7 +6,7 @@ on:
       - published
 
 permissions:
-  contents: write
+  contents: read
   actions: read
 
 concurrency:
@@ -24,6 +24,8 @@ jobs:
     name: Publish Python wheel to GitHub Release
     needs: build-wheel
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Download Python wheel artifact
@@ -38,9 +40,7 @@ jobs:
           sha256sum *.whl > SHA256SUMS.txt
 
       - name: Publish wheel to GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ github.event.release.tag_name }}
-          files: |
-            dist/*.whl
-            dist/SHA256SUMS.txt
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload "${{ github.event.release.tag_name }}" dist/*.whl dist/SHA256SUMS.txt --clobber
