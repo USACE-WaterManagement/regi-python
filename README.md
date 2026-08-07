@@ -1,75 +1,105 @@
-# REGI-Headless
+# regi-python
 
-> [!IMPORTANT]
-> **Notice: Project Refactor in Progress**
-> This project is undergoing a large refactor for [CWMS Data API](https://github.com/USACE/cwms-data-api) support. 
-> It will transition from a Java project consuming Jython scripts to a **Python project** that 
-> utilizes **JPype** to call underlying REGI Java libraries.
+`regi-python` is the Python bridge over the REGI Java libraries.
 
-`REGI-Headless` is a Java-based command-line tool and library designed to run 
-**REGI** calculations in a headless environment. 
-It allows users to execute complex hydrological calculations and manage gate settings via Jython 
-scripts without the need for a graphical interface.
+The client-facing Python API is documented in [docs/PYTHON_API.md](docs/PYTHON_API.md).
+For script migration guidance, see [docs/JYTHON_TO_JPYPE_MIGRATION.md](docs/JYTHON_TO_JPYPE_MIGRATION.md).
 
-## Features
+## What Lives Where
 
-- **Headless Execution**: Run REGI calculations as part of automated workflows or on servers.
-- **Database Integration**: Connects to CWMS data retrieval and storage.
-- **Modular Calculations**: Includes support for:
-  - Inflow calculations (Clone, Compute, Auto-Adjust, Balance All, etc.)
-  - Flow Group and gate settings calculations.
+- `regi-headless/src/main/python/regi_python/`
+  - Python bridge code
+  - Public entry points: `regi_session()` and `run_headless(calculation_callback)`
+- `regi-headless/src/main/java/`
+  - Java support layer used by the bridge calling into REGI calculation and data access libraries
+- `district-scripts/`
+  - Copy of district-owned Python scripts used as examples for smoke tests
 
-## Project Structure
+## Requirements
 
-- `regi-headless/`: Core Java implementation, including `RegiCLI`.
-- `district-scripts/`: Example scripts and district-specific configurations.
-- `docs/`: Additional documentation.
+- Java JDK 21 or higher
+- Python 3.11 or higher
 
-## Getting Started
+### Environment Variables
+- `JAVA_HOME` set for JPype startup
+- `CDA_URL` url for CDA instance to connect to
+- `CDA_API_KEY` required for accessing and storing data in CDA
+- `OFFICE_ID` session scoped office for data access
+- `REGI_LOG_LEVEL` for logging verbosity
+- `REGI_LOG_FORMAT` overrides the default Python log format
 
-### Prerequisites
+## Building the Wheel
 
-- Java JDK 21 or higher.
-
-### CWMS Data API Configuration
-
-The library reads the following environment variables when establishing the CWMS Data API data source:
-
-- `CDA_URL`: Base URL for the CWMS Data API endpoint.
-- `API_KEY`: API key used for CWMS Data API authentication and authorization.
-- `OFFICE_ID`: CWMS office identifier used to scope the session.
-
-The factory uses these values to authenticate, resolve the current user, and persist the connected office and time zone into the REGI project.
-
-### Building
-
+Build the Python wheel with Gradle:
 
 ```powershell
-./gradlew build
+./gradlew buildPythonWheel
 ```
 
-Details TBD.
+The wheel is written to `regi-headless/build/install/regi_python/dist/`.
 
-## Usage
+Release tags become wheel versions and must be PEP 440 compatible. For example, use `0.0.2a0`, `0.0.2b0`, or `0.0.2rc0` instead of `0.0.2-alpha`, `0.0.2-beta`, or `0.0.2-rc`.
 
-TBD
+Install the built wheel into a Python environment:
 
-### Command Line Options
+```powershell
+pip install regi_python-*.whl
+```
 
-TBD
+### Notes
 
-### Example
+- The Python package name is `regi_python`.
+- The wheel metadata name is `regi-python`.
+- The bundled Java jars are packaged inside `regi_python/lib/`.
 
-TBD
+## Releases
 
-## Testing
+Releases are published from the GitHub repository at [USACE-WaterManagement/regi-python](https://github.com/USACE-WaterManagement/regi-python). A release build attaches the Python wheel and checksum file to the GitHub Release for the matching tag.
 
-TBD
+To consume a published wheel, download the wheel asset from the release and install it with your package manager. Use the exact wheel filename from the release asset URL.
+
+```powershell
+pip install https://github.com/USACE-WaterManagement/regi-python/releases/download/<tag>/regi_python-<version>-py3-none-any.whl
+```
+
+```powershell
+uv pip install https://github.com/USACE-WaterManagement/regi-python/releases/download/<tag>/regi_python-<version>-py3-none-any.whl
+```
+
+```powershell
+poetry add https://github.com/USACE-WaterManagement/regi-python/releases/download/<tag>/regi_python-<version>-py3-none-any.whl
+```
+
+```powershell
+pdm add https://github.com/USACE-WaterManagement/regi-python/releases/download/<tag>/regi_python-<version>-py3-none-any.whl
+```
+
+If your tool does not support direct wheel URLs, download the asset from the release page and install it from the local `.whl` file instead.
+
+## Using The Bridge
+
+See [docs/PYTHON_API.md](docs/PYTHON_API.md) for the full Python-facing contract.
+
+## Verification
+
+Run the wheel smoke tests:
+
+```powershell
+./gradlew testPythonWheel
+```
+
+Run the script/API compatibility smoke test:
+
+```powershell
+./gradlew smokeTestDistrictScripts
+```
+
+`./gradlew check` runs both along with Java unit tests.
 
 ## Maintainers
 
-See [MAINTAINERS.md](MAINTAINERS.md) for a list of project maintainers.
+See [MAINTAINERS.md](MAINTAINERS.md).
 
 ## License
 
-See [LICENSE](LICENSE) for licensing information.
+See [LICENSE](LICENSE).
