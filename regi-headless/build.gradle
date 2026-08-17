@@ -60,7 +60,7 @@ tasks.register('installPythonBuildTools', VenvTask) {
     description = 'Installs Python packages needed to build and test the wheel.'
 
     venvExec = 'pip'
-    args = ['install', '--upgrade', 'pip', 'build', 'pytest']
+    args = ['install', '--upgrade', 'pip', 'build', 'pytest', 'pytest-cov']
 
     outputs.file(layout.buildDirectory.file("python-build-tools/install.marker"))
 
@@ -152,15 +152,25 @@ tasks.register('installPythonWheelForSmokeTest', VenvTask) {
 }
 tasks.register('testPythonWheel', VenvTask) {
     group = 'verification'
-    description = 'Runs pytest against the installed Python wheel.'
+    description = 'Runs pytest (with coverage) against the installed Python wheel.'
 
     dependsOn installPythonWheelForSmokeTest
 
+    def coverageDir = layout.buildDirectory.dir('reports/coverage')
+
     venvExec = 'python'
-    args = ['-m', 'pytest', 'src/test/python']
+    args = [
+        '-m', 'pytest', 'src/test/python',
+        '--cov=regi_python',
+        '--cov-branch',
+        '--cov-report=term-missing',
+        "--cov-report=xml:${coverageDir.get().file('coverage.xml').asFile}",
+        "--cov-report=html:${coverageDir.get().dir('html').asFile}",
+    ]
 
     inputs.files(fileTree(dir: 'src/test/python', include: '**/*.py'))
     outputs.upToDateWhen { false }
+    outputs.dir(coverageDir)
 }
 
 check {

@@ -1,0 +1,66 @@
+name: Build Python Wheel
+
+on:
+  workflow_call:
+    inputs:
+      ref:
+        description: Git ref to check out
+        required: false
+        type: string
+        default: ""
+
+jobs:
+  build-wheel:
+    name: Build Python wheel
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          ref: ${{ inputs.ref || github.ref }}
+
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Make Gradle wrapper executable
+        run: chmod +x ./gradlew
+
+      - name: Build and test
+        run: ./gradlew clean build buildPythonWheel
+
+      - name: Publish Python coverage summary
+        if: always()
+        run: |
+          python3 .github/scripts/python_coverage_summary.py \
+            regi-headless/build/reports/coverage/coverage.xml \
+            >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload Python coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-coverage-html
+          path: regi-headless/build/reports/coverage/html
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Collect wheel
+        run: |
+          mkdir -p dist
+          find . -path "*/build/install/*/dist/*.whl" -exec cp {} dist/ \;
+
+      - name: Upload Python wheel artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-wheel
+          path: dist/*.whl
+          if-no-files-found: error
+          retention-days: 14

@@ -1,0 +1,46 @@
+name: Release
+
+on:
+  release:
+    types:
+      - published
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: release-${{ github.event.release.id }}
+  cancel-in-progress: false
+
+jobs:
+  build-wheel:
+    name: Build wheel from release tag
+    uses: ./.github/workflows/build-wheel.yml
+    with:
+      ref: ${{ github.event.release.tag_name }}
+
+  publish-wheel:
+    name: Publish Python wheel to GitHub Release
+    needs: build-wheel
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download Python wheel artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: python-wheel
+          path: dist
+
+      - name: Generate checksums
+        run: |
+          cd dist
+          sha256sum *.whl > SHA256SUMS.txt
+
+      - name: Publish wheel to GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload "${{ github.event.release.tag_name }}" dist/*.whl dist/SHA256SUMS.txt --clobber
