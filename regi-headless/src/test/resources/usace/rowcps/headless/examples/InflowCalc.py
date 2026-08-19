@@ -2,19 +2,19 @@ from regi_python import regi_session, run_headless
 
 
 def calculate_inflow(registry):
-    # Java imports must happen after regi_session starts the JVM.
-    from java.util import Calendar, TimeZone
+    from datetime import datetime, timezone
+    from zoneinfo import ZoneInfo
+
 
     # this gets a scriptable Pool Percent object
     inflow_calc = registry.getCalculation(1.0, "Inflow")
 
-    # Time zone must be set because the Solaris time zone is UTC
-    time_zone = TimeZone.getTimeZone("US/Central")
-    # configure the start calendar
-    start_cal = Calendar.getInstance(time_zone)
-    start_cal.clear()
-    start_cal.set(Calendar.YEAR, 2015)
-    start_cal.set(Calendar.MONTH, 4)
+    # Time zone must be set explicitly because the JVM's default timezone is
+    # UTC, not the district's local time.
+    central = ZoneInfo("America/Chicago")
+    # Java's Calendar.MONTH was 0-indexed (4 == May); datetime.month is
+    # 1-indexed, so we use 5 here for the same date.
+    start_date = (datetime(2015, 5, 1, tzinfo=central)).astimezone(timezone.utc)
 
     # inflow_calc contains 4 callable methods:
     # autoAdjust
@@ -32,7 +32,7 @@ def calculate_inflow(registry):
     #   freezeRain
 
     # This autoBalances ALAT2
-    inflow_calc.autoAdjust("SWF", "ALAT2", start_cal.getTime(), False, False)
+    inflow_calc.autoAdjust("SWF", "ALAT2", start_date, False, False)
 
 
 if __name__ == "__main__":

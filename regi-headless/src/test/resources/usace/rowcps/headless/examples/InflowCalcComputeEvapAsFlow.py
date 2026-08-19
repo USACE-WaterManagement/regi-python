@@ -2,26 +2,23 @@ from regi_python import regi_session, run_headless
 
 
 def calculate_inflow(registry):
-    # Java imports must happen after regi_session starts the JVM.
-    from java.util import Calendar, TimeZone
+    from datetime import datetime, timezone
+    from zoneinfo import ZoneInfo
+
 
     # this gets a ScriptableInflow instance.
     inflow_calc = registry.getCalculation(1.0, "Inflow")
 
-    # configure the start calendar
-    start_cal = Calendar.getInstance(TimeZone.getTimeZone("US/Central"))
-    start_cal.clear()
-    start_cal.set(Calendar.YEAR, 2018)
-    start_cal.set(Calendar.MONTH, 4)
-
-    end_cal = Calendar.getInstance(TimeZone.getTimeZone("US/Central"))
-    end_cal.clear()
-    end_cal.set(Calendar.YEAR, 2018)
-    end_cal.set(Calendar.MONTH, 4)
-    end_cal.set(Calendar.DAY_OF_MONTH, 4)
+    # Time zone must be set explicitly because the JVM's default timezone is
+    # UTC, not the district's local time.
+    central = ZoneInfo("America/Chicago")
+    # Java's Calendar.MONTH was 0-indexed (4 == May); datetime.month is
+    # 1-indexed, so we use 5 here for the same date.
+    start_date = (datetime(2018, 5, 1, tzinfo=central)).astimezone(timezone.utc)
+    end_date = (datetime(2018, 5, 4, tzinfo=central)).astimezone(timezone.utc)
 
     # This computes and saves evap as flow for EUFA in May 2018
-    inflow_calc.computeEvapAsFlow("SWT", "EUFA", start_cal.getTime(), end_cal.getTime())
+    inflow_calc.computeEvapAsFlow("SWT", "EUFA", start_date, end_date)
 
 
 if __name__ == "__main__":
