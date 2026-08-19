@@ -2,10 +2,12 @@ from regi_python import regi_session, run_headless
 
 
 def run_calculations(registry):
+    from datetime import datetime, timedelta, timezone
+    from zoneinfo import ZoneInfo
+
     # Java imports must happen after regi_session starts the JVM.
-    # the java Calendar class is used to create java Date objects
-    from java.util import Calendar
     from usace.rowcps.headless import LoggingOptions
+
 
     # Description of: LoggingOptions.setDbMessageLevel(int level)
     #
@@ -42,42 +44,34 @@ def run_calculations(registry):
     # this gets a scriptable Gate Settings object
     gateSettings = registry.getCalculation(1.0, "Gate Settings")
 
-    # configure the start calendar
-    startCal = Calendar.getInstance()
-    #startCal.clear()
-    startCal.add(Calendar.DAY_OF_MONTH, -5)
-    startCal.set(Calendar.HOUR, 0)        ######use Calendar.HOUR_OF_DAY
-    startCal.set(Calendar.MINUTE, 0)
-    startCal.set(Calendar.SECOND, 0)
-    startCal.set(Calendar.MILLISECOND, 0)
-    # create a java Calendar object that will be used to create the end Date
-    endCal = Calendar.getInstance()
-    endCal.add(Calendar.DAY_OF_MONTH, 1)
-    endCal.set(Calendar.HOUR, 0)
-    endCal.set(Calendar.MINUTE, 0)
-    endCal.set(Calendar.SECOND, 0)
-    endCal.set(Calendar.MILLISECOND, 0)
-    #endCal.clear()
-    #endCal.set(Calendar.YEAR, 2016)
-    #endCal.set(Calendar.MONTH, 4)
+    # Time zone must be set explicitly because the JVM's default timezone is
+    # UTC, not the district's local time. (The previous Calendar.getInstance()
+    # calls here had no explicit timezone and silently depended on whatever
+    # timezone the host happened to be configured with.)
+    central = ZoneInfo("America/Chicago")
+    today_midnight = datetime.now(central).replace(hour=0, minute=0, second=0, microsecond=0)
 
+    # start: 5 days ago, at midnight
+    start_date = (today_midnight - timedelta(days=5)).astimezone(timezone.utc)
+    # end: tomorrow, at midnight
+    end_date = (today_midnight + timedelta(days=1)).astimezone(timezone.utc)
 
     # gateSettings contains four callable methods
-    #   void createGateSettings(String officeId, String locationStr, Date startDate, Date end) throws Exception;
-    #   void createGateSettingsGroup(String officeId, String locationStr, Date startDate, Date end, String groupId) throws Exception;
-    #   void createGateSettingsOutlet(String officeId, String locationStr, Date startDate, Date end, String outletId) throws Exception;
-    #   void createGateSettingsOutletFromTs(String officeId, String locationStr, Date startDate, Date end, String outletId, String tsId) throws Exception;
+    #   void createGateSettings(String officeId, String locationStr, Instant startDate, Instant end) throws Exception;
+    #   void createGateSettingsGroup(String officeId, String locationStr, Instant startDate, Instant end, String groupId) throws Exception;
+    #   void createGateSettingsOutlet(String officeId, String locationStr, Instant startDate, Instant end, String outletId) throws Exception;
+    #   void createGateSettingsOutletFromTs(String officeId, String locationStr, Instant startDate, Instant end, String outletId, String tsId) throws Exception;
 
-    gateSettings.createGateSettingsOutletFromTs("SWF", "FFLT2",  startCal.getTime(), endCal.getTime(), "Release", "FFLT2.Opening.Const.0.0.Rev-TRWD-Decodes" )
-    gateSettings.createGateSettingsOutletFromTs("SWF", "EAMT2",  startCal.getTime(), endCal.getTime(), "Release", "EAMT2.Opening.Const.0.0.Rev-TRWD-Decodes" )
-    gateSettings.createGateSettingsOutletFromTs("SWF", "TRNT2",  startCal.getTime(), endCal.getTime(), "Release", "TRNT2.Opening.Const.0.0.Rev-TRWD-Decodes" )
-    gateSettings.createGateSettingsOutletFromTs("SWF", "BPRT2",  startCal.getTime(), endCal.getTime(), "Release", "BPRT2.Opening.Const.0.0.Rev-TRWD-Decodes" )
-    gateSettings.createGateSettingsOutletFromTs("SWF", "LLST2",  startCal.getTime(), endCal.getTime(), "Release", "LLST2.Opening.Const.0.0.Rev-BRA-Decodes" )
-    gateSettings.createGateSettingsOutletFromTs("SWF", "GBYT2",  startCal.getTime(), endCal.getTime(), "Release", "GBYT2.Opening.Const.0.0.Rev-BRA-Decodes" )
-    gateSettings.createGateSettingsOutletFromTs("SWF", "PSMT2",  startCal.getTime(), endCal.getTime(), "Release", "PSMT2.Opening.Const.0.0.Rev-BRA-Decodes" )
-    gateSettings.createGateSettingsOutletFromTs("SWF", "MSDT2",  startCal.getTime(), endCal.getTime(), "Release", "MSDT2.Opening.Const.0.0.Rev-LCRA-Decodes" )
-    gateSettings.createGateSettingsOutletFromTs("SWF", "FRHT2",  startCal.getTime(), endCal.getTime(), "Release", "FRHT2.Opening.Const.0.0.Raw-Observer" )
-    gateSettings.createGateSettingsOutletFromTs("SWF", "GPET2",  startCal.getTime(), endCal.getTime(), "Release", "GPET2.Opening.Const.0.0.Raw-Observer" )
+    gateSettings.createGateSettingsOutletFromTs("SWF", "FFLT2",  start_date, end_date, "Release", "FFLT2.Opening.Const.0.0.Rev-TRWD-Decodes" )
+    gateSettings.createGateSettingsOutletFromTs("SWF", "EAMT2",  start_date, end_date, "Release", "EAMT2.Opening.Const.0.0.Rev-TRWD-Decodes" )
+    gateSettings.createGateSettingsOutletFromTs("SWF", "TRNT2",  start_date, end_date, "Release", "TRNT2.Opening.Const.0.0.Rev-TRWD-Decodes" )
+    gateSettings.createGateSettingsOutletFromTs("SWF", "BPRT2",  start_date, end_date, "Release", "BPRT2.Opening.Const.0.0.Rev-TRWD-Decodes" )
+    gateSettings.createGateSettingsOutletFromTs("SWF", "LLST2",  start_date, end_date, "Release", "LLST2.Opening.Const.0.0.Rev-BRA-Decodes" )
+    gateSettings.createGateSettingsOutletFromTs("SWF", "GBYT2",  start_date, end_date, "Release", "GBYT2.Opening.Const.0.0.Rev-BRA-Decodes" )
+    gateSettings.createGateSettingsOutletFromTs("SWF", "PSMT2",  start_date, end_date, "Release", "PSMT2.Opening.Const.0.0.Rev-BRA-Decodes" )
+    gateSettings.createGateSettingsOutletFromTs("SWF", "MSDT2",  start_date, end_date, "Release", "MSDT2.Opening.Const.0.0.Rev-LCRA-Decodes" )
+    gateSettings.createGateSettingsOutletFromTs("SWF", "FRHT2",  start_date, end_date, "Release", "FRHT2.Opening.Const.0.0.Raw-Observer" )
+    gateSettings.createGateSettingsOutletFromTs("SWF", "GPET2",  start_date, end_date, "Release", "GPET2.Opening.Const.0.0.Raw-Observer" )
 
 
 

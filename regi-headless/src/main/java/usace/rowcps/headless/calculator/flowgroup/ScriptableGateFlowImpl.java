@@ -5,6 +5,7 @@ import hec.data.project.AtProjectDescriptor;
 import hec.data.project.IProject;
 import hec.db.DbConnectionException;
 import hec.db.DbIoException;
+import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
@@ -41,6 +42,13 @@ public class ScriptableGateFlowImpl extends AbstractScriptableCalc implements Sc
 	public void computeAll(String officeId, String locationId, Date start, Date end) {
 
 		computeAll(officeId, locationId, start.getTime(), end.getTime());
+
+	}
+
+	@Override
+	public void computeAll(String officeId, String locationId, Instant start, Instant end) {
+
+		computeAll(officeId, locationId, start.toEpochMilli(), end.toEpochMilli());
 
 	}
 
@@ -89,6 +97,13 @@ public class ScriptableGateFlowImpl extends AbstractScriptableCalc implements Sc
 	}
 
 	@Override
+	public void computeAll(String officeId, String[] locationIds, Instant start, Instant end) {
+		for (String locationId : locationIds) {
+			computeAll(officeId, locationId, start, end);
+		}
+	}
+
+	@Override
 	public void computeAll(String officeId, String[] locationIds, long startTime, long endTime) {
 		for (String locationId : locationIds) {
 			computeAll(officeId, locationId, startTime, endTime);
@@ -100,6 +115,11 @@ public class ScriptableGateFlowImpl extends AbstractScriptableCalc implements Sc
 		long startTime = start.getTime();
 		long endTime = end.getTime();
 		computeFlowGroup(officeId, locationId, startTime, endTime, groupId);
+	}
+
+	@Override
+	public void computeFlowGroup(String officeId, String locationId, Instant start, Instant end, String groupId) {
+		computeFlowGroup(officeId, locationId, start.toEpochMilli(), end.toEpochMilli(), groupId);
 	}
 
 	@Override
@@ -145,6 +165,15 @@ public class ScriptableGateFlowImpl extends AbstractScriptableCalc implements Sc
 	public void computeFlowGroup(String officeId, String[] locationIds, Date start, Date end, String groupId) {
 		long startTime = start.getTime();
 		long endTime = end.getTime();
+		for (String locationId : locationIds) {
+			computeFlowGroup(officeId, locationId, startTime, endTime, groupId);
+		}
+	}
+
+	@Override
+	public void computeFlowGroup(String officeId, String[] locationIds, Instant start, Instant end, String groupId) {
+		long startTime = start.toEpochMilli();
+		long endTime = end.toEpochMilli();
 		for (String locationId : locationIds) {
 			computeFlowGroup(officeId, locationId, startTime, endTime, groupId);
 		}
