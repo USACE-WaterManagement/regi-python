@@ -2,15 +2,15 @@
 
 # HEC Dependencies
 service-annotations = "2.1.0"
-hec-server-suite = "8.4.5"
+hec-server-suite = "8.5.1"
 
 # REGI Dependencies
-regi-tools = "9.1.1"
+regi-tools = "9.3.2"
 regi = "3.5.0-alpha001"
 
-# Third Party
-jython-standalone = "2.7.2"
-args4j = "2.32"
+python = "3.11.15"
+conda = "26.3.2-2"
+pswidersk-python-plugin = "3.2.16"
 
 # Test
 junit = "6.1.1"
@@ -33,15 +33,14 @@ regi-tools-regi-data = {module = "mil.army.wmist.regi-tools:regi-data", version.
 regi-tools-regi-dao = {module = "mil.army.wmist.regi-tools:regi-dao", version.ref = "regi-tools"}
 regi-tools-regi-cwms = {module = "mil.army.wmist.regi-tools:regi-cwms", version.ref = "regi-tools"}
 
-# Third Party
-jython-standalone = {module = "org.python:jython-standalone", version.ref = "jython-standalone"}
-args4j = {module = "args4j:args4j", version.ref = "args4j"}
-
 # Test
 junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit" }
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
+
+[plugins]
+python-plugin = { id = "com.pswidersk.python-plugin", version.ref = "pswidersk-python-plugin" }
 
 [bundles]
 regi = ["regi-computation"]

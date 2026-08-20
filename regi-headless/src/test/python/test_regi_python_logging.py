@@ -200,18 +200,29 @@ def _install_fake_java_util_logging(monkeypatch):
 
     fake_root_logger = FakeRootLogger()
 
+    class FakeNamedLogger:
+        def __init__(self, name):
+            self.name = name
+            self.level = None
+
+        def setLevel(self, level):
+            self.level = level
+
+    named_loggers = {}
+
     class FakeLogger:
         @staticmethod
         def getLogger(name):
-            assert name == ""
-            return fake_root_logger
+            if name == "":
+                return fake_root_logger
+            return named_loggers.setdefault(name, FakeNamedLogger(name))
 
     jul_module = types.ModuleType("java.util.logging")
     jul_module.Logger = FakeLogger
     jul_module.Level = level_ns
     monkeypatch.setitem(sys.modules, "java.util.logging", jul_module)
 
-    return fake_root_logger, level_ns
+    return fake_root_logger, level_ns, named_loggers
 
 
 def _install_fake_python_jul_handler(monkeypatch):
@@ -249,7 +260,7 @@ def test_python_level_to_jul_level_maps_each_threshold(monkeypatch, python_level
     """Every Python logging threshold maps to the expected java.util.logging.Level constant."""
     import regi_python.regi_python_logging as logging_bridge
 
-    _, level_ns = _install_fake_java_util_logging(monkeypatch)
+    _, level_ns, _ = _install_fake_java_util_logging(monkeypatch)
 
     result = logging_bridge._python_level_to_jul_level(python_level)
 
@@ -263,7 +274,7 @@ def test_configure_jul_to_python_logging_wires_root_logger_and_sink(monkeypatch)
     _patch_jimplements(monkeypatch, logging_bridge)
     monkeypatch.setattr(logging_bridge, "_java_log_sink", None)
 
-    fake_root_logger, level_ns = _install_fake_java_util_logging(monkeypatch)
+    fake_root_logger, level_ns, named_loggers = _install_fake_java_util_logging(monkeypatch)
     created_handlers = _install_fake_python_jul_handler(monkeypatch)
 
     python_logger = logging.getLogger("test-regi-launcher")
@@ -286,3 +297,7 @@ def test_configure_jul_to_python_logging_wires_root_logger_and_sink(monkeypatch)
     # The handler wraps a PythonLogSink backed by the Python logger we passed in.
     assert new_handler.sink._logger is python_logger
     assert logging_bridge._java_log_sink is new_handler.sink
+
+    # Known-noisy loggers are pinned to SEVERE regardless of the root level.
+    for logger_name in logging_bridge._SUPPRESSED_JUL_LOGGERS:
+        assert named_loggers[logger_name].level == level_ns.SEVERE
