@@ -177,7 +177,13 @@ tasks.register('smokeTestDistrictScripts', VenvTask) {
     group = 'verification'
     description = 'Validates migrated district and example scripts against the Python entrypoint shape and Java scriptable APIs.'
 
+    // installPythonBuildTools: pytest itself.
+    // installPythonWheelForSmokeTest: installs the built regi_python wheel,
+    // which pulls in JPype1 and bundles the compiled REGI Headless jars --
+    // both needed now that this test reflects over the real compiled
+    // classes instead of parsing .java source.
     dependsOn installPythonBuildTools
+    dependsOn installPythonWheelForSmokeTest
 
     venvExec = 'python'
     args = [
@@ -187,10 +193,17 @@ tasks.register('smokeTestDistrictScripts', VenvTask) {
             'src/test/python/test_district_scripts.py'
     ]
 
+    // Gradle knows these paths authoritatively -- pass them through rather
+    // than having the test guess them by walking up from its own __file__.
+    environment 'DISTRICT_SCRIPTS_DIR', file('../district-scripts').absolutePath
+    environment 'EXAMPLE_SCRIPTS_DIR', file('src/test/resources/usace/rowcps/headless/examples').absolutePath
+    environment 'REGI_HEADLESS_JAVA_LIB_DIR', layout.buildDirectory.dir('install/regi_python/regi_python/lib').get().asFile.absolutePath
+
     inputs.files(fileTree(dir: '../district-scripts', include: '**/*.py'))
     inputs.files(fileTree(dir: 'src/test/resources/usace/rowcps/headless/examples', include: '**/*.py'))
     inputs.files(fileTree(dir: 'src/main/java/usace/rowcps/headless', include: '**/*.java'))
     inputs.file('src/test/python/test_district_scripts.py')
+    inputs.file('src/test/python/conftest.py')
     outputs.upToDateWhen { false }
 }
 
