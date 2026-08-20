@@ -59,8 +59,8 @@ tasks.register('installPythonBuildTools', VenvTask) {
     group = 'build setup'
     description = 'Installs Python packages needed to build and test the wheel.'
 
-    venvExec = 'pip'
-    args = ['install', '--upgrade', 'pip', 'build', 'pytest', 'pytest-cov']
+    venvExec = 'python'
+    args = ['-m', 'pip', 'install', '--upgrade', 'pip', 'build', 'pytest', 'pytest-cov']
 
     outputs.file(layout.buildDirectory.file("python-build-tools/install.marker"))
 
