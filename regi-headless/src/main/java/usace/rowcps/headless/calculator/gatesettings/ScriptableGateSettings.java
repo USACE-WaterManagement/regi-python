@@ -7,7 +7,7 @@ import java.util.Date;
  *
  * @author ryan
  */
-interface ScriptableGateSettings
+public interface ScriptableGateSettings
 {
 	/**
 	 * @deprecated Use {@link #createGateSettings(String, String, Instant, Instant)} instead. java.util.Date
