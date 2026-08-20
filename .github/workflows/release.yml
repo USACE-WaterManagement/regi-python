@@ -19,6 +19,7 @@ jobs:
     uses: ./.github/workflows/build-wheel.yml
     with:
       ref: ${{ github.event.release.tag_name }}
+      upload-coverage-artifact: false
 
   publish-wheel:
     name: Publish Python wheel to GitHub Release

@@ -8,6 +8,11 @@ on:
         required: false
         type: string
         default: ""
+      upload-coverage-artifact:
+        description: Whether to upload the Cobertura coverage.xml as an artifact for a downstream code-coverage upload job
+        required: false
+        type: boolean
+        default: true
 
 jobs:
   build-wheel:
@@ -49,6 +54,19 @@ jobs:
         with:
           name: python-coverage-html
           path: regi-headless/build/reports/coverage/html
+          if-no-files-found: warn
+          retention-days: 14
+
+      # Cobertura XML for the actions/upload-code-coverage step in the calling workflow.
+      # Skipped for fork PRs, which can't be granted `code-quality: write` anyway.
+      - name: Upload coverage.xml artifact
+        if: |
+          always() && inputs.upload-coverage-artifact &&
+          (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-coverage-cobertura
+          path: regi-headless/build/reports/coverage/coverage.xml
           if-no-files-found: warn
           retention-days: 14
 

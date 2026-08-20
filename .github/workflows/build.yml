@@ -18,6 +18,30 @@ jobs:
     name: Build and test
     uses: ./.github/workflows/build-wheel.yml
 
+  upload-coverage:
+    name: Upload code coverage
+    needs: build-wheel
+    if: ${{ !cancelled() && needs.build-wheel.result == 'success' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      code-quality: write
+      pull-requests: read
+
+    steps:
+      - name: Download coverage.xml artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: python-coverage-cobertura
+
+      - name: Upload code coverage
+        uses: actions/upload-code-coverage@v1
+        with:
+          file: coverage.xml
+          language: Python
+          label: code-coverage/pytest-cov
+          fail-on-error: false
+
   dependency-submission:
     name: Submit Gradle dependencies
     needs: build-wheel
