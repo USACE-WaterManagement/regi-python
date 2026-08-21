@@ -59,8 +59,8 @@ tasks.register('installPythonBuildTools', VenvTask) {
     group = 'build setup'
     description = 'Installs Python packages needed to build and test the wheel.'
 
-    venvExec = 'pip'
-    args = ['install', '--upgrade', 'pip', 'build', 'pytest', 'pytest-cov']
+    venvExec = 'python'
+    args = ['-m', 'pip', 'install', '--upgrade', 'pip', 'build', 'pytest', 'pytest-cov']
 
     outputs.file(layout.buildDirectory.file("python-build-tools/install.marker"))
 
@@ -178,6 +178,7 @@ tasks.register('smokeTestDistrictScripts', VenvTask) {
     description = 'Validates migrated district and example scripts against the Python entrypoint shape and Java scriptable APIs.'
 
     dependsOn installPythonBuildTools
+    dependsOn installPythonWheelForSmokeTest
 
     venvExec = 'python'
     args = [
@@ -187,10 +188,17 @@ tasks.register('smokeTestDistrictScripts', VenvTask) {
             'src/test/python/test_district_scripts.py'
     ]
 
+    environment = (environment ?: [:]) + [
+        'DISTRICT_SCRIPTS_DIR'      : file('../district-scripts').absolutePath,
+        'EXAMPLE_SCRIPTS_DIR'       : file('src/test/resources/usace/rowcps/headless/examples').absolutePath,
+        'REGI_HEADLESS_JAVA_LIB_DIR': layout.buildDirectory.dir('install/regi_python/regi_python/lib').get().asFile.absolutePath,
+    ]
+
     inputs.files(fileTree(dir: '../district-scripts', include: '**/*.py'))
     inputs.files(fileTree(dir: 'src/test/resources/usace/rowcps/headless/examples', include: '**/*.py'))
     inputs.files(fileTree(dir: 'src/main/java/usace/rowcps/headless', include: '**/*.java'))
     inputs.file('src/test/python/test_district_scripts.py')
+    inputs.file('src/test/python/conftest.py')
     outputs.upToDateWhen { false }
 }
 
