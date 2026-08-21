@@ -37,6 +37,7 @@ import java.text.Format;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -110,6 +111,12 @@ public class ScriptableGateSettingsImpl extends AbstractScriptableCalc implement
 	}
 
 	@Override
+	public void createGateSettings(String officeId, String locationStr, Instant startDate, Instant end) throws Exception
+	{
+		createGateSettings(officeId, locationStr, Date.from(startDate), Date.from(end));
+	}
+
+	@Override
 	public void createGateSettings(String officeId, String locationStr, Date startDate, Date end) throws Exception
 	{
 		Metrics metrics = RegiMetricsService.createMetrics(this.getClass().getSimpleName(), "createGateSettings");
@@ -139,6 +146,12 @@ public class ScriptableGateSettingsImpl extends AbstractScriptableCalc implement
 			}
 		}
 		gc.saveData(options);
+	}
+
+	@Override
+	public void createGateSettingsOutlet(String officeId, String locationStr, Instant startDate, Instant end, String outletId) throws Exception
+	{
+		createGateSettingsOutlet(officeId, locationStr, Date.from(startDate), Date.from(end), outletId);
 	}
 
 	@Override
@@ -186,6 +199,13 @@ public class ScriptableGateSettingsImpl extends AbstractScriptableCalc implement
 	}
 
 	@Override
+	public void createGateSettingsOutletFromTs(String officeId, String locationStr, Instant startDate, Instant end, String outletId, String tsId)
+			throws Exception
+	{
+		createGateSettingsOutletFromTs(officeId, locationStr, Date.from(startDate), Date.from(end), outletId, tsId);
+	}
+
+	@Override
 	public void createGateSettingsOutletFromTs(String officeId, String locationStr, Date startDate, Date end, String outletId, String tsId)
 			throws Exception
 	{
@@ -221,6 +241,12 @@ public class ScriptableGateSettingsImpl extends AbstractScriptableCalc implement
 			}
 		}
 		return retval;
+	}
+
+	@Override
+	public void createGateSettingsGroup(String officeId, String locationStr, Instant startDate, Instant end, String groupId) throws Exception
+	{
+		createGateSettingsGroup(officeId, locationStr, Date.from(startDate), Date.from(end), groupId);
 	}
 
 	@Override

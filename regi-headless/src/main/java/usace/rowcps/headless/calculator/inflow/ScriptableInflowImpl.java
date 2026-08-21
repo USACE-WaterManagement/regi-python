@@ -6,6 +6,7 @@ import hec.data.project.AtProjectDescriptor;
 import hec.db.DbConnectionException;
 import hec.db.DbException;
 import hec.db.DbIoException;
+import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -64,6 +65,18 @@ public class ScriptableInflowImpl extends AbstractScriptableCalc implements Scri
 	}
 
 	@Override
+	public void autoAdjust(String officeId, String locationStr, Instant startDate)
+	{
+		autoAdjust(officeId, locationStr, Date.from(startDate), false, false);
+	}
+
+	@Override
+	public void autoAdjust(String officeId, String locationStr, Instant startDate, boolean useLimits, boolean freezeRain)
+	{
+		autoAdjust(officeId, locationStr, Date.from(startDate), useLimits, freezeRain);
+	}
+
+	@Override
 	public void autoAdjust(String officeId, String locationStr, Date startDate, boolean useLimits, boolean freezeRain)
 	{
 		Metrics metrics = RegiMetricsService.createMetrics(getClass().getSimpleName(), "autoAdjust");
@@ -112,6 +125,12 @@ public class ScriptableInflowImpl extends AbstractScriptableCalc implements Scri
 	}
 
 	@Override
+	public void cloneInflows(String officeId, String locationStr, Instant startDate)
+	{
+		cloneInflows(officeId, locationStr, Date.from(startDate));
+	}
+
+	@Override
 	public void cloneInflows(String officeId, String locationStr, Date startDate)
 	{
 		Metrics metrics = RegiMetricsService.createMetrics(getClass().getSimpleName(), "cloneInflows");
@@ -151,6 +170,12 @@ public class ScriptableInflowImpl extends AbstractScriptableCalc implements Scri
 	}
 
 	@Override
+	public void zeroNegatives(String officeId, String locationStr, Instant startDate)
+	{
+		zeroNegatives(officeId, locationStr, Date.from(startDate));
+	}
+
+	@Override
 	public void zeroNegatives(String officeId, String locationStr, Date startDate)
 	{
 		Metrics metrics = RegiMetricsService.createMetrics(getClass().getSimpleName(), "zeroNegatives");
@@ -186,6 +211,12 @@ public class ScriptableInflowImpl extends AbstractScriptableCalc implements Scri
 		{
 			LOGGER.log(Level.SEVERE, "Unable to zero negatives", ex);
 		}
+	}
+
+	@Override
+	public void balanceAll(String officeId, String locationStr, Instant startDate)
+	{
+		balanceAll(officeId, locationStr, Date.from(startDate));
 	}
 
 	@Override
@@ -324,6 +355,12 @@ public class ScriptableInflowImpl extends AbstractScriptableCalc implements Scri
 	}
 
 	@Override
+	public void computeEvapAsFlow(String officeId, String locationStr, Instant startDate, Instant endDate)
+	{
+		computeEvapAsFlow(officeId, locationStr, Date.from(startDate), Date.from(endDate));
+	}
+
+	@Override
 	public void computeEvapAsFlow(String officeId, String locationStr, Date startDate, Date endDate)
 	{
 		Metrics metrics = RegiMetricsService.createMetrics(getClass().getSimpleName(), "computeEvapAsFlow");
@@ -353,6 +390,12 @@ public class ScriptableInflowImpl extends AbstractScriptableCalc implements Scri
 		{
 			LOGGER.log(Level.SEVERE, "Unable to compute evap as flow", ex);
 		}
+	}
+
+	@Override
+	public void computeInflow(String officeId, String locationStr, Instant startDate, Instant endDate)
+	{
+		computeInflow(officeId, locationStr, Date.from(startDate), Date.from(endDate));
 	}
 
 	@Override

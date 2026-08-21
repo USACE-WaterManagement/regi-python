@@ -2,42 +2,28 @@ from regi_python import regi_session, run_headless
 
 
 def run_calculations(registry):
+    from datetime import datetime, timedelta, timezone
+    from zoneinfo import ZoneInfo
+
     # Java imports must happen after regi_session starts the JVM.
-    # the java Calendar class is used to create java Date objects
-    from java.util import Calendar
-    from java.util import TimeZone
     from usace.rowcps.headless.calculator.inflow import InflowComputationStorageOption
+
 
     # this gets a ScriptableInflow instance.
     inflowCalc = registry.getCalculation(1.0, "Inflow")
 
-    # configure the start calendar
-    ##startCal = Calendar.getInstance(TimeZone.getTimeZone('US/Central'))
-    ##
-    ##
-    ##startCal.clear()
-    ##startCal.set(Calendar.YEAR, 2019)
-    ##startCal.set(Calendar.MONTH, 1)
-    ##
-    ##endCal = Calendar.getInstance(TimeZone.getTimeZone('US/Central'))
-    ##endCal.clear()
-    ##endCal.set(Calendar.YEAR, 2019)
-    ##endCal.set(Calendar.MONTH, 1)
-    ##endCal.set(Calendar.DAY_OF_MONTH, 4)
+    # configure the start/end dates
+    ##central = ZoneInfo("America/Chicago")
+    ##start_date = (datetime(2019, 2, 1, tzinfo=central)).astimezone(timezone.utc)
+    ##end_date = (datetime(2019, 2, 4, tzinfo=central)).astimezone(timezone.utc)
 
-    startCal = Calendar.getInstance(TimeZone.getTimeZone('US/Central'))
-    startCal.add(Calendar.DAY_OF_MONTH, -4)
-    startCal.set(Calendar.HOUR, 0)        ######use Calendar.HOUR_OF_DAY
-    startCal.set(Calendar.MINUTE, 0)
-    startCal.set(Calendar.SECOND, 0)
-    startCal.set(Calendar.MILLISECOND, 0)
-    # create a java Calendar object that will be used to create the end Date
-    endCal = Calendar.getInstance(TimeZone.getTimeZone('US/Central'))
-    endCal.add(Calendar.DAY_OF_MONTH, 1)
-    endCal.set(Calendar.HOUR, 0)
-    endCal.set(Calendar.MINUTE, 0)
-    endCal.set(Calendar.SECOND, 0)
-    endCal.set(Calendar.MILLISECOND, 0)
+    central = ZoneInfo("America/Chicago")
+    today_midnight = datetime.now(central).replace(hour=0, minute=0, second=0, microsecond=0)
+
+    # start: 4 days ago, at midnight
+    start_date = (today_midnight - timedelta(days=4)).astimezone(timezone.utc)
+    # end: tomorrow, at midnight
+    end_date = (today_midnight + timedelta(days=1)).astimezone(timezone.utc)
 
     # inflowCalc includes a setComputationStorageOptions function, which takes in either one or many
     # InflowComputationStorageOption values.  This is used by computeInflow to determine if it should save additional
@@ -66,7 +52,7 @@ def run_calculations(registry):
                     "GBYT2","ALAT2","ACTT2","PCTT2","BLNT2","STIT2","GGLT2","GNGT2",
                     "SOMT2","LLST2","TBRT2","SAGT2","HORT2","SMCT2","MSDT2"]
     for loc in locationList:
-        inflowCalc.computeInflow("SWF", loc, startCal.getTime(), endCal.getTime())
+        inflowCalc.computeInflow("SWF", loc, start_date, end_date)
 
 
 if __name__ == "__main__":

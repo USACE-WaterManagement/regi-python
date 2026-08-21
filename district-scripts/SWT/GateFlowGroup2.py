@@ -2,30 +2,32 @@ from regi_python import regi_session, run_headless
 
 
 def run_calculations(registry):
+    from datetime import datetime, timedelta, timezone
+    from zoneinfo import ZoneInfo
+
     # Java imports must happen after regi_session starts the JVM.
-    from java.util import Calendar
-    from java.util import TimeZone
     from usace.rowcps.headless import LoggingOptions
 
-    def compute_All_Flowgroups(officeID, location, startCal, endCal):
+
+    def compute_All_Flowgroups(officeID, location, start_date, end_date):
         # Takes in locations defined by user in group and computes all flow groups
         try:
-            gateCalc.computeAll(officeID, location, startCal.getTime(), endCal.getTime())
+            gateCalc.computeAll(officeID, location, start_date, end_date)
         except Exception as e:
             print("Error Computing all Flow Groups at {0} {1}".format(officeID, location))
             print(e)
             print('')
 
 
-    def compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroup):
+    def compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroup):
         try:
-            gateCalc.computeFlowGroup(officeID, location, startCal.getTime(), endCal.getTime(), "Flow.{0}.{1}".format(location, flowGroup))
+            gateCalc.computeFlowGroup(officeID, location, start_date, end_date, "Flow.{0}.{1}".format(location, flowGroup))
         except Exception as e:
             print("Error Computing Flow Group {0} at {1}".format(officeID, location))
             print(e)
             print('')
 
-        # #gateCalc.computeFlowGroup("SWF", "ACTT2",  startCal.getTime(), endCal.getTime(), "Flow.ACTT2.Pump_Out_Total")
+        # #gateCalc.computeFlowGroup("SWF", "ACTT2",  start_date, end_date, "Flow.ACTT2.Pump_Out_Total")
     # Description of: LoggingOptions.setDbMessageLevel(int level)
     #
     # Adds Time Series logging messages in the OracleTimeSeriesDaoImpl.  Recommended
@@ -65,31 +67,22 @@ def run_calculations(registry):
     # this retrieves a Gate Flow calculation object
     gateCalc = registry.getCalculation(1.0, "Gate Flow")
 
-    # Time zone must be set because the Solaris time zone is UTC
-    timeZone = TimeZone.getTimeZone("US/Central")
+    # Time zone must be set explicitly because the JVM's default timezone is
+    # UTC, not the district's local time.
+    central = ZoneInfo("America/Chicago")
 
     # Defaults to start of the day 5 days ago, and ends at the top of the current hour today
-    # configure the start calendar
-    startCal = Calendar.getInstance(timeZone)
-    startCal.add(Calendar.DAY_OF_MONTH, -5)
-    #startCal.add(Calendar.HOUR, -7)
-    startCal.set(Calendar.MINUTE, 0)
-    startCal.set(Calendar.SECOND, 0)
-    startCal.set(Calendar.MILLISECOND, 0)
+    end_date_dt = datetime.now(central).replace(minute=0, second=0, microsecond=0)
+    start_date_dt = end_date_dt - timedelta(days=5)
+    #start_date_dt = end_date_dt - timedelta(days=5, hours=7)
 
+    start_date = start_date_dt.astimezone(timezone.utc)
+    end_date = end_date_dt.astimezone(timezone.utc)
 
-    # configure the end calendar
-    endCal = Calendar.getInstance(timeZone)
-    endCal.set(Calendar.MINUTE, 0)
-    endCal.set(Calendar.SECOND, 0)
-    endCal.set(Calendar.MILLISECOND, 0)
-    #endCal.add(Calendar.MONTH, -3)
-
-    # Calendar can be adjusted using the following functions:
-    #   startCal.set(Calendar.DATE, 1)          # Sets the date of the calendar.
-    #   startCal.set(Calendar.HOUR_OF_DAY, 1)   # Sets the hour of the day to 0100 (1-24)
-    #   startCal.set(Calendar.YEAR, 2020)       # Sets the year
-    #   startCal.set(Calendar.MONTH, 4)         # Sets the month (month 4 means May to Java)
+    # Dates can be adjusted using normal datetime arithmetic/replace, e.g.:
+    #   start_date_dt = start_date_dt.replace(day=1)                  # start of month
+    #   start_date_dt = start_date_dt.replace(hour=1)                 # 0100 local time
+    #   start_date_dt = start_date_dt.replace(year=2020, month=5)     # month is 1-indexed here
 
     officeID = "SWT"
 
@@ -99,32 +92,32 @@ def run_calculations(registry):
     # projectId
     # startDate
     # endDate
-    # gateCalc.computeFlowGroup("SWF", "LEWT2",  startCal.getTime(), endCal.getTime(), "Flow.LEWT2.ConduitGate_Total")
+    # gateCalc.computeFlowGroup("SWF", "LEWT2",  start_date, end_date, "Flow.LEWT2.ConduitGate_Total")
 
     #
     #  GROUP 2 PROJECTS (SELF-TIMED TRANSMISSIONS WITHIN THE FIRST 2 - 4 MINUTES OF THE TOP OF THE HOUR)
     #
 
     #ARCA
-    gateCalc.computeFlowGroup("SWT", "ARCA",  startCal.getTime(), endCal.getTime(), "Flow.ARCA.Project_Total")
-    gateCalc.computeFlowGroup("SWT", "ARCA",  startCal.getTime(), endCal.getTime(), "Flow.ARCA.Gated_Total")
+    gateCalc.computeFlowGroup("SWT", "ARCA",  start_date, end_date, "Flow.ARCA.Project_Total")
+    gateCalc.computeFlowGroup("SWT", "ARCA",  start_date, end_date, "Flow.ARCA.Gated_Total")
 
     #ARBU
-    gateCalc.computeFlowGroup("SWT", "ARBU",  startCal.getTime(), endCal.getTime(), "Flow.ARBU.Project_Total")
-    gateCalc.computeFlowGroup("SWT", "ARBU",  startCal.getTime(), endCal.getTime(), "Flow.ARBU.Gated_Total")
+    gateCalc.computeFlowGroup("SWT", "ARBU",  start_date, end_date, "Flow.ARBU.Project_Total")
+    gateCalc.computeFlowGroup("SWT", "ARBU",  start_date, end_date, "Flow.ARBU.Gated_Total")
 
     #BIRC
-    gateCalc.computeFlowGroup("SWT", "BIRC",  startCal.getTime(), endCal.getTime(), "Flow.BIRC.Project_Total")
-    gateCalc.computeFlowGroup("SWT", "BIRC",  startCal.getTime(), endCal.getTime(), "Flow.BIRC.Gated_Total")
+    gateCalc.computeFlowGroup("SWT", "BIRC",  start_date, end_date, "Flow.BIRC.Project_Total")
+    gateCalc.computeFlowGroup("SWT", "BIRC",  start_date, end_date, "Flow.BIRC.Gated_Total")
 
     #ROBE
-    gateCalc.computeFlowGroup("SWT", "ROBE",  startCal.getTime(), endCal.getTime(), "Flow.ROBE.Project_Total")
-    gateCalc.computeFlowGroup("SWT", "ROBE",  startCal.getTime(), endCal.getTime(), "Flow.ROBE.Gated_Total")
-    gateCalc.computeFlowGroup("SWT", "ROBE",  startCal.getTime(), endCal.getTime(), "Flow.ROBE.Turbine_Total")
+    gateCalc.computeFlowGroup("SWT", "ROBE",  start_date, end_date, "Flow.ROBE.Project_Total")
+    gateCalc.computeFlowGroup("SWT", "ROBE",  start_date, end_date, "Flow.ROBE.Gated_Total")
+    gateCalc.computeFlowGroup("SWT", "ROBE",  start_date, end_date, "Flow.ROBE.Turbine_Total")
 
     #WAUR
-    gateCalc.computeFlowGroup("SWT", "WAUR",  startCal.getTime(), endCal.getTime(), "Flow.WAUR.Project_Total")
-    gateCalc.computeFlowGroup("SWT", "WAUR",  startCal.getTime(), endCal.getTime(), "Flow.WAUR.Gated_Total")
+    gateCalc.computeFlowGroup("SWT", "WAUR",  start_date, end_date, "Flow.WAUR.Project_Total")
+    gateCalc.computeFlowGroup("SWT", "WAUR",  start_date, end_date, "Flow.WAUR.Gated_Total")
 
 
 

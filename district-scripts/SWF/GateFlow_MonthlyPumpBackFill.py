@@ -2,29 +2,32 @@ from regi_python import regi_session, run_headless
 
 
 def run_calculations(registry):
+    from datetime import datetime, timezone
+    from zoneinfo import ZoneInfo
+
     # Java imports must happen after regi_session starts the JVM.
-    from java.util import Calendar
     from usace.rowcps.headless import LoggingOptions
 
-    def compute_All_Flowgroups(officeID, location, startCal, endCal):
+
+    def compute_All_Flowgroups(officeID, location, start_date, end_date):
         # Takes in locations defined by user in group and computes all flow groups
         try:
-            gateCalc.computeAll(officeID, location, startCal.getTime(), endCal.getTime())
+            gateCalc.computeAll(officeID, location, start_date, end_date)
         except Exception as e:
             print("Error Computing all Flow Groups at {0} {1}".format(officeID, location))
             print(e)
             print('')
 
 
-    def compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroup):
+    def compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroup):
         try:
-            gateCalc.computeFlowGroup(officeID, location, startCal.getTime(), endCal.getTime(), "Flow.{0}.{1}".format(location, flowGroup))
+            gateCalc.computeFlowGroup(officeID, location, start_date, end_date, "Flow.{0}.{1}".format(location, flowGroup))
         except Exception as e:
             print("Error Computing Flow Group {0} at {1}".format(officeID, location))
             print(e)
             print('')
 
-        # #gateCalc.computeFlowGroup("SWF", "ACTT2",  startCal.getTime(), endCal.getTime(), "Flow.ACTT2.Pump_Out_Total")
+        # #gateCalc.computeFlowGroup("SWF", "ACTT2",  start_date, end_date, "Flow.ACTT2.Pump_Out_Total")
     # Description of: LoggingOptions.setDbMessageLevel(int level)
     #
     # Adds Time Series logging messages in the OracleTimeSeriesDaoImpl.  Recommended
@@ -64,41 +67,22 @@ def run_calculations(registry):
     # this retrieves a Gate Flow calculation object
     gateCalc = registry.getCalculation(1.0, "Gate Flow")
 
-    # the gate flow calculations requires a start and end time.
-    # here we create a java Calendar object that will be used to create the start Date
-    startCal = Calendar.getInstance()
-    # startCal.clear()
-    startCal.set(Calendar.HOUR, 0)  ### set startCal hour/minute/second/millisecond to 0 for midnight
-    startCal.set(Calendar.MINUTE, 0)
-    startCal.set(Calendar.SECOND, 0)
-    startCal.set(Calendar.MILLISECOND, 0)
-    startCal.add(Calendar.YEAR, -1)  ### go back one year to today
-    startCal.set(Calendar.MONTH, 9)  ### change month to month 9 (october)
-    startCal.set(Calendar.DAY_OF_MONTH, 1)   ### change start date to start of the month day 1
+    # Time zone must be set explicitly because the JVM's default timezone is
+    # UTC, not the district's local time. (The previous Calendar.getInstance()
+    # calls here had no explicit timezone and silently depended on whatever
+    # timezone the host happened to be configured with.)
+    central = ZoneInfo("America/Chicago")
+    today = datetime.now(central)
 
-    getYear = startCal.get(Calendar.YEAR)  ### get value of startCal year/month/day to print and to initilize endCal
-    getMonth = startCal.get(Calendar.MONTH)
-    getDayofMonth = startCal.get(Calendar.DAY_OF_MONTH)
+    # start: October 1st of last year, at midnight
+    start_date_dt = today.replace(
+        year=today.year - 1, month=10, day=1, hour=0, minute=0, second=0, microsecond=0
+    )
+    # end: today, at midnight
+    end_date_dt = today.replace(hour=0, minute=0, second=0, microsecond=0)
 
-    # create a java Calendar object that will be used to create the end Date
-    endCal = Calendar.getInstance()
-    # endCal.clear()
-    endCal.set(Calendar.HOUR, 0)  ### set endCal hour/minute/second/millisecond to 0 for midnight
-    endCal.set(Calendar.MINUTE, 0)
-    endCal.set(Calendar.SECOND, 0)
-    endCal.set(Calendar.MILLISECOND, 0)
-    ###endCal will be set to current date unless reset with the following 4 lines
-    #endCal.set(Calendar.YEAR, getYear)  ### set endCal year same as startCal
-    #endCal.set(Calendar.MONTH, getMonth)  ### set endCal month same as startCal
-    #endCal.add(Calendar.MONTH, 12)  ##add 1 month to startcal month
-    #endCal.set(Calendar.DAY_OF_MONTH, 1)  ### set to day one 
-
-    ### time window starts 01Feb2019(one year ago) and ends 01Mar2019 (one year ago plus one month)
-
-    getEndDay = endCal.get(Calendar.DAY_OF_MONTH)
-    getEndYear = endCal.get(Calendar.YEAR)
-    getEndMonth = endCal.get(Calendar.MONTH)
-
+    start_date = start_date_dt.astimezone(timezone.utc)
+    end_date = end_date_dt.astimezone(timezone.utc)
 
     officeID = "SWF"
 
@@ -108,7 +92,7 @@ def run_calculations(registry):
     # projectId
     # startDate
     # endDate
-    # gateCalc.computeFlowGroup("SWF", "LEWT2",  startCal.getTime(), endCal.getTime(), "Flow.LEWT2.ConduitGate_Total")
+    # gateCalc.computeFlowGroup("SWF", "LEWT2",  start_date, end_date, "Flow.LEWT2.ConduitGate_Total")
     # By setting the following parameter to True, the following flow groups in the list FlowGroupList will all be calculated. Items can be commented out
     # or commented back in individually. To turn this option off, set the following parameter to False. User can determine which flow group they want to calculate
     # by changing the "flowGroup" variable.
@@ -191,17 +175,17 @@ def run_calculations(registry):
     if calculateSingleFlowGroups:
         for location in locationList:
             print("Now Running", location, "SINGLE")
-            #compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroupGate)
-            #compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroupTotal)
-            #compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroupTurbine)
-            #compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroupUncontrol)
-            #compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroupPumpOutBelow)
-            compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroupPumpOut)
-            compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroupPumpIn)
+            #compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroupGate)
+            #compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroupTotal)
+            #compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroupTurbine)
+            #compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroupUncontrol)
+            #compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroupPumpOutBelow)
+            compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroupPumpOut)
+            compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroupPumpIn)
     if calculateAllFlowGroups:
         for location in FlowGroupList:
             print("Now Running", location, "GROUP")
-            #compute_All_Flowgroups(officeID, location, startCal, endCal)
+            #compute_All_Flowgroups(officeID, location, start_date, end_date)
 
 
 

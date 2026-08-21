@@ -2,29 +2,32 @@ from regi_python import regi_session, run_headless
 
 
 def run_calculations(registry):
+    from datetime import datetime, timedelta, timezone
+    from zoneinfo import ZoneInfo
+
     # Java imports must happen after regi_session starts the JVM.
-    from java.util import Calendar
     from usace.rowcps.headless import LoggingOptions
 
-    def compute_All_Flowgroups(officeID, location, startCal, endCal):
+
+    def compute_All_Flowgroups(officeID, location, start_date, end_date):
         # Takes in locations defined by user in group and computes all flow groups
         try:
-            gateCalc.computeAll(officeID, location, startCal.getTime(), endCal.getTime())
+            gateCalc.computeAll(officeID, location, start_date, end_date)
         except Exception as e:
             print("Error Computing all Flow Groups at {0} {1}".format(officeID, location))
             print(e)
             print('')
 
 
-    def compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroup):
+    def compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroup):
         try:
-            gateCalc.computeFlowGroup(officeID, location, startCal.getTime(), endCal.getTime(), "Flow.{0}.{1}".format(location, flowGroup))
+            gateCalc.computeFlowGroup(officeID, location, start_date, end_date, "Flow.{0}.{1}".format(location, flowGroup))
         except Exception as e:
             print("Error Computing Flow Group {0} at {1}".format(officeID, location))
             print(e)
             print('')
 
-        # #gateCalc.computeFlowGroup("SWF", "ACTT2",  startCal.getTime(), endCal.getTime(), "Flow.ACTT2.Pump_Out_Total")
+        # #gateCalc.computeFlowGroup("SWF", "ACTT2",  start_date, end_date, "Flow.ACTT2.Pump_Out_Total")
     # Description of: LoggingOptions.setDbMessageLevel(int level)
     #
     # Adds Time Series logging messages in the OracleTimeSeriesDaoImpl.  Recommended
@@ -64,28 +67,20 @@ def run_calculations(registry):
     # this retrieves a Gate Flow calculation object
     gateCalc = registry.getCalculation(1.0, "Gate Flow")
 
-    # the gate flow calculations requires a start and end time.
-    # here we create a java Calendar object that will be used to create the start Date
-    startCal = Calendar.getInstance()
-    # startCal.clear()
-    startCal.add(Calendar.DAY_OF_MONTH, -1)
-    startCal.set(Calendar.HOUR, 0)
-    startCal.set(Calendar.MINUTE, 0)
-    startCal.set(Calendar.SECOND, 0)
-    startCal.set(Calendar.MILLISECOND, 0)
-    # startCal.set(Calendar.YEAR, 2015)
-    # startCal.set(Calendar.MONTH, 9)
+    # Time zone must be set explicitly because the JVM's default timezone is
+    # UTC, not the district's local time. (The previous Calendar.getInstance()
+    # calls here had no explicit timezone and silently depended on whatever
+    # timezone the host happened to be configured with.)
+    central = ZoneInfo("America/Chicago")
+    today_midnight = datetime.now(central).replace(hour=0, minute=0, second=0, microsecond=0)
 
-    # create a java Calendar object that will be used to create the end Date
-    endCal = Calendar.getInstance()
-    # endCal.clear()
-    endCal.add(Calendar.DAY_OF_MONTH, 0)
-    endCal.set(Calendar.HOUR, 0)
-    endCal.set(Calendar.MINUTE, 0)
-    endCal.set(Calendar.SECOND, 0)
-    endCal.set(Calendar.MILLISECOND, 0)
-    # endCal.set(Calendar.YEAR, 2015)
-    # endCal.set(Calendar.MONTH, 11)
+    # start: yesterday, at midnight
+    start_date_dt = today_midnight - timedelta(days=1)
+    # end: today, at midnight
+    end_date_dt = today_midnight
+
+    start_date = start_date_dt.astimezone(timezone.utc)
+    end_date = end_date_dt.astimezone(timezone.utc)
 
     officeID = "SWF"
 
@@ -95,7 +90,7 @@ def run_calculations(registry):
     # projectId
     # startDate
     # endDate
-    # gateCalc.computeFlowGroup("SWF", "LEWT2",  startCal.getTime(), endCal.getTime(), "Flow.LEWT2.ConduitGate_Total")
+    # gateCalc.computeFlowGroup("SWF", "LEWT2",  start_date, end_date, "Flow.LEWT2.ConduitGate_Total")
     # By setting the following parameter to True, the following flow groups in the list FlowGroupList will all be calculated. Items can be commented out
     # or commented back in individually. To turn this option off, set the following parameter to False. User can determine which flow group they want to calculate
     # by changing the "flowGroup" variable.
@@ -156,36 +151,36 @@ def run_calculations(registry):
     if calculateSingleFlowGroups:
         for location in locationList:
             print("Now Running", location, "SINGLE")
-            #compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroupGate)
-            #compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroupTotal)
-            #compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroupTurbine)
-            #compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroupUncontrol)
-            compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroupPumpOutBelow)
-            compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroupPumpOut)
-            compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroupPumpIn)
-            compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroupNTMWD)
-            compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroupUTRWD) 
-            compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroupSS)
-            compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroupIrving) 
-            compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroupLewisville)
-            compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroupUTRWD_Out)
-            compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroupUTRWD_In)
-            compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroupIrv)
-            compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroupDenton)
-            compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroupBenbrook)
-            compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroupTRWD)
-            compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroupWeatherford) 
-            compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroupGeorgetown)
-            compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroupRound_Rock) 
-            compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroupBrushy_Ck)
-            compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroupNTMWD_LVN)
-            compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroupCooper) 
-            compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroupEast_Fork) 
-            compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroupTawakoni)
+            #compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroupGate)
+            #compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroupTotal)
+            #compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroupTurbine)
+            #compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroupUncontrol)
+            compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroupPumpOutBelow)
+            compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroupPumpOut)
+            compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroupPumpIn)
+            compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroupNTMWD)
+            compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroupUTRWD) 
+            compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroupSS)
+            compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroupIrving) 
+            compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroupLewisville)
+            compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroupUTRWD_Out)
+            compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroupUTRWD_In)
+            compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroupIrv)
+            compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroupDenton)
+            compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroupBenbrook)
+            compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroupTRWD)
+            compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroupWeatherford) 
+            compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroupGeorgetown)
+            compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroupRound_Rock) 
+            compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroupBrushy_Ck)
+            compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroupNTMWD_LVN)
+            compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroupCooper) 
+            compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroupEast_Fork) 
+            compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroupTawakoni)
     if calculateAllFlowGroups:
         for location in FlowGroupList:
             print("Now Running", location, "GROUP")
-            #compute_All_Flowgroups(officeID, location, startCal, endCal)
+            #compute_All_Flowgroups(officeID, location, start_date, end_date)
 
 
 
