@@ -1,7 +1,7 @@
 [versions]
 
 # HEC Dependencies
-service-annotations = "2.1.0"
+service-annotations = "4.0.0"
 hec-server-suite = "8.4.5"
 
 # REGI Dependencies
