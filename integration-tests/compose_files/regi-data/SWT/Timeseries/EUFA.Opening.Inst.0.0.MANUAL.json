@@ -1,0 +1,34 @@
+{
+  "begin": "2026-06-01T00:00:00+00:00",
+  "date-version-type": "UNVERSIONED",
+  "end": "2026-06-07T00:00:00+00:00",
+  "interval": "PT0S",
+  "interval-offset": -2147483648,
+  "name": "EUFA.Opening.Inst.0.0.MANUAL",
+  "office-id": "SWT",
+  "time-zone": "US/Central",
+  "total": 3,
+  "units": "ft",
+  "value-columns": [
+    {
+      "name": "date-time",
+      "ordinal": 1,
+      "datatype": "java.sql.Timestamp"
+    },
+    {
+      "name": "value",
+      "ordinal": 2,
+      "datatype": "java.lang.Double"
+    },
+    {
+      "name": "quality-code",
+      "ordinal": 3,
+      "datatype": "int"
+    }
+  ],
+  "values": [
+    [1780272000000, 0.5, 0],
+    [1780531200000, 1.2, 0],
+    [1780747200000, 0.0, 0]
+  ]
+}

@@ -5,3 +5,8 @@
 .DS_STORE
 */build/
 .coverage*
+__pycache__/
+.pytest_cache/
+*.env
+regi-projects/
+/gradle.properties

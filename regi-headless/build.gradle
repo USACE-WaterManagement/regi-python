@@ -3,13 +3,11 @@ import com.pswidersk.gradle.python.VenvTask
 plugins {
     id 'regi-headless.deps-conventions'
     id 'regi-headless.java-conventions'
-    id 'com.pswidersk.python-plugin' version '3.2.16'
+    id 'com.pswidersk.python-plugin'
 }
 
 dependencies {
     implementation(libs.bundles.serversuite)
-    implementation(libs.jython.standalone)
-    implementation(libs.args4j)
     implementation(libs.bundles.regi)
     implementation(libs.bundles.regi) {artifact {extension = "jar"}}
     implementation(libs.bundles.regi.tools)
@@ -28,7 +26,6 @@ configurations.configureEach {
     exclude group: 'org.swinglabs', module: '*'
     exclude group: 'org.jfree', module: '*'
     exclude group: 'org.netbeans.modules', module: '*'
-    exclude group: 'org.netbeans.api', module: '*'
     exclude group: 'mil.army.usace.hec.map', module: 'hec-osmmap'
     exclude group: 'mil.army.usace.hec', module: 'hec-geojson'
     exclude group: 'mil.army.usace.hec', module: 'dssplugin-excel'
@@ -49,8 +46,8 @@ jar {
 }
 
 pythonPlugin {
-    pythonVersion = "3.11.15"
-    condaVersion = "26.3.2-2"
+    pythonVersion = libs.versions.python.get()
+    condaVersion = libs.versions.conda.get()
     condaInstaller = "Miniforge3"
     installDir = file(layout.buildDirectory.dir("python"))
 }
