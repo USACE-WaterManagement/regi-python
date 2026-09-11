@@ -45,7 +45,7 @@ jobs:
 
       - name: Upload Python coverage report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: python-coverage-html
           path: regi-headless/build/reports/coverage/html
@@ -58,7 +58,7 @@ jobs:
           find . -path "*/build/install/*/dist/*.whl" -exec cp {} dist/ \;
 
       - name: Upload Python wheel artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: python-wheel
           path: dist/*.whl
