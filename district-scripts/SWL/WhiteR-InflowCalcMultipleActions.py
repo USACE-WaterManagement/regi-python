@@ -8,25 +8,6 @@ def run_calculations(registry):
     from java.util import TimeZone
     from usace.rowcps.headless import LoggingOptions
 
-    def inflow_Actions(function, officeID, location, startCal, endCal, uselimits, freezerain):
-        # Takes in locations defined by user in group and computes the given command at the given station.
-        try:
-            if function.lower() == "cloneinflows":
-                inflowCalc.cloneInflows(officeID, location,  startCal.getTime())
-            elif function.lower() == "computeinflow":
-                inflowCalc.computeInflow(officeID, location, startCal.getTime(), endCal.getTime())
-            elif function.lower() == "zeronegatives":
-                inflowCalc.zeroNegatives(officeID, location,  startCal.getTime())
-            elif function.lower() == "balanceall":
-                inflowCalc.balanceAll(officeID, location,  startCal.getTime())
-            elif function.lower() == "autoadjust":
-                inflowCalc.autoAdjust(officeID, location,  startCal.getTime(), uselimits, freezerain)
-            else:
-                print("Input command", function, "is not recognized. Please edit your input and try again.")
-        except Exception as e:
-            print("Error Completing action {0} at {1} {2}".format(function, officeID, location))
-            print(e)
-            print("")
     # Description of: LoggingOptions.setDbMessageLevel(int level)
     #
     # Adds Time Series logging messages in the OracleTimeSeriesDaoImpl.  Recommended
@@ -85,6 +66,8 @@ def run_calculations(registry):
     endCal.set(Calendar.MILLISECOND, 0)
 
     officeID = "SWL"
+    startDate = startCal.getTime()
+    endDate = endCal.getTime()
 
     # inflowCalc contains 4 callable methods:
     # autoAdjust
@@ -107,33 +90,50 @@ def run_calculations(registry):
     useLimits_ON = True
     freezeRain_ON = True
 
-    # Commands can be input in a list format as seen below. The format is as follows "[ACTION] @ [LOCATION]", reading like "Perform [ACITON] at [LOCATION]. 
-    # The action must come first, and they must be separated by a "@" symbol.
-    # Spaces between the Action/Location and "@" symbol can vary, although 1 space is recommended for readability. Lines can be commented out as needed.
-    actions = ["computeInflow @ Beaver_Dam",
-               "cloneInflows @ Beaver_Dam",
-               "autoAdjust @ Beaver_Dam",
-           "computeInflow @ Table_Rock_Dam",
-           "cloneInflows @ Table_Rock_Dam",
-           "autoAdjust @ Table_Rock_Dam",
-           "computeInflow @ Bull_Shoals_Dam",
-           "cloneInflows @ Bull_Shoals_Dam",
-           "autoAdjust @ Bull_Shoals_Dam",
-           "computeInflow @ Norfork_Dam",
-           "cloneInflows @ Norfork_Dam",
-           "autoAdjust @ Nofork_Dam",
-           "computeInflow @ GreersFerry_Dam",
-           "cloneInflows @ GreersFerry_Dam",
-           "autoAdjust @ GreersFerry_Dam",
-               ]
-           
-    for command in actions:
-        location = command.split('@')[1].strip()
-        function = command.split('@')[0].strip()
-        print("")
-        print("Now running", function, "at", location)
-        print("")
-        inflow_Actions(function, officeID, location, startCal, endCal, useLimits_ON, freezeRain_ON)
+    # Commands are a dict of location -> list of (method, extra_args)
+    # pairs to run there, in order. `method` is the real inflowCalc method
+    # reference; `extra_args` is whatever it needs after (officeID,
+    # location). Locations/actions can be commented out or removed as
+    # needed.
+    actions = {
+        "Beaver_Dam": [
+            (inflowCalc.computeInflow, (startDate, endDate)),
+            (inflowCalc.cloneInflows, (startDate,)),
+            (inflowCalc.autoAdjust, (startDate, useLimits_ON, freezeRain_ON)),
+        ],
+        "Table_Rock_Dam": [
+            (inflowCalc.computeInflow, (startDate, endDate)),
+            (inflowCalc.cloneInflows, (startDate,)),
+            (inflowCalc.autoAdjust, (startDate, useLimits_ON, freezeRain_ON)),
+        ],
+        "Bull_Shoals_Dam": [
+            (inflowCalc.computeInflow, (startDate, endDate)),
+            (inflowCalc.cloneInflows, (startDate,)),
+            (inflowCalc.autoAdjust, (startDate, useLimits_ON, freezeRain_ON)),
+        ],
+        "Norfork_Dam": [
+            (inflowCalc.computeInflow, (startDate, endDate)),
+            (inflowCalc.cloneInflows, (startDate,)),
+            (inflowCalc.autoAdjust, (startDate, useLimits_ON, freezeRain_ON)),
+        ],
+        "GreersFerry_Dam": [
+            (inflowCalc.computeInflow, (startDate, endDate)),
+            (inflowCalc.cloneInflows, (startDate,)),
+            (inflowCalc.autoAdjust, (startDate, useLimits_ON, freezeRain_ON)),
+        ],
+    }
+
+    for location, calls in actions.items():
+        for method, extra_args in calls:
+            print("")
+            print("Now running", method.__name__, "at", location)
+            print("")
+            try:
+                method(officeID, location, *extra_args)
+            except Exception as e:
+                print("Error Completing action {0} at {1} {2}".format(method.__name__, officeID, location))
+                print(e)
+                print("")
 
 
 if __name__ == "__main__":
