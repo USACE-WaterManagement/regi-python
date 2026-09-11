@@ -37,12 +37,6 @@ import pytest
 
 pytestmark = [
     pytest.mark.integration,
-    pytest.mark.skip(
-        reason="EUFA.Opening.Inst.0.0.MANUAL (the calc's input association ts) "
-        "has no seeded point data, and EUFA's only seeded gate-change history "
-        "falls outside the June 2026 calculation window used elsewhere -- see "
-        "module docstring for exactly what's needed to unskip."
-    ),
 ]
 
 OFFICE_ID = "SWT"
