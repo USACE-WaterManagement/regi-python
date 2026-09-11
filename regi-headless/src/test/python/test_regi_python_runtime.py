@@ -98,11 +98,15 @@ def _install_fake_java_modules(
     factories_module = types.ModuleType("usace.rowcps.regi.factories")
     factories_module.RowcpsExecutorService = FakeExecutorService
 
+    executor_module = types.ModuleType("usace.rowcps.regi.executor")
+    executor_module.RowcpsExecutorHandler = FakeExecutorService
+
     concurrent_module = types.ModuleType("java.util.concurrent")
     concurrent_module.TimeUnit = types.SimpleNamespace(MILLISECONDS="MILLISECONDS")
 
     monkeypatch.setitem(sys.modules, "usace.rowcps.headless", headless_module)
     monkeypatch.setitem(sys.modules, "usace.rowcps.regi.factories", factories_module)
+    monkeypatch.setitem(sys.modules, "usace.rowcps.regi.executor", executor_module)
     monkeypatch.setitem(sys.modules, "java.util.concurrent", concurrent_module)
 
     return domain, executor
