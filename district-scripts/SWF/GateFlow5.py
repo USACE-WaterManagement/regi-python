@@ -2,30 +2,32 @@ from regi_python import regi_session, run_headless
 
 
 def run_calculations(registry):
+    from datetime import datetime, timedelta, timezone
+    from zoneinfo import ZoneInfo
+
     # Java imports must happen after regi_session starts the JVM.
-    from java.util import Calendar
-    from java.util import TimeZone
     from usace.rowcps.headless import LoggingOptions
 
-    def compute_All_Flowgroups(officeID, location, startCal, endCal):
+
+    def compute_All_Flowgroups(officeID, location, start_date, end_date):
         # Takes in locations defined by user in group and computes all flow groups
         try:
-            gateCalc.computeAll(officeID, location, startCal.getTime(), endCal.getTime())
+            gateCalc.computeAll(officeID, location, start_date, end_date)
         except Exception as e:
             print("Error Computing all Flow Groups at {0} {1}".format(officeID, location))
             print(e)
             print('')
 
 
-    def compute_Single_Flowgroup(officeID, location, startCal, endCal, flowGroup):
+    def compute_Single_Flowgroup(officeID, location, start_date, end_date, flowGroup):
         try:
-            gateCalc.computeFlowGroup(officeID, location, startCal.getTime(), endCal.getTime(), "Flow.{0}.{1}".format(location, flowGroup))
+            gateCalc.computeFlowGroup(officeID, location, start_date, end_date, "Flow.{0}.{1}".format(location, flowGroup))
         except Exception as e:
             print("Error Computing Flow Group {0} at {1}".format(officeID, location))
             print(e)
             print('')
 
-        # #gateCalc.computeFlowGroup("SWF", "ACTT2",  startCal.getTime(), endCal.getTime(), "Flow.ACTT2.Pump_Out_Total")
+        # #gateCalc.computeFlowGroup("SWF", "ACTT2",  start_date, end_date, "Flow.ACTT2.Pump_Out_Total")
     # Description of: LoggingOptions.setDbMessageLevel(int level)
     #
     # Adds Time Series logging messages in the OracleTimeSeriesDaoImpl.  Recommended
@@ -65,30 +67,21 @@ def run_calculations(registry):
     # this retrieves a Gate Flow calculation object
     gateCalc = registry.getCalculation(1.0, "Gate Flow")
 
-    # Time zone must be set because the Solaris time zone is UTC
-    timeZone = TimeZone.getTimeZone("US/Central")
-    # the gate flow calculations requires a start and end time.
-    # here we create a java Calendar object that will be used to create the start Date
-    startCal = Calendar.getInstance(timeZone)
-    # startCal.clear()
-    startCal.add(Calendar.DAY_OF_MONTH, -8)
-    startCal.set(Calendar.HOUR_OF_DAY, 0)
-    startCal.set(Calendar.MINUTE, 0)
-    startCal.set(Calendar.SECOND, 0)
-    startCal.set(Calendar.MILLISECOND, 0)
-    # startCal.set(Calendar.YEAR, 2015)
-    # startCal.set(Calendar.MONTH, 9)
+    # Time zone must be set explicitly because the JVM's default timezone is
+    # UTC, not the district's local time.
+    central = ZoneInfo("America/Chicago")
 
-    # create a java Calendar object that will be used to create the end Date
-    endCal = Calendar.getInstance(timeZone)
-    # endCal.clear()
-    endCal.add(Calendar.DAY_OF_MONTH, 1)
-    endCal.set(Calendar.HOUR_OF_DAY, 0)
-    endCal.set(Calendar.MINUTE, 0)
-    endCal.set(Calendar.SECOND, 0)
-    endCal.set(Calendar.MILLISECOND, 0)
-    # endCal.set(Calendar.YEAR, 2015)
-    # endCal.set(Calendar.MONTH, 11)
+    # start of the day 8 days ago, local midnight
+    start_date_dt = (datetime.now(central) - timedelta(days=8)).replace(
+        hour=0, minute=0, second=0, microsecond=0
+    )
+    # end of today: tomorrow's local midnight
+    end_date_dt = start_date_dt + timedelta(days=9)
+    # Dates can be adjusted with normal datetime arithmetic/replace, e.g.:
+    #   start_date_dt = start_date_dt.replace(year=2015, month=10)  # month is 1-indexed here
+
+    start_date = start_date_dt.astimezone(timezone.utc)
+    end_date = end_date_dt.astimezone(timezone.utc)
 
     officeID = "SWF"
 
@@ -98,7 +91,7 @@ def run_calculations(registry):
     # projectId
     # startDate
     # endDate
-    # gateCalc.computeFlowGroup("SWF", "LEWT2",  startCal.getTime(), endCal.getTime(), "Flow.LEWT2.ConduitGate_Total")
+    # gateCalc.computeFlowGroup("SWF", "LEWT2",  start_date, end_date, "Flow.LEWT2.ConduitGate_Total")
     # By setting the following parameter to True, the following flow groups in the list FlowGroupList will all be calculated. Items can be commented out
     # or commented back in individually. To turn this option off, set the following parameter to False. User can determine which flow group they want to calculate
 
@@ -189,10 +182,10 @@ def run_calculations(registry):
     if calculateAllFlowGroups:
         for location in FlowGroupList:
             print("Now Running", location, "GROUP")
-            compute_All_Flowgroups(officeID, location, startCal, endCal)
+            compute_All_Flowgroups(officeID, location, start_date, end_date)
 
-    compute_Single_Flowgroup(officeID, "JSPT2", startCal, endCal, "Turbine1")
-    compute_Single_Flowgroup(officeID, "JSPT2", startCal, endCal, "Turbine2")
+    compute_Single_Flowgroup(officeID, "JSPT2", start_date, end_date, "Turbine1")
+    compute_Single_Flowgroup(officeID, "JSPT2", start_date, end_date, "Turbine2")
 
 
     #if calculateSingleFlowGroups:

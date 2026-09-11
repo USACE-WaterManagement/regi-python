@@ -2,11 +2,12 @@ from regi_python import regi_session, run_headless
 
 
 def run_calculations(registry):
+    from datetime import datetime, timedelta, timezone
+    from zoneinfo import ZoneInfo
+
     # Java imports must happen after regi_session starts the JVM.
-    # the java Calendar class is used to create java Date objects
-    from java.util import Calendar
-    from java.util import TimeZone
     from usace.rowcps.headless import LoggingOptions
+
 
     # Description of: LoggingOptions.setDbMessageLevel(int level)
     #
@@ -43,31 +44,16 @@ def run_calculations(registry):
     # this gets a scriptable Pool Percent object
     inflowCalc = registry.getCalculation(1.0, "Inflow")
 
-    # configure the start calendar'
-    #startCal = Calendar.getInstance(TimeZone.getTimeZone('US/Central'))
-    timeZone = TimeZone.getTimeZone("US/Central")
-
-    #startCal.clear()
-    #startCal.set(Calendar.YEAR, 2015)
-    #startCal.set(Calendar.MONTH, 4)
-
-    startCal = Calendar.getInstance(timeZone)
-    startCal.add(Calendar.DAY_OF_MONTH, -7)
-    startCal.set(Calendar.HOUR_OF_DAY, 0)
-    startCal.set(Calendar.MINUTE, 0)
-    startCal.set(Calendar.SECOND, 0)
-    startCal.set(Calendar.MILLISECOND, 0)
-
-    endCal = Calendar.getInstance(timeZone)
-    endCal.add(Calendar.DAY_OF_MONTH, 1)
-    endCal.set(Calendar.HOUR_OF_DAY, 0)
-    endCal.set(Calendar.MINUTE, 0)
-    endCal.set(Calendar.SECOND, 0)
-    endCal.set(Calendar.MILLISECOND, 0)
+    # Time zone must be set explicitly because the JVM's default timezone is
+    # UTC, not the district's local time.
+    central = ZoneInfo("America/Chicago")
+    today_midnight = datetime.now(central).replace(hour=0, minute=0, second=0, microsecond=0)
 
     officeID = "SWL"
-    startDate = startCal.getTime()
-    endDate = endCal.getTime()
+    # start: 7 days ago, at midnight
+    startDate = (today_midnight - timedelta(days=7)).astimezone(timezone.utc)
+    # end: tomorrow, at midnight
+    endDate = (today_midnight + timedelta(days=1)).astimezone(timezone.utc)
 
     # inflowCalc contains 4 callable methods:
     # autoAdjust

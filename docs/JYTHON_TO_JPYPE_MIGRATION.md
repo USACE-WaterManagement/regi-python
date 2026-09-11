@@ -48,20 +48,25 @@ from regi_python import regi_session, run_headless
 
 
 def run_calculations(registry):
-    from java.util import Calendar
-    from java.util import TimeZone
+    from datetime import datetime, timezone
+    from zoneinfo import ZoneInfo
 
     gateCalc = registry.getCalculation(1.0, "Gate Flow")
-    timeZone = TimeZone.getTimeZone("US/Central")
-    startCal = Calendar.getInstance(timeZone)
-    endCal = Calendar.getInstance(timeZone)
-    gateCalc.computeFlowGroup("SWT", "FOSS", startCal.getTime(), endCal.getTime(), "Flow.FOSS.Project_Total")
+
+    central = ZoneInfo("America/Chicago")
+    start_date = datetime(2015, 5, 1, tzinfo=central).astimezone(timezone.utc)
+    end_date = datetime(2015, 7, 1, tzinfo=central).astimezone(timezone.utc)
+    gateCalc.computeFlowGroup("SWT", "FOSS", start_date, end_date, "Flow.FOSS.Project_Total")
 
 
 if __name__ == "__main__":
     with regi_session():
         run_headless(run_calculations)
 ```
+
+Note that this example no longer imports anything from `java.util` at all. Date/time
+values are built entirely in Python and only cross into Java as plain `datetime`
+objects — see [Date and Time Handling](#date-and-time-handling) below.
 
 ## Translation Rules
 
@@ -114,6 +119,102 @@ if __name__ == "__main__":
     with regi_session():
         run_headless(run_calculations)
 ```
+
+### 7. Replace `java.util.Calendar`/`TimeZone` with `datetime`/`zoneinfo`
+
+Old scripts built `java.util.Date` objects with `Calendar.getInstance(TimeZone.getTimeZone(...))`.
+New scripts should build ordinary Python `datetime` objects with `zoneinfo.ZoneInfo` instead,
+and pass them straight into the Java call. See
+[Date and Time Handling](#date-and-time-handling) for the full pattern and the one
+timezone rule you must not skip.
+
+## Date and Time Handling
+
+The Scriptable calculation APIs (`ScriptableInflow`, `ScriptableGateSettings`,
+`ScriptableGateFlowCalc`) accept `java.time.Instant` parameters for start/end dates.
+(The old `java.util.Date`/`long` overloads still exist but are `@Deprecated` —
+prefer `Instant`.) JPype automatically converts a plain Python `datetime.datetime`
+into a Java `Instant` when the target parameter is declared as `Instant`, so **you
+do not need to construct any Java object yourself**. Build the date in Python and
+pass it directly:
+
+```python
+from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
+
+central = ZoneInfo("America/Chicago")
+start_date = datetime(2018, 8, 1, tzinfo=central).astimezone(timezone.utc)
+```
+
+### The one rule: always convert to UTC before calling into Java
+
+JPype's automatic `datetime -> Instant` conversion does **not** look at the
+`tzinfo` on the value you pass — it takes whatever wall-clock fields the datetime
+has and treats them as if they were already UTC. If you hand it a
+timezone-aware-but-not-UTC datetime directly, you will get the wrong instant with
+no error or warning:
+
+```python
+central = ZoneInfo("America/Chicago")
+midnight_central = datetime(2015, 5, 1, tzinfo=central)   # 2015-05-01 00:00 CDT == 2015-05-01 05:00 UTC
+
+gateCalc.computeAll("SWF", "LEWT2", midnight_central, end_date)   # WRONG: silently treated as 00:00 UTC, 5 hours off
+```
+
+Always call `.astimezone(timezone.utc)` on the value before it crosses into a
+Java call, as shown in every example in this document. Once a datetime's wall
+clock actually represents UTC, JPype's conversion is exact and this is the only
+step required — no epoch-millis math, no manual `Instant` construction.
+
+This is also why the timezone must always be given explicitly with
+`zoneinfo.ZoneInfo("America/Chicago")` (or whatever the district's local zone
+is) rather than left off. The JVM's own default timezone is UTC, not the
+district's local time — a naive `datetime.now()` or a `datetime` built without
+`tzinfo` has no way to know it should mean "Central time," and some
+scripts that called `Calendar.getInstance()` with no `TimeZone` argument were
+silently relying on whatever timezone the host machine happened to have
+configured. Always pass `tzinfo=` explicitly when constructing the date.
+
+### Building relative dates ("N days ago", "top of the hour", etc.)
+
+Most district scripts compute a date relative to "now" rather than a fixed date.
+Use `datetime.now(tz)` plus `timedelta` arithmetic, then `.replace(...)` to zero
+out whichever fields need truncating — this mirrors what `Calendar.add()` /
+`Calendar.set()` used to do, and is safe across DST transitions the same way:
+
+```python
+from datetime import datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
+
+central = ZoneInfo("America/Chicago")
+
+# "5 days ago at midnight" through "tomorrow at midnight"
+today_midnight = datetime.now(central).replace(hour=0, minute=0, second=0, microsecond=0)
+start_date = (today_midnight - timedelta(days=5)).astimezone(timezone.utc)
+end_date = (today_midnight + timedelta(days=1)).astimezone(timezone.utc)
+
+# "5 days ago at the top of the current hour" through "the top of the current hour"
+end_date_dt = datetime.now(central).replace(minute=0, second=0, microsecond=0)
+start_date_dt = end_date_dt - timedelta(days=5)
+start_date = start_date_dt.astimezone(timezone.utc)
+end_date = end_date_dt.astimezone(timezone.utc)
+```
+
+A couple of translation notes when porting the old `Calendar` field calls:
+
+| Old `Calendar` code | `datetime` equivalent |
+| --- | --- |
+| `cal.add(Calendar.DAY_OF_MONTH, -5)` | `dt - timedelta(days=5)` |
+| `cal.set(Calendar.HOUR_OF_DAY, 0)` + `MINUTE`/`SECOND`/`MILLISECOND` to `0` | `dt.replace(hour=0, minute=0, second=0, microsecond=0)` |
+| `cal.set(Calendar.MONTH, 4)` | `dt.replace(month=5)` — **`Calendar.MONTH` is 0-indexed** (4 == May); `datetime.month` is 1-indexed, so add 1 when porting a literal month value |
+| `cal.set(Calendar.HOUR, 0)` | Avoid porting this one directly — `Calendar.HOUR` is the 12-hour field and doesn't reliably mean midnight (it depends on the AM/PM already set on the calendar). Use `hour=0` on the `datetime`, which unambiguously means midnight. |
+
+### Using the `long` epoch-millis overloads
+
+`ScriptableGateFlowCalc.computeAll`/`computeFlowGroup` also has `long` (epoch
+milliseconds) overloads. These remain valid but are deprecated in favor of
+`Instant`; if you do need a raw millisecond value, get it from an
+already-UTC-normalized datetime: `int(start_date.timestamp() * 1000)`.
 
 ## Project-Specific Examples
 
