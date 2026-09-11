@@ -21,7 +21,7 @@ service-annotations = { module = "mil.army.usace.hec:service-annotations", versi
 serversuite = { module = "mil.army.usace.hec:hec-server-suite", version.ref = "hec-server-suite" }
 serversuite-cda = { module = "mil.army.usace.hec:cda-server-suite", version.ref = "hec-server-suite" }
 serversuite-jdbc = { module = "mil.army.usace.hec:jdbc-server-suite", version.ref = "hec-server-suite" }
-hec-db-cda = { module = "mil.army.usace.hec:hec-db-cda", version = "14.1.0" }
+hec-db-cda = { module = "mil.army.usace.hec:hec-db-cda", version = "14.6.0" }
 hec-cwms-ratings-cda = { module = "mil.army.usace.hec:hec-cwms-ratings-io-cda", version = "4.2.2"}
 
 # REGI Dependencies
