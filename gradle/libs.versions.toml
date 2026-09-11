@@ -13,7 +13,7 @@ jython-standalone = "2.7.2"
 args4j = "2.32"
 
 # Test
-junit = "6.1.0"
+junit = "6.1.1"
 
 [libraries]
 # HEC Dependencies
