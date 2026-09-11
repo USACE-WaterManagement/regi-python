@@ -9,7 +9,7 @@ regi-tools = "9.1.1"
 regi = "3.5.0-alpha001"
 
 # Third Party
-jython-standalone = "2.7.2"
+jython-standalone = "2.7.4"
 args4j = "2.32"
 
 # Test
