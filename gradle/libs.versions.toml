@@ -8,6 +8,8 @@ hec-server-suite = "8.5.1"
 regi-tools = "9.3.2"
 regi = "3.5.0-alpha001"
 
+netbeans-lookup = "RELEASE280"
+
 python = "3.11.15"
 conda = "26.3.2-2"
 pswidersk-python-plugin = "3.2.16"
@@ -32,6 +34,8 @@ regi-tools-regi-core = {module = "mil.army.wmist.regi-tools:regi-core", version.
 regi-tools-regi-data = {module = "mil.army.wmist.regi-tools:regi-data", version.ref = "regi-tools"}
 regi-tools-regi-dao = {module = "mil.army.wmist.regi-tools:regi-dao", version.ref = "regi-tools"}
 regi-tools-regi-cwms = {module = "mil.army.wmist.regi-tools:regi-cwms", version.ref = "regi-tools"}
+
+lookup = { module = "org.netbeans.api:org-openide-util-lookup", version.ref = "netbeans-lookup"}
 
 # Test
 junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
