@@ -3,7 +3,7 @@ import com.pswidersk.gradle.python.VenvTask
 plugins {
     id 'regi-headless.deps-conventions'
     id 'regi-headless.java-conventions'
-    id 'com.pswidersk.python-plugin' version '3.2.16'
+    id 'com.pswidersk.python-plugin' version '3.2.26'
 }
 
 dependencies {
