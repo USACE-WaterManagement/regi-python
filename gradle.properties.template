@@ -1,0 +1,20 @@
+
+# Set testcontainer.cwms.bypass.url to make :integration-tests:integrationTest
+# skip managing the CDA docker-compose stack (no start, no reseed, no stop)
+# and instead point tests at a stack you already brought up and seeded
+# yourself, e.g. http://localhost:7000/cwms-data/ -- its mere presence is
+# what enables the bypass, there's no separate on/off flag. This also avoids
+# compose.stop()'s forced Oracle reinit on every session teardown (see
+# integration-tests/README.md). Pair it with testcontainer.cwms.bypass.apiKey,
+# the API key your already-running stack was seeded with.
+#testcontainer.cwms.bypass.url=
+#testcontainer.cwms.bypass.apiKey=
+
+# Set to make :integration-tests:integrationTest start the embedded REGI JVM
+# with a JDWP agent listening on this port, so IntelliJ's "Remote JVM Debug"
+# can attach to it (see integration-tests/README.md). Comment out/remove to
+# disable -- suspend=y means the JVM (and so the whole test session) blocks
+# at startup until a debugger attaches.
+#regiHeadless.debug.port=5005
+#regiHeadless.debug.suspend=y
+

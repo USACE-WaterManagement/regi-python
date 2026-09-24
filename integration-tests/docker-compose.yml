@@ -1,0 +1,100 @@
+services:
+  db:
+    image: ghcr.io/hydrologicengineeringcenter/cwms-database/cwms/database-ready-ora-23.5:26.07.16-RC02
+    environment:
+      - ORACLE_PASSWORD=badSYSpassword
+      - CWMS_PASSWORD=simplecwmspasswD1
+      - OFFICE_ID=HQ
+      - OFFICE_EROC=s0
+    ports: [ "1526:1521" ]
+    healthcheck:
+      test: [ "CMD", "tnsping", "FREEPDB1" ]
+      interval: 30s
+      timeout: 50s
+      retries: 50
+      start_period: 40m
+
+  db_webuser_permissions:
+    image: ghcr.io/hydrologicengineeringcenter/cwms-database/cwms/schema_installer:latest-dev
+    restart: "no"
+    environment:
+      - DB_HOST_PORT=db:1521
+      - DB_NAME=/FREEPDB1
+      - CWMS_PASSWORD=simplecwmspasswD1
+      - SYS_PASSWORD=badSYSpassword
+      - OFFICE_ID=HQ
+      - OFFICE_EROC=s0
+      - INSTALLONCE=1
+      - QUIET=1
+    command: >
+      sh -xc "sqlplus CWMS_20/$$CWMS_PASSWORD@$$DB_HOST_PORT$$DB_NAME @/setup_sql/users
+      $$OFFICE_EROC"
+    volumes: [ ./compose_files/sql:/setup_sql:ro ]
+    depends_on:
+      db:
+        condition: service_healthy
+
+  data-api:
+    image: ghcr.io/usace/cwms-data-api:${CDA_DATA_API_VERSION:-latest}
+    depends_on:
+      db:
+        condition: service_healthy
+      db_webuser_permissions:
+        condition: service_completed_successfully
+    restart: unless-stopped
+    environment:
+      - APP_PORT=${CDA_PORT:-7000}
+      - JAVA_OPTS=-Dorg.apache.tomcat.util.buf.UDecoder.ALLOW_ENCODED_SLASH=true
+      - CDA_JDBC_DRIVER=oracle.jdbc.driver.OracleDriver
+      - CDA_JDBC_URL=jdbc:oracle:thin:@db/FREEPDB1
+      - CDA_JDBC_USERNAME=s0webtest
+      - CDA_JDBC_PASSWORD=simplecwmspasswD1
+      - CDA_POOL_INIT_SIZE=5
+      - CDA_POOL_MAX_ACTIVE=10
+      - CDA_POOL_MAX_IDLE=5
+      - CDA_POOL_MIN_IDLE=2
+      - cwms.dataapi.access.provider=KeyAccessManager
+      - cwms.dataapi.access.providers.surpress=OpenIDConnect
+    ports:
+      - "${CDA_PORT:-7000}:7000"
+    healthcheck:
+      test: ["CMD", "/usr/bin/curl", "-I", "localhost:7000/cwms-data/offices/HEC"]
+      interval: 5s
+      timeout: 1s
+      retries: 100
+      start_period: 2s
+
+  cda-expander:
+    image: cwms-data-api/etl
+    command: >
+      sh -c '
+      if [ -n "$$SOURCE_CDA_URL" ]; then
+        python -m cda_expander --base "$$ETL_BASE_CONFIG_PATH" --templates "$$ETL_TEMPLATES_PATH" --out "$$ETL_CONFIG_PATH";
+      else
+        echo "SOURCE_CDA_URL not set - skipping expander, using existing config as-is";
+      fi'
+    volumes:
+      - ./compose_files/regi-data:/data/sample-data
+      - ../cda-etl-expander/src/python/cda-etl-expander:/app/cda_expander
+    environment:
+      - PYTHONPATH=/app
+      - ETL_CONFIG_PATH=/data/sample-data/regi.generated.yml
+      - ETL_BASE_CONFIG_PATH=/data/sample-data/regi.yml
+      - ETL_TEMPLATES_PATH=/data/sample-data/regi.templates.yml
+      - SOURCE_CDA_URL=${SOURCE_CDA_URL:-}
+      - SOURCE_CDA_API_KEY=${SOURCE_CDA_API_KEY:-}
+
+  cda-etl:
+    image: cwms-data-api/etl
+    profiles: ["seed"]
+    depends_on:
+      data-api:
+        condition: service_healthy
+    volumes:
+      - ./compose_files/regi-data:/data/regi-data
+    environment:
+      - ETL_CONFIG_PATH=/data/regi-data/regi.generated.yml
+      - SOURCE_CDA_URL=${SOURCE_CDA_URL:-}
+      - SOURCE_CDA_API_KEY=${SOURCE_CDA_API_KEY:-}
+      - DEST_CDA_URL=${DEST_CDA_URL:-http://data-api:7000/cwms-data/}
+      - DEST_CDA_API_KEY=${CWMS_TEST_API_KEY:-ak1_SZUNxN3nDx0NpUfOJxpOuGqbqRKdYjbx86x6YVISLb9DiBi3Io5o6T6UFvkHknjIRnRO6oQfA1q6rP4XRDYMH9Hlr4ndffL6NjxPUaBZLSnqukV0uGuZKOUWBB04L5SyloJniOHkFe6ymvB9tzeziGYwzrDv3k6lzacG9vftHkCHB1QbjwwCC0sDkFvuwCe9qnyx5us11qL0YAfKXhe0fBCA2TmNDz8WXfw1HfBnAKx6WD7KqHngplWu4miOvkNverxFmAdJ}
