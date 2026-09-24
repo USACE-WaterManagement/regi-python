@@ -12,6 +12,7 @@ dependencies {
     implementation(libs.bundles.regi) {artifact {extension = "jar"}}
     implementation(libs.bundles.regi.tools)
     implementation(libs.bundles.regi.tools) {artifact {extension = "jar"} }
+    implementation(libs.lookup)
     runtimeOnly(libs.hec.cwms.ratings.cda)
 
     testImplementation(libs.bundles.junit.api)
@@ -19,6 +20,7 @@ dependencies {
 }
 
 configurations.configureEach {
+    exclude group: 'mil.army.usace.hec', module: 'lookup'
     exclude group: 'mil.army.usace.hec', module: 'hec-cwmsvue'
     exclude group: 'mil.army.usace.hec', module: 'hec-gt-crs'
     exclude group: 'org.openjfx', module: '*'

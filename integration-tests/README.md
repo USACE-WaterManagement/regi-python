@@ -191,51 +191,105 @@ verifying its output is correct -- then freezing *that* as the
 
 ### Current coverage
 
-- **Inflow** (`test_inflow_calc.py`): fully implemented, following the
-  pattern above. `cwms.get_timeseries()`'s default unit system (`unit="EN"`)
-  is assumed to already match the seeded data's units (`cfs`) with no
-  conversion, and `autoAdjust`'s behavior at the edges of its input period of
-  record is unconfirmed. Blocked from actually running end-to-end by the
-  `regi_jvm` login issue below.
-- **Gate Flow** (`test_gate_flow_calc.py`): fully implemented. EUFA now has
-  real outlets/turbines/gate-changes and a `Flow.EUFA.Project_Total` location
-  group seeded, and `computeFlowGroup`'s real output ts id was confirmed
-  against a live seeded stack: `EUFA.Flow-Res Out.Ave.~1Day.1Day.Rev-Regi-Flowgroup`
-  (parameter "Flow-Res Out", version "Rev-Regi-Flowgroup" -- the flow-group
-  analog of Inflow's "Regi-Rev-Adjusted"). The `REGI-Test-Expected` reference
-  was frozen from that series' own already-seeded values. Also blocked from
-  running end-to-end by the `regi_jvm` login issue below.
+- **Inflow** (`test_inflow_calc.py`): fully implemented and passing
+  end-to-end against a live seeded stack. `cwms.get_timeseries()`'s default
+  unit system (`unit="EN"`) is assumed to already match the seeded data's
+  units (`cfs`) with no conversion, and `autoAdjust`'s behavior at the edges
+  of its input period of record is unconfirmed. Its `REGI-Test-Expected`
+  reference (`EUFA.Flow-Res In.Ave.~1Day.1Day.REGI-Test-Expected`) has a seed
+  file under `compose_files/regi-data/SWT/Timeseries/`, but was missing from
+  `regi.yml`'s (and `regi.generated.yml`'s) EUFA `timeseries:` list, so
+  `cda-etl` never loaded it -- that 404 on the expected series is what made
+  the test fail. Fixed by adding it to both files.
+- **Gate Flow** (`test_gate_flow_calc.py`): `Project_Total`, `Gated_Total`,
+  and `Turbine_Total` are all implemented and passing end-to-end. EUFA now
+  has real outlets/turbines/gate-changes and `Flow.EUFA.*` location groups
+  seeded, and each flow group's real output ts id was confirmed against a
+  live seeded stack (`EUFA.Flow-Res Out...Rev-Regi-Flowgroup` for
+  Project_Total, `EUFA.Flow-Controlled...Rev-Regi-Flowgroup` for Gated_Total,
+  `EUFA.Flow-Power...Rev-Regi-Flowgroup` for Turbine_Total -- all version
+  "Rev-Regi-Flowgroup", the flow-group analog of Inflow's "Regi-Rev-Adjusted").
+  Gated_Total and Turbine_Total's output ts's already had real point data
+  seeded for the June 2026 comparison window (Gated_Total's happens to be all
+  zero -- gates were closed that week, which is real history, not a
+  placeholder); their `REGI-Test-Expected` references were frozen from those
+  already-seeded values the same way Project_Total's was, and both entries
+  were added to `regi.yml`/`regi.generated.yml`. `Uncontrolled_Total` stays
+  skipped: its CLOB has a genuinely empty `<time_series_set/>` -- EUFA has no
+  uncontrolled-spillway structure at all (no rating for one, unlike e.g.
+  FCOB), so there's nothing for `computeFlowGroup` to write, not a seeding
+  gap.
 - **Gate Settings** (`test_gate_settings_calc.py`): scaffolded but still
-  `pytest.mark.skip`'d, with a corrected design. Source inspection of
-  `ScriptableGateSettingsImpl` (in :regi-headless) shows `createGateSettingsOutlet`
-  does *not* write a plain timeseries at all -- it persists real CWMS
-  gate-change records (fetchable via `cwms.get_all_gate_changes`), not an
-  "Opening"-parameter ts. The test now targets that shape and is parametrized
-  over `EUFA-SG1`/`EUFA-TG1` (both now real seeded outlets). It stays skipped
-  because `EUFA.Opening.Inst.0.0.MANUAL` (the calc's input) has no seeded
-  point data, and EUFA's only seeded gate-change history (mid/late July 2026)
-  doesn't overlap the June 2026 window every other test here uses -- see the
-  test's module docstring for exactly what's needed to unskip it.
+  `pytest.mark.skip`'d. Source inspection of `ScriptableGateSettingsImpl` (in
+  :regi-headless) shows `createGateSettingsOutlet` does *not* write a plain
+  timeseries at all -- it persists real CWMS gate-change records (fetchable
+  via `cwms.get_all_gate_changes`), not an "Opening"-parameter ts. Getting it
+  to resolve an outlet at all against a live stack took two real fixes: (1)
+  `regi.yml`/`regi.generated.yml`'s `locationGroups:` entries for
+  `EUFA-SluiceGate`/`EUFA-TainterGate` were tagged `categoryId: Flow` instead
+  of `categoryId: Rating`, so `cda-etl` never staged the already-seeded
+  `LocationGroups/Rating.json` assignments into CDA under the Rating category
+  that `GateSettingsDataAdapter.getGateObjects()` (in `regi/computation`, not
+  vendored here) requires -- fixed by correcting both entries' `categoryId`;
+  (2) `IControlledOutletGroupContainer.getOutletMap()` turned out to be keyed
+  by each outlet's bare sub-location name (`SG1`, `TG1`), not CDA's
+  fully-qualified id (`EUFA-SG1`) -- `createGateSettingsOutlet` needs the
+  short form, confirmed via temporary diagnostic logging. With both fixed,
+  the outlet resolves and the calculation runs, but this test's own
+  `cwms.get_all_gate_changes` query for the June 2026 window 404s: EUFA's
+  only seeded gate-change history (`GateChanges/EUFA.json`) is mid/late July
+  2026, so there's no head-of-record to bracket the June window against. An
+  alternate project (WEBB, which does have real June gate-change history for
+  `WEBB-TG1`) was tried but hit its own gap -- its
+  `Opening-Spillway_Gates` rating spec's extents can't be determined, so its
+  outlet group gets skipped the same way EUFA's did before fix (1). No
+  project in this seed dataset currently has both a resolvable Rating-category
+  outlet group and gate-change history covering June 2026, so the test stays
+  skipped rather than fabricating gate-change history this repo has no
+  authority to invent -- see the test's module docstring for both traces and
+  what would unskip it.
 
-## Notes / things verified (and one still-open issue) against the real images
+## Notes / things verified against the real images
 
 - The API-key header format in `conftest.py`'s `cda_client` fixture
   (`Authorization: apikey <key>`) is confirmed correct against a real running
   `ghcr.io/usace/cwms-data-api` instance -- both `cda_client`'s raw REST calls
   and `cwms_session`'s `cwms.init_session(api_key=...)` work as documented.
-- **Open issue**: `regi_jvm`/`run_regi_calculation` (i.e. any real
-  `run_headless()` call) currently fails before running any calculation.
-  `HeadlessRegiDomainFactory.createDomain()`'s login (`ServerSuiteUtil.login`
-  -> `GET /cwms-data/user/profile`) gets back `401 {"message":"No credentials
-  provided."}` even though the exact same `CDA_API_KEY` value works for every
-  other call path (cda-etl, cwms-python, raw `curl` with the `apikey` header).
-  This points at the compiled `mil.army.usace.hec.serversuite.cda.*` client
-  classes not attaching the key for that specific request, not at the seeded
-  data or this repo's own config -- needs someone with visibility into that
-  library (or a newer/older version of it) to chase further. Until it's
-  fixed, none of the calculation tests here can actually execute past
-  `run_regi_calculation`, even though their CDA-side setup (seed data,
-  fixtures, comparison logic) is confirmed correct independently.
+- The `regi_jvm` login issue previously documented here (`ServerSuiteUtil.login`
+  getting back `401 {"message":"No credentials provided."}`) is resolved --
+  `run_regi_calculation` now logs in and runs real calculations end-to-end
+  against a live seeded stack (confirmed via `test_inflow_calc.py` and
+  `test_gate_flow_calc.py`).
+- **Resolved**: `run_regi_calculation` used to leave the pytest process
+  hanging indefinitely during JVM teardown after all assertions had already
+  passed. A thread dump showed no calculation thread active -- the JVM was
+  idle except for an "Active Reference Queue Daemon" thread spinning in a
+  tight loop (`rma.util.lookup.implspi.ActiveQueue$Impl.remove`),
+  continuously constructing and discarding `InterruptedException`s. The
+  `update to netbeans lookup` commit that moved `:regi-headless`'s own
+  `@ServiceProvider` classes from `rma.services.annotations` to
+  `org.openide.util.lookup` didn't fix this: `mil.army.usace.hec:lookup:2.0`
+  (the old standalone `rma.util.lookup` implementation, containing the buggy
+  `ActiveQueue$Impl`) is still pulled in transitively via
+  `hec-nucleus-*`/`cwms-db-dao`, sits on the classpath alongside
+  `mil.army.usace.hec:lookup-compat:4.0.0` (a newer shim that delegates the
+  same `rma.util.lookup.Lookup`/`Lookups` API to `org.openide.util.lookup`
+  instead), and -- because of classpath-wildcard jar ordering -- kept winning
+  the race for the `rma.util.lookup.Lookup` class. Any HEC code still calling
+  into `rma.util.lookup.*` (e.g. `ServerSuiteUtil.login`) got the buggy
+  implementation regardless of what `:regi-headless`'s own code used.
+  Fixed by excluding `mil.army.usace.hec:lookup` in
+  `regi-headless/build.gradle`'s `configurations.configureEach` block, so
+  `lookup-compat` is the only remaining provider of that class. Verified via
+  an isolated JVM repro (the spinning thread is gone, `rma.util.lookup.Lookup`
+  now resolves from `lookup-compat-4.0.0.jar`) and end-to-end: `test_inflow_calc.py`
+  now passes and exits immediately (no teardown hang), where before this exact
+  scenario was documented to hang. One caught, non-fatal side effect: without
+  the old jar, `ServerSuiteUtil.login`'s call into `rma.util.lookup.Lookups.forPath`
+  now falls through to `org.openide.util`'s `NamedServicesProvider`, which logs a
+  caught `NoClassDefFoundError` (`org/netbeans/core/startup/Main` -- expected,
+  since `org.netbeans.modules` is deliberately excluded from this project) as a
+  WARNING; login still succeeds.
 - `db`'s healthcheck has a 40-minute `start_period` (matches the upstream CDA
   compose file) because first-time Oracle initialization is slow; the first
   run in a fresh environment will be slow. Subsequent `docker compose up`s
@@ -243,6 +297,13 @@ verifying its output is correct -- then freezing *that* as the
   **but a `docker compose down` (or a testcontainers-driven teardown, which
   defaults to this) throws that baked-in state away**, since `db` has no
   persistent volume; expect a full ETL reseed after any teardown.
+- When running directly with `pytest` (bypassing the `integrationTest` Gradle
+  task), `regi_python`'s embedded JVM picks up whatever `java` is on `PATH`
+  unless `JAVA_HOME` points at a JDK new enough for the compiled classes
+  (JDK 21 as of this writing) -- otherwise `regi_session()` fails with
+  `UnsupportedClassVersionError`/`ImportError` before running anything. The
+  Gradle task sets this up via a JDK toolchain automatically; a direct
+  `pytest` invocation needs `JAVA_HOME` set by hand.
 - `data-api` has intermittently stopped routing requests correctly (`GET`s to
   real endpoints return the SPA's `index.html` with a 404 status) after
   running for a while, with no corresponding error in its own logs; a plain

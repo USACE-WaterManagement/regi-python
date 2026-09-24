@@ -81,42 +81,24 @@ offices:
     - id: KEYS.Elev;Stor.Linear.Production
       por: true
     timeseries:
-    - id: KEYS.Opening-Spillway_Gates.Inst.0.0.MANUAL
-    - id: KEYS.Opening.Inst.0.0.MANUAL
     - id: KEYS.Evap.Total.~1Day.1Day.Ccp-Rev
     - id: KEYS.Code-Evap Type.Total.~1Day.1Day.Ccp-Rev
     - id: KEYS.Precip-Inc.Total.~1Day.1Day.Ccp-Rev
-    - id: KEYS.Flow-Navigation Out.Total.~1Day.1Day.Rev-Regi-Computed
-    - id: KEYS.Count-Lockages.Total.~1Day.1Day.Rev-Manual
-    - id: KEYS.Text.Inst.~1Day.0.Wcds-Rev
-    - id: KEYS.Elev.Inst.1Hour.0.Decodes-Raw
     - id: KEYS.Elev.Inst.1Hour.0.Ccp-Rev
-    - id: KEYS.Elev-Tailwater.Inst.1Hour.0.Decodes-Raw
     - id: KEYS.Elev-Tailwater.Inst.1Hour.0.Ccp-Rev
-    - id: KEYS.Stor.Inst.1Hour.0.Ccp-Raw
     - id: KEYS.Stor.Inst.1Hour.0.Ccp-Rev
-    - id: KEYS.Flow-Res In.Ave.~1Day.1Day.Copied-Ccp-Adjusted
     - id: KEYS.Temp-Air.Inst.1Hour.0.Ccp-Rev
     - id: KEYS.Precip-Mean Areal.Total.~1Day.1Day.Metvue-Computed
-    - id: KEYS.Flow-Res In.Ave.1Hour.1Hour.Regi-Rev-Computed
     - id: KEYS.Precip-Inc.Total.1Hour.1Hour.Ccp-Rev
     - id: KEYS.%-Humidity.Inst.1Hour.0.Ccp-Rev
     - id: KEYS.Dir-Wind.Inst.1Hour.0.Ccp-Rev
     - id: KEYS.Speed-Wind.Inst.1Hour.0.Ccp-Rev
     - id: KEYS.Flow-Res In.Ave.~1Day.1Day.Regi-Rev-Adjusted
     - id: KEYS.Flow-Res Out.Ave.~1Day.1Day.Rev-Regi-Flowgroup
-    - id: KEYS.Flow-Res In.Ave.~1Day.1Day.Regi-Rev-Computed
-    - id: KEYS.Flow-Net Pumpage.Ave.1Day.1Day.Regi-Rev-Flowgroup
-    - id: KEYS.Precip-Alt.Total.1Day.1Day.Decodes-Raw
     - id: KEYS.Dir-Wind.Inst.1Hour.0.Decodes-Raw
-    - id: KEYS.Dir-Wind Alt.Inst.1Hour.0.Ccp-Rev
     - id: KEYS.Speed-Wind.Inst.1Hour.0.Decodes-Raw
-    - id: KEYS.Speed-Wind Alt.Inst.1Hour.0.Ccp-Rev
-    - id: KEYS.Code-Lake Condition.Inst.1Day.0.Wcds-Obs
-    - id: KEYS.Evap-Pan.Total.1Day.0.wcds-obs
     - id: KEYS.Temp-Air.Inst.1Hour.0.Decodes-Raw
     - id: KEYS.%-Humidity.Inst.1Hour.0.Decodes-Raw
-    - id: KEYS.Code-Weather Condition.Inst.1Day.0.Wcds-Obs
     - id: KEYS.Flow-Controlled.Ave.1Hour.1Hour.Rev-Regi-Flowgroup
     - id: KEYS.Flow-Controlled.Inst.1Hour.0.Rev-Regi-Flowgroup
     - id: KEYS.Flow-Res Out.Ave.1Hour.1Hour.Rev-Regi-Flowgroup
@@ -132,6 +114,8 @@ offices:
     enabled: true
     locations:
     - id: EUFA-Dam
+    - id: EUFA-SG1
+    - id: EUFA-TG1
     outlets:
     - id: EUFA-SG1
     - id: EUFA-TG1
@@ -176,20 +160,14 @@ offices:
       por: true
     timeseries:
     - id: EUFA.Opening.Inst.0.0.MANUAL
+    - id: EUFA-SG1.Opening-Sluice_Gates.Inst.0.0.MANUAL
+    - id: EUFA-TG1.Opening-Spillway_Gates.Inst.0.0.MANUAL
     - id: EUFA.Dir-Wind.Inst.1Hour.0.Ccp-Rev
     - id: EUFA.Speed-Wind.Inst.1Hour.0.Ccp-Rev
-    - id: EUFA.Flow-Navigation Out.Total.~1Day.1Day.Rev-Regi-Computed
-    - id: EUFA.Count-Lockages.Total.~1Day.1Day.Rev-Manual
-    - id: EUFA.Text.Inst.~1Day.0.Wcds-Rev
-    - id: EUFA.Elev.Inst.1Hour.0.Decodes-Raw
     - id: EUFA.Elev.Inst.1Hour.0.Ccp-Rev
-    - id: EUFA.Elev-Tailwater.Inst.1Hour.0.Decodes-Raw
     - id: EUFA.Elev-Tailwater.Inst.1Hour.0.Ccp-Rev
-    - id: EUFA.Stor.Inst.1Hour.0.Ccp-Raw
     - id: EUFA.Stor.Inst.1Hour.0.Ccp-Rev
-    - id: EUFA.Flow-Res In.Ave.~1Day.1Day.Copied-Ccp-Adjusted
     - id: EUFA.Temp-Air.Inst.1Hour.0.Ccp-Rev
-    - id: EUFA.Flow-Res In.Ave.1Hour.1Hour.Regi-Rev-Computed
     - id: EUFA.Precip-Inc.Total.1Hour.1Hour.Ccp-Rev
     - id: EUFA.%-Humidity.Inst.1Hour.0.Ccp-Rev
     - id: EUFA.Flow-Res In.Ave.~1Day.1Day.Regi-Rev-Adjusted
@@ -197,28 +175,18 @@ offices:
     - id: EUFA.Flow-Res Out.Ave.~1Day.1Day.Rev-Regi-Flowgroup
     - id: EUFA.Flow-Res Out.Ave.~1Day.1Day.REGI-Test-Expected
     - id: EUFA.Precip-Mean Areal.Total.~1Day.1Day.Metvue-Computed
-    - id: EUFA.Flow-Res In.Ave.~1Day.1Day.Regi-Rev-Computed
-    - id: EUFA.Flow-Net Pumpage.Ave.1Day.1Day.Regi-Rev-Flowgroup
     - id: EUFA.Evap.Total.~1Day.1Day.Ccp-Rev
     - id: EUFA.Precip-Inc.Total.~1Day.1Day.Ccp-Rev
-    - id: EUFA.Precip-Alt.Total.1Day.1Day.Decodes-Raw
     - id: EUFA.Dir-Wind.Inst.1Hour.0.Decodes-Raw
-    - id: EUFA.Dir-Wind Alt.Inst.1Hour.0.Ccp-Rev
     - id: EUFA.Speed-Wind.Inst.1Hour.0.Decodes-Raw
-    - id: EUFA.Speed-Wind Alt.Inst.1Hour.0.Ccp-Rev
-    - id: EUFA.Code-Lake Condition.Inst.1Day.0.Wcds-Obs
-    - id: EUFA.Evap-Pan.Total.1Day.0.wcds-obs
     - id: EUFA.Temp-Air.Inst.1Hour.0.Decodes-Raw
     - id: EUFA.Code-Evap Type.Total.~1Day.1Day.Ccp-Rev
     - id: EUFA.%-Humidity.Inst.1Hour.0.Decodes-Raw
-    - id: EUFA.Code-Weather Condition.Inst.1Day.0.Wcds-Obs
     - id: EUFA.Flow-Controlled.Ave.1Hour.1Hour.Rev-Regi-Flowgroup
     - id: EUFA.Flow-Controlled.Ave.1Hour.1Hour.REGI-Test-Expected
     - id: EUFA.Flow-Controlled.Inst.1Hour.0.Rev-Regi-Flowgroup
     - id: EUFA.Flow-Res Out.Ave.1Hour.1Hour.Rev-Regi-Flowgroup
     - id: EUFA.Flow-Res Out.Inst.1Hour.0.Rev-Regi-Flowgroup
-    - id: EUFA.Flow-SluiceGates.Inst.1Hour.0.Rev-Regi-Flowgroup
-    - id: EUFA.Flow-TainterGates.Inst.1Hour.0.Rev-Regi-Flowgroup
     - id: EUFA.Flow-Power.Ave.~1Day.1Day.Rev-Regi-Flowgroup
     - id: EUFA.Flow-Power.Ave.1Hour.1Hour.Rev-Regi-Flowgroup
     - id: EUFA.Flow-Power.Ave.1Hour.1Hour.REGI-Test-Expected
@@ -270,46 +238,28 @@ offices:
     - id: FCOB.Count-Conduit_Gates,Opening-Conduit_Gates,Elev;Flow-Conduit_Gates.Standard.Production
       por: true
     timeseries:
-    - id: FCSO2.Temp-Air.Inst.1Hour.0.Raw-Mesonet
-    - id: FCSO2.%-Humidity.Ave.1Hour.1Hour.Raw-Mesonet
     - id: FCSO2.Dir-Wind.Ave.1Hour.1Hour.Raw-Mesonet
     - id: FCSO2.Speed-Wind.Ave.1Hour.1Hour.Raw-Mesonet
-    - id: FCSO2.Dir-Wind.Inst.1Hour.0.Raw-Mesonet
-    - id: FCOB.Flow-Navigation Out.Total.~1Day.1Day.Rev-Regi-Computed
-    - id: FCOB.Count-Lockages.Total.~1Day.1Day.Rev-Manual
-    - id: FCOB.Text.Inst.~1Day.0.Wcds-Rev
     - id: FCOB.Elev.Inst.1Hour.0.Decodes-Raw
     - id: FCOB.Elev.Inst.1Hour.0.Ccp-Rev
-    - id: FCOB.Elev-Tailwater.Inst.1Hour.0.Decodes-Raw
-    - id: FCOB.Elev-Tailwater.Inst.1Hour.0.Ccp-Rev
     - id: FCOB.Stor.Inst.1Hour.0.Ccp-Raw
     - id: FCOB.Stor.Inst.1Hour.0.Ccp-Rev
-    - id: FCOB.Flow-Res In.Ave.~1Day.1Day.Copied-Ccp-Adjusted
-    - id: FCOB.Flow-Res In.Ave.1Hour.1Hour.Regi-Rev-Computed
     - id: FCOB.Evap.Total.~1Day.1Day.Ccp-Rev
     - id: FCOB.Precip-Inc.Total.1Hour.1Hour.Ccp-Rev
     - id: FCOB.Flow-Res In.Ave.~1Day.1Day.Regi-Rev-Adjusted
     - id: FCOB.Flow-Res Out.Ave.~1Day.1Day.Rev-Regi-Flowgroup
     - id: FCOB.Precip-Mean Areal.Total.~1Day.1Day.Metvue-Computed
-    - id: FCOB.Flow-Res In.Ave.~1Day.1Day.Regi-Rev-Computed
-    - id: FCOB.Flow-Net Pumpage.Ave.1Day.1Day.Regi-Rev-Flowgroup
     - id: FCOB.Precip-Inc.Total.~1Day.1Day.Ccp-Rev
-    - id: FCOB.Precip-Alt.Total.1Day.1Day.Decodes-Raw
-    - id: FCOB.Dir-Wind Alt.Inst.1Hour.0.Ccp-Rev
-    - id: FCOB.Speed-Wind Alt.Inst.1Hour.0.Ccp-Rev
-    - id: FCOB.Code-Lake Condition.Inst.1Day.0.Wcds-Obs
-    - id: FCOB.Evap-Pan.Total.1Day.0.wcds-obs
     - id: FCOB.Code-Evap Type.Total.~1Day.1Day.Ccp-Rev
-    - id: FCOB.Code-Weather Condition.Inst.1Day.0.Wcds-Obs
     - id: FCOB.Flow-Controlled.Ave.1Hour.1Hour.Rev-Regi-Flowgroup
     - id: FCOB.Flow-Controlled.Inst.1Hour.0.Rev-Regi-Flowgroup
     - id: FCOB.Flow-Res Out.Ave.1Hour.1Hour.Rev-Regi-Flowgroup
     - id: FCOB.Flow-Res Out.Inst.1Hour.0.Rev-Regi-Flowgroup
-    - id: FCOB.Flow-Pump Out.Ave.~1Day.1Day.Rev-Regi-Flowgroup
-    - id: FCOB.Flow-Uncontrolled.Inst.1Hour.0.Rev-Regi-Flowgroup
     - id: FCOB.Flow-Uncontrolled.Ave.1Hour.1Hour.Rev-Regi-Flowgroup
   - id: WEBB
     enabled: true
+    locations:
+    - id: WEBB-Lock
     outlets:
     - id: WEBB-TG1
     - id: WEBB-TG2
@@ -358,20 +308,11 @@ offices:
     timeseries:
     - id: WEBB-Lock.Flow-Navigation Out.Total.~1Day.1Day.Rev-Regi-Computed
     - id: WEBB-Lock.Count-Lockages.Total.~1Day.1Day.Rev-Manual
-    - id: WEBB.Opening.Inst.0.0.MANUAL
-    - id: WEBB.Flow-Navigation Out.Total.~1Day.1Day.Rev-Regi-Computed
-    - id: WEBB.Count-Lockages.Total.~1Day.1Day.Rev-Manual
-    - id: WEBB.Text.Inst.~1Day.0.Wcds-Rev
-    - id: WEBB.Elev.Inst.1Hour.0.Decodes-Raw
     - id: WEBB.Elev.Inst.1Hour.0.Ccp-Rev
-    - id: WEBB.Elev-Tailwater.Inst.1Hour.0.Decodes-Raw
     - id: WEBB.Elev-Tailwater.Inst.1Hour.0.Ccp-Rev
-    - id: WEBB.Stor.Inst.1Hour.0.Ccp-Raw
     - id: WEBB.Stor.Inst.1Hour.0.Ccp-Rev
-    - id: WEBB.Flow-Res In.Ave.~1Day.1Day.Copied-Ccp-Adjusted
     - id: WEBB.Temp-Air.Inst.1Hour.0.Ccp-Rev
     - id: WEBB.Precip-Mean Areal.Total.~1Day.1Day.Metvue-Computed
-    - id: WEBB.Flow-Res In.Ave.1Hour.1Hour.Regi-Rev-Computed
     - id: WEBB.Evap.Total.~1Day.1Day.Ccp-Rev
     - id: WEBB.Precip-Inc.Total.1Hour.1Hour.Ccp-Rev
     - id: WEBB.%-Humidity.Inst.1Hour.0.Ccp-Rev
@@ -379,20 +320,12 @@ offices:
     - id: WEBB.Speed-Wind.Inst.1Hour.0.Ccp-Rev
     - id: WEBB.Flow-Res In.Ave.~1Day.1Day.Regi-Rev-Adjusted
     - id: WEBB.Flow-Res Out.Ave.~1Day.1Day.Rev-Regi-Flowgroup
-    - id: WEBB.Flow-Res In.Ave.~1Day.1Day.Regi-Rev-Computed
-    - id: WEBB.Flow-Net Pumpage.Ave.1Day.1Day.Regi-Rev-Flowgroup
     - id: WEBB.Precip-Inc.Total.~1Day.1Day.Ccp-Rev
-    - id: WEBB.Precip-Alt.Total.1Day.1Day.Decodes-Raw
     - id: WEBB.Dir-Wind.Inst.1Hour.0.Decodes-Raw
-    - id: WEBB.Dir-Wind Alt.Inst.1Hour.0.Ccp-Rev
     - id: WEBB.Speed-Wind.Inst.1Hour.0.Decodes-Raw
-    - id: WEBB.Speed-Wind Alt.Inst.1Hour.0.Ccp-Rev
-    - id: WEBB.Code-Lake Condition.Inst.1Day.0.Wcds-Obs
-    - id: WEBB.Evap-Pan.Total.1Day.0.wcds-obs
     - id: WEBB.Temp-Air.Inst.1Hour.0.Decodes-Raw
     - id: WEBB.Code-Evap Type.Total.~1Day.1Day.Ccp-Rev
     - id: WEBB.%-Humidity.Inst.1Hour.0.Decodes-Raw
-    - id: WEBB.Code-Weather Condition.Inst.1Day.0.Wcds-Obs
     - id: WEBB.Flow-Controlled.Ave.1Hour.1Hour.Rev-Regi-Flowgroup
     - id: WEBB.Flow-Controlled.Inst.1Hour.0.Rev-Regi-Flowgroup
     - id: WEBB.Flow-Res Out.Ave.1Hour.1Hour.Rev-Regi-Flowgroup
@@ -405,7 +338,7 @@ offices:
     id: Flow.EUFA.Project_Total
   - categoryId: Flow
     id: Flow.EUFA.SluiceGate_Total
-  - categoryId: Flow
+  - categoryId: Rating
     id: EUFA-SluiceGate
   - categoryId: Flow
     id: Flow.EUFA.TainterGate_Total
@@ -413,7 +346,7 @@ offices:
     id: Flow.EUFA.EUFA Turbine_Total
   - categoryId: Flow
     id: Flow.EUFA.Gated_Total
-  - categoryId: Flow
+  - categoryId: Rating
     id: EUFA-TainterGate
   - categoryId: Flow
     id: Flow.EUFA.Turbine_Total

@@ -4,7 +4,7 @@
   "end": "2026-07-22T00:00:00+00:00",
   "interval": "PT0S",
   "interval-offset": -2147483648,
-  "name": "EUFA.Opening.Inst.0.0.MANUAL",
+  "name": "EUFA-SG1.Opening-Sluice_Gates.Inst.0.0.MANUAL",
   "office-id": "SWT",
   "time-zone": "US/Central",
   "total": 3,

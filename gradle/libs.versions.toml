@@ -1,11 +1,10 @@
 [versions]
 
 # HEC Dependencies
-service-annotations = "2.1.0"
-hec-server-suite = "8.5.1"
+hec-server-suite = "9.0.1"
 
 # REGI Dependencies
-regi-tools = "9.3.2"
+regi-tools = "10.0.0"
 regi = "3.5.0-alpha001"
 
 netbeans-lookup = "RELEASE280"
@@ -19,10 +18,8 @@ junit = "6.1.1"
 
 [libraries]
 # HEC Dependencies
-service-annotations = { module = "mil.army.usace.hec:service-annotations", version.ref = "service-annotations" }
 serversuite = { module = "mil.army.usace.hec:hec-server-suite", version.ref = "hec-server-suite" }
 serversuite-cda = { module = "mil.army.usace.hec:cda-server-suite", version.ref = "hec-server-suite" }
-serversuite-jdbc = { module = "mil.army.usace.hec:jdbc-server-suite", version.ref = "hec-server-suite" }
 hec-db-cda = { module = "mil.army.usace.hec:hec-db-cda", version = "14.1.0" }
 hec-cwms-ratings-cda = { module = "mil.army.usace.hec:hec-cwms-ratings-io-cda", version = "4.2.2"}
 
@@ -54,7 +51,7 @@ regi-tools = [
     "regi-tools-regi-dao",
     "regi-tools-regi-data"
 ]
-serversuite = ["serversuite", "serversuite-cda", "serversuite-jdbc", "hec-db-cda"]
+serversuite = ["serversuite", "serversuite-cda", "hec-db-cda"]
 
 junit-api = ["junit-jupiter-api", "junit-jupiter-params"]
 junit-engine = ["junit-jupiter-engine", "junit-platform-launcher"]
