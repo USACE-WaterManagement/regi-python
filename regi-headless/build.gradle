@@ -11,7 +11,6 @@ dependencies {
     implementation(libs.bundles.regi)
     implementation(libs.bundles.regi) {artifact {extension = "jar"}}
     implementation(libs.bundles.regi.tools)
-    implementation(libs.bundles.regi.tools) {artifact {extension = "jar"} }
     implementation(libs.lookup)
     runtimeOnly(libs.hec.cwms.ratings.cda)
 
@@ -39,6 +38,37 @@ configurations.configureEach {
     exclude group: 'org.apache.poi', module: '*'
     exclude group: 'javax.media', module: '*'
     exclude group: 'com.vividsolutions', module: 'jts'
+    exclude group: 'codebase', module: '*'
+    exclude group: "mil.army.usace.hec", module: "hec-rmi"
+    exclude group: "mil.army.usace.hec", module: "hec-server-suite-ui"
+    exclude group: "mil.army.usace.hec", module: "dssgui-script"
+    exclude group: "mil.army.usace.hec", module: "hec-script-gui"
+    exclude group: "com.registry", module: "jregistry"
+    exclude group: "mil.army.usace.hec", module: "cwms-dbjob-controls"
+    exclude group: "mil.army.usace.hec", module: "hec-db-jdbc"
+    exclude group: "mil.army.usace.hec", module: "jdbc-server-suite"
+    exclude group: "mil.army.usace.hec", module: "jdbc-server-suite-ui"
+    exclude group: "mil.army.wmist.regi-tools", module: "level-editor"
+    exclude group: "mil.army.wmist.regi-tools", module: "rating-editor"
+    exclude group: "mil.army.wmist.regi-tools", module: "rating-io"
+    exclude group: "mil.army.wmist.regi-tools", module: "rating-model"
+    exclude group: "mil.army.wmist.regi-tools", module: "regi-cache-ui"
+    exclude group: "mil.army.usace.hec", module: "rmi-server-suite"
+    exclude group: "mil.army.usace.hec", module: "rmi-server-suite-ui"
+    exclude group: "mil.army.usace.hec", module: "rmi-server-suite-ui"
+    exclude group: "mil.army.usace.hec", module: "cda-server-suite-ui"
+    exclude group: "mil.army.usace.hec", module: "hec-loading-gui"
+    exclude group: "mil.army.usace.hec", module: "hec-dbf"
+    exclude group: "net.java.dev.jna", module: "jna"
+    exclude group: "org.python", module: "jython-standalone"
+    exclude group: "mil.army.usace.hec", module: "cwms-db-jooq"
+    exclude group: "mil.army.usace.hec", module: "hec-cwms-ratings-io-jdbc"
+    exclude group: "hec.map", module: "*"
+    exclude group: "mil.army.usace.hec.map.geoui.legend", module: "*"
+    exclude group: "mil.army.usace.hec.map.geoui.model.interp", module: "*"
+    exclude group: "mil.army.usace.hec.map.geoui.renderer", module: "*"
+    exclude group: "org.geotools", module: "*"
+    exclude group: "com.rma", module: "PinnableComponent"
 }
 
 jar {

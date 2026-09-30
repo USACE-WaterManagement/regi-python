@@ -5,7 +5,7 @@ hec-server-suite = "9.0.1"
 
 # REGI Dependencies
 regi-tools = "10.0.0"
-regi = "3.5.0-alpha001"
+regi = "99.local-SNAPSHOT"
 
 netbeans-lookup = "RELEASE280"
 
@@ -30,7 +30,6 @@ regi-computation = {module = "mil.army.wmist.regi:computation", version.ref = "r
 regi-tools-regi-core = {module = "mil.army.wmist.regi-tools:regi-core", version.ref = "regi-tools"}
 regi-tools-regi-data = {module = "mil.army.wmist.regi-tools:regi-data", version.ref = "regi-tools"}
 regi-tools-regi-dao = {module = "mil.army.wmist.regi-tools:regi-dao", version.ref = "regi-tools"}
-regi-tools-regi-cwms = {module = "mil.army.wmist.regi-tools:regi-cwms", version.ref = "regi-tools"}
 
 lookup = { module = "org.netbeans.api:org-openide-util-lookup", version.ref = "netbeans-lookup"}
 
@@ -47,7 +46,6 @@ python-plugin = { id = "com.pswidersk.python-plugin", version.ref = "pswidersk-p
 regi = ["regi-computation"]
 regi-tools = [
     "regi-tools-regi-core",
-    "regi-tools-regi-cwms",
     "regi-tools-regi-dao",
     "regi-tools-regi-data"
 ]
