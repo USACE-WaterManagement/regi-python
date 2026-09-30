@@ -9,7 +9,7 @@ package usace.rowcps.headless.metrics;
 
 import java.util.Properties;
 import java.util.prefs.Preferences;
-import rma.services.annotations.ServiceProvider;
+import org.openide.util.lookup.ServiceProvider;
 import usace.rowcps.metrics.RegiMetricsServiceProvider;
 import usace.metrics.services.MetricsServiceProvider;
 import usace.metrics.services.MetricsService;

@@ -19,10 +19,15 @@ def regi_session():
     started_jvm = False
     if not jpype.isJVMStarted():
         _prepend_java_home_to_path()
-        logger.debug("Starting JVM...")
+        debug_args = _debug_jvm_args()
+        if debug_args:
+            logger.info("Starting JVM with remote debugging enabled: %s", debug_args[0])
+        else:
+            logger.debug("Starting JVM...")
         try:
             jpype.startJVM(
                 jpype.getDefaultJVMPath(),
+                *debug_args,
                 convertStrings=True,
                 classpath=[LIB_PATH]
             )
@@ -77,6 +82,15 @@ def _require_environment_variables(*variable_names):
         )
 
 
+def _debug_jvm_args():
+    port = os.environ.get("REGI_PYTHON_DEBUG_PORT")
+    if not port:
+        return []
+
+    suspend = "y" if os.environ.get("REGI_PYTHON_DEBUG_SUSPEND", "y").lower() in ("1", "y", "yes", "true") else "n"
+    return [f"-agentlib:jdwp=transport=dt_socket,server=y,suspend={suspend},address=*:{port}"]
+
+
 def _prepend_java_home_to_path():
     java_home = os.environ.get("JAVA_HOME")
     if not java_home:
@@ -89,9 +103,11 @@ def _prepend_java_home_to_path():
 
 
 def _shutdown_executor(manager_id):
+    from usace.rowcps.regi.executor import RowcpsExecutorHandler
     from usace.rowcps.regi.factories import RowcpsExecutorService
     from java.util.concurrent import TimeUnit
-    res = RowcpsExecutorService.getInstance(manager_id)
-    res.shutdown()
-    if not res.awaitTermination(3000, TimeUnit.MILLISECONDS):
-        res.shutdownNow()
+
+    for res in (RowcpsExecutorHandler.getInstance(manager_id), RowcpsExecutorService.getInstance(manager_id)):
+        res.shutdown()
+        if not res.awaitTermination(3000, TimeUnit.MILLISECONDS):
+            res.shutdownNow()

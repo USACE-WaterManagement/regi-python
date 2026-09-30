@@ -54,6 +54,31 @@ class FakeExecutorService:
         return cls.instances[manager_id]
 
 
+class FakeExecutorHandler:
+    """Stand-in for usace.rowcps.regi.executor.RowcpsExecutorHandler."""
+
+    instances = {}
+
+    def __init__(self, manager_id, calls, await_result=True):
+        self.manager_id = manager_id
+        self._calls = calls
+        self._await_result = await_result
+
+    def shutdown(self):
+        self._calls.append(("handler.shutdown", self.manager_id))
+
+    def awaitTermination(self, timeout, unit):
+        self._calls.append(("handler.awaitTermination", timeout))
+        return self._await_result
+
+    def shutdownNow(self):
+        self._calls.append(("handler.shutdownNow", self.manager_id))
+
+    @classmethod
+    def getInstance(cls, manager_id):
+        return cls.instances[manager_id]
+
+
 class FakeRegiDomain:
     def __init__(self, calls, commit_error=None):
         self._calls = calls
@@ -90,6 +115,8 @@ def _install_fake_java_modules(
     factory = FakeHeadlessRegiDomainFactory(domain, manager_id)
     executor = FakeExecutorService(manager_id, calls, await_result=await_result)
     FakeExecutorService.instances[manager_id] = executor
+    handler = FakeExecutorHandler(manager_id, calls, await_result=await_result)
+    FakeExecutorHandler.instances[manager_id] = handler
 
     headless_module = types.ModuleType("usace.rowcps.headless")
     headless_module.HeadlessRegiDomainFactory = lambda: factory
@@ -98,11 +125,15 @@ def _install_fake_java_modules(
     factories_module = types.ModuleType("usace.rowcps.regi.factories")
     factories_module.RowcpsExecutorService = FakeExecutorService
 
+    executor_module = types.ModuleType("usace.rowcps.regi.executor")
+    executor_module.RowcpsExecutorHandler = FakeExecutorHandler
+
     concurrent_module = types.ModuleType("java.util.concurrent")
     concurrent_module.TimeUnit = types.SimpleNamespace(MILLISECONDS="MILLISECONDS")
 
     monkeypatch.setitem(sys.modules, "usace.rowcps.headless", headless_module)
     monkeypatch.setitem(sys.modules, "usace.rowcps.regi.factories", factories_module)
+    monkeypatch.setitem(sys.modules, "usace.rowcps.regi.executor", executor_module)
     monkeypatch.setitem(sys.modules, "java.util.concurrent", concurrent_module)
 
     return domain, executor
@@ -133,10 +164,12 @@ def test_run_headless_invokes_callback_commits_and_closes(monkeypatch, cda_env):
     assert len(callback_calls) == 1
     assert callback_calls[0] == ("registry", domain, "mgr-1")
 
-    # Order matters: callback -> commit -> executor shutdown -> domain closing.
+    # Order matters: callback -> commit -> handler shutdown -> executor shutdown -> domain closing.
     assert calls == [
         ("callback", ("registry", domain, "mgr-1")),
         ("domain.commitData", "mgr-1"),
+        ("handler.shutdown", "mgr-1"),
+        ("handler.awaitTermination", 3000),
         ("executor.shutdown", "mgr-1"),
         ("executor.awaitTermination", 3000),
         ("domain.closing",),

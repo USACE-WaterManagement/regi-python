@@ -1,3 +1,4 @@
 rootProject.name = 'regi-headless-parent'
 
 include "regi-headless"
+include "integration-tests"

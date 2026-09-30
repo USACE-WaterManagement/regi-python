@@ -1,0 +1,88 @@
+import com.pswidersk.gradle.python.VenvTask
+import org.gradle.jvm.toolchain.JavaLanguageVersion
+import org.gradle.jvm.toolchain.JavaToolchainService
+
+plugins {
+    id 'java-base'
+    id 'com.pswidersk.python-plugin'
+}
+
+pythonPlugin {
+    pythonVersion = libs.versions.python.get()
+    condaVersion = libs.versions.conda.get()
+    condaInstaller = "Miniforge3"
+    installDir = file(layout.buildDirectory.dir("python"))
+}
+
+tasks.register('installIntegrationTestDeps', VenvTask) {
+    group = 'build setup'
+    description = 'Installs the Python packages needed to run the CDA docker integration tests.'
+
+    venvExec = 'pip'
+    args = ['install', '-r', 'requirements.txt']
+
+    inputs.file('requirements.txt')
+    outputs.file(layout.buildDirectory.file("integration-test-deps/install.marker"))
+
+    doLast {
+        def markerFile = layout.buildDirectory.file("integration-test-deps/install.marker").get().asFile
+        markerFile.parentFile.mkdirs()
+        markerFile.text = "requirements.txt installed\n"
+    }
+}
+
+tasks.register('installRegiPythonWheel', VenvTask) {
+    group = 'build setup'
+    description = 'Installs the regi_python wheel built by :regi-headless into the integration-test venv.'
+
+    dependsOn ':regi-headless:buildPythonWheel'
+
+    venvExec = 'pip'
+
+    def wheelDir = file('../regi-headless/build/install/regi_python/dist')
+
+    inputs.files(fileTree(dir: wheelDir, include: '*.whl'))
+    outputs.file(layout.buildDirectory.file('regi-python-wheel/install.marker'))
+
+    doFirst {
+        def wheelFile = fileTree(dir: wheelDir, include: '*.whl').singleFile
+        args = ['install', '--force-reinstall', wheelFile.absolutePath]
+    }
+
+    doLast {
+        def wheelFile = fileTree(dir: wheelDir, include: '*.whl').singleFile
+        def markerFile = layout.buildDirectory.file('regi-python-wheel/install.marker').get().asFile
+        markerFile.parentFile.mkdirs()
+        markerFile.text = "${wheelFile.name}\n${wheelFile.length()} bytes\n"
+    }
+}
+
+tasks.register('integrationTest', VenvTask) {
+    group = 'verification'
+    description = 'Runs the docker-based CDA integration tests (pytest -m integration).'
+    dependsOn installIntegrationTestDeps
+    dependsOn installRegiPythonWheel
+    venvExec = 'python'
+    args = ['-m', 'pytest', '-m', 'integration']
+
+    def forwardedEnv = new HashMap<String, Object>(environment)
+    [
+        'testcontainer.cwms.bypass.url'   : 'CDA_EXTERNAL_STACK_URL',
+        'testcontainer.cwms.bypass.apiKey': 'CWMS_TEST_API_KEY',
+        'regiHeadless.debug.port'         : 'REGI_PYTHON_DEBUG_PORT',
+        'regiHeadless.debug.suspend'      : 'REGI_PYTHON_DEBUG_SUSPEND',
+    ].each { propName, envName ->
+        if (project.hasProperty(propName)) {
+            forwardedEnv.put(envName, project.property(propName).toString())
+        }
+    }
+    def toolchainService = project.extensions.getByType(JavaToolchainService)
+    def jdk21Launcher = toolchainService.launcherFor {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+    forwardedEnv.put('JAVA_HOME', jdk21Launcher.get().metadata.installationPath.asFile.absolutePath)
+    environment = forwardedEnv
+
+    inputs.files(fileTree(dir: '.', include: ['*.py', 'src/test/python/**/*.py', 'docker-compose.yml', 'pytest.ini']))
+    outputs.upToDateWhen { false }
+}

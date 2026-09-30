@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import rma.services.annotations.ServiceProvider;
+import org.openide.util.lookup.ServiceProvider;
 import usace.rowcps.regi.interfaces.progress.IProgressHandle;
 import usace.rowcps.regi.interfaces.progress.ProgressService;
 
