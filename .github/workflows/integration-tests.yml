@@ -69,45 +69,13 @@ jobs:
 
       # integrationTest builds and installs the regi_python wheel and the
       # test dependencies into its own venv, then runs `pytest -m integration`.
-      # PYTEST_ADDOPTS is picked up by that pytest and writes the report the
-      # "Check for skipped tests" step reads.
+      # A missing prerequisite or a failed docker bring-up is a test error (not a
+      # skip), so pytest, and therefore this step, fails. PYTEST_ADDOPTS is picked
+      # up by that pytest and writes the JUnit report that is uploaded below.
       - name: Run integration tests
         env:
           PYTEST_ADDOPTS: "-rs --junitxml=${{ env.JUNIT_XML }}"
         run: ./gradlew :integration-tests:integrationTest --stacktrace
-
-      # The cda_stack fixture turns "could not bring up docker" or a missing
-      # package into a skip, which would otherwise show up as a green run that
-      # tested nothing. Intentional skips (e.g. a flow group with no output
-      # configured) are allowed; environment skips and an empty run are not.
-      - name: Check for skipped tests
-        if: always()
-        run: |
-          python3 - <<'PY'
-          import os, re, sys
-          import xml.etree.ElementTree as ET
-
-          path = os.environ["JUNIT_XML"]
-          if not os.path.exists(path):
-              sys.exit(f"No JUnit report at {path}: the integration tests did not run.")
-
-          cases = list(ET.parse(path).getroot().iter("testcase"))
-          passed = [c for c in cases if not any(c.find(t) is not None for t in ("skipped", "failure", "error"))]
-          skipped = [(c.get("classname") + "::" + c.get("name"), c.find("skipped").get("message", ""))
-                     for c in cases if c.find("skipped") is not None]
-          env_skip = re.compile(r"docker|compose|not installed|could not bring up|regi_python|cwms-python|wheel", re.I)
-
-          print(f"{len(cases)} tests, {len(passed)} passed, {len(skipped)} skipped")
-          for name, reason in skipped:
-              print(f"  SKIPPED {name}: {reason[:160]}")
-
-          problems = []
-          if not passed:
-              problems.append("no integration test passed")
-          problems += [f"environment skip: {n}: {r[:160]}" for n, r in skipped if env_skip.search(r)]
-          if problems:
-              sys.exit("\n".join(problems))
-          PY
 
       - name: Upload test reports and logs
         if: always()

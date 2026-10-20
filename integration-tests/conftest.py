@@ -29,13 +29,12 @@ CDA_EXTERNAL_STACK_URL = os.environ.get("CDA_EXTERNAL_STACK_URL")
 
 def _require_docker():
     """
-    Skips the whole session, with an explanatory message, if Docker/`docker
-    compose` aren't usable -- matching what README.md already documents
-    ("Tests are skipped... if the required assets or real image env vars
-    aren't in place") but that this fixture previously didn't actually do.
+    Fails the session, with an explanatory message, if Docker/`docker compose`
+    aren't usable. These tests only run when explicitly selected
+    (`-m integration`), so a missing prerequisite is an error, not a skip.
     """
     if shutil.which("docker") is None:
-        pytest.skip("Docker is not installed/on PATH -- see README.md prerequisites.")
+        pytest.fail("Docker is not installed/on PATH -- see README.md prerequisites.", pytrace=False)
 
     try:
         subprocess.run(
@@ -43,7 +42,7 @@ def _require_docker():
             capture_output=True, text=True, check=True, timeout=10,
         )
     except (subprocess.CalledProcessError, subprocess.TimeoutExpired, OSError):
-        pytest.skip("The `docker compose` CLI plugin is not available -- see README.md prerequisites.")
+        pytest.fail("The `docker compose` CLI plugin is not available -- see README.md prerequisites.", pytrace=False)
 
     try:
         subprocess.run(
@@ -51,7 +50,7 @@ def _require_docker():
             capture_output=True, text=True, check=True, timeout=10,
         )
     except (subprocess.CalledProcessError, subprocess.TimeoutExpired, OSError):
-        pytest.skip("Docker daemon is not running/reachable -- see README.md prerequisites.")
+        pytest.fail("Docker daemon is not running/reachable -- see README.md prerequisites.", pytrace=False)
 
 
 @pytest.fixture(scope="session")
@@ -94,10 +93,17 @@ def cda_stack():
     try:
         compose.start()
     except Exception as exc:
-        pytest.skip(
-            "Could not bring up the CDA docker stack -- likely missing the "
-            f"real pre-built images (see README.md prerequisites): {exc}"
+        # testcontainers keeps compose's own output on the exception; without
+        # it the reason (unhealthy service, pull failure, ...) is lost.
+        output = "".join(
+            f"\n--- {name} ---\n" + value.decode(errors="ignore")[-4000:]
+            for name in ("stdout", "stderr")
+            if isinstance(value := getattr(exc, name, None), bytes) and value
         )
+        _dump_compose_logs()
+        raise RuntimeError(
+            f"Could not bring up the CDA docker stack (see README.md prerequisites): {exc}{output}"
+        ) from exc
 
     try:
         # Not caught above: a seeding failure here means the stack came up
@@ -172,11 +178,10 @@ def cwms_session(cda_stack):
     if only for its side effect) in any test that reads/writes CDA data
     through cwms-python.
     """
-    pytest.importorskip(
-        "cwms",
-        reason="cwms-python is not installed -- pip install -r requirements.txt.",
-    )
-    import cwms
+    try:
+        import cwms
+    except ImportError:
+        pytest.fail("cwms-python is not installed -- pip install -r requirements.txt.", pytrace=False)
 
     cwms.init_session(api_root=cda_stack["base_url"], api_key=cda_stack["api_key"])
 
@@ -196,13 +201,16 @@ def regi_jvm(cda_stack):
     only the JVM itself is shared.
 
     Requires the `regi_python` wheel built by :regi-headless to be installed
-    (see README.md); skips with an explanatory message if it isn't.
+    (see README.md); fails with an explanatory message if it isn't.
     """
-    pytest.importorskip(
-        "regi_python",
-        reason="regi_python is not installed -- build/install the wheel first "
-        "(see README.md), or run via `./gradlew :integration-tests:integrationTest`.",
-    )
+    try:
+        import regi_python  # noqa: F401
+    except ImportError:
+        pytest.fail(
+            "regi_python is not installed -- build/install the wheel first "
+            "(see README.md), or run via `./gradlew :integration-tests:integrationTest`.",
+            pytrace=False,
+        )
 
     os.environ["CDA_URL"] = cda_stack["base_url"]
     os.environ["CDA_API_KEY"] = cda_stack["api_key"]

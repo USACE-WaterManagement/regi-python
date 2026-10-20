@@ -70,8 +70,12 @@ job), then runs `cda-etl` once as a seeding step via
 `seed` profile so a plain `up` doesn't try to start it as a long-running
 service). The stack is torn down at the end of the session.
 
-Tests are skipped, with an explanatory message, if Docker isn't available or
-the stack can't be brought up.
+Because these tests only run when explicitly selected (`-m integration`), a
+missing prerequisite (Docker, the `regi_python` wheel, `cwms-python`) or a
+stack that can't be brought up fails the session with an explanatory message
+instead of skipping. Set `CDA_COMPOSE_LOG` to a file path to have the
+fixture write the compose containers' logs there before it tears the stack
+down.
 
 If you've already brought the stack up yourself (`docker compose up --wait
 db data-api && docker compose --profile seed run --rm cda-etl`), the
