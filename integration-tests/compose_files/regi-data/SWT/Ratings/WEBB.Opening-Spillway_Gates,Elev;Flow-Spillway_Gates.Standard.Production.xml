@@ -1,0 +1,829 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ratings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://www.hec.usace.army.mil/xmlSchema/cwms/Ratings.xsd">
+  <rating-template office-id="SWT">
+    <parameters-id>Opening-Spillway_Gates,Elev;Flow-Spillway_Gates</parameters-id>
+    <version>Standard</version>
+    <ind-parameter-specs>
+      <ind-parameter-spec position="1">
+        <parameter>Opening-Spillway_Gates</parameter>
+        <in-range-method>LINEAR</in-range-method>
+        <out-range-low-method>NEAREST</out-range-low-method>
+        <out-range-high-method>NEAREST</out-range-high-method>
+      </ind-parameter-spec>
+      <ind-parameter-spec position="2">
+        <parameter>Elev</parameter>
+        <in-range-method>LINEAR</in-range-method>
+        <out-range-low-method>NEAREST</out-range-low-method>
+        <out-range-high-method>NEAREST</out-range-high-method>
+      </ind-parameter-spec>
+    </ind-parameter-specs>
+    <dep-parameter>Flow-Spillway_Gates</dep-parameter>
+    <description/>
+  </rating-template>
+  <rating-spec office-id="SWT">
+    <rating-spec-id>WEBB.Opening-Spillway_Gates,Elev;Flow-Spillway_Gates.Standard.Production</rating-spec-id>
+    <template-id>Opening-Spillway_Gates,Elev;Flow-Spillway_Gates.Standard</template-id>
+    <location-id>WEBB</location-id>
+    <version>Production</version>
+    <source-agency/>
+    <in-range-method>PREVIOUS</in-range-method>
+    <out-range-low-method>NEAREST</out-range-low-method>
+    <out-range-high-method>PREVIOUS</out-range-high-method>
+    <active>true</active>
+    <auto-update>false</auto-update>
+    <auto-activate>false</auto-activate>
+    <auto-migrate-extension>false</auto-migrate-extension>
+    <ind-rounding-specs>
+      <ind-rounding-spec position="1">2222233332</ind-rounding-spec>
+      <ind-rounding-spec position="2">2222233332</ind-rounding-spec>
+    </ind-rounding-specs>
+    <dep-rounding-spec>2222233332</dep-rounding-spec>
+    <description/>
+  </rating-spec>
+  <simple-rating office-id="SWT">
+    <rating-spec-id>WEBB.Opening-Spillway_Gates,Elev;Flow-Spillway_Gates.Standard.Production</rating-spec-id>
+    <vertical-datum-info unit="ft">
+      <native-datum>NGVD-29</native-datum>
+      <elevation>436.801</elevation>
+      <offset estimate="true">
+        <to-datum>NAVD-88</to-datum>
+        <value>0.4055</value>
+      </offset>
+    </vertical-datum-info>
+    <units-id vertical-datum="">ft,ft;cfs</units-id>
+    <effective-date>1989-10-03T01:00:00-05:00</effective-date>
+    <create-date>2016-11-07T15:27:00-06:00</create-date>
+    <active>true</active>
+    <description/>
+    <rating-points>
+      <other-ind position="1" value="0"/>
+      <point>
+        <ind>450</ind>
+        <dep>0</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>0</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="1"/>
+      <point>
+        <ind>450</ind>
+        <dep>1100</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>1100</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="2"/>
+      <point>
+        <ind>450</ind>
+        <dep>2100</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>2100</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="3"/>
+      <point>
+        <ind>450</ind>
+        <dep>3200</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>3200</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="4"/>
+      <point>
+        <ind>450</ind>
+        <dep>4200</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>4200</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="6"/>
+      <point>
+        <ind>450</ind>
+        <dep>6400</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>6400</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="7"/>
+      <point>
+        <ind>450</ind>
+        <dep>7400</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>7400</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="8"/>
+      <point>
+        <ind>450</ind>
+        <dep>8500</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>8500</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="9"/>
+      <point>
+        <ind>450</ind>
+        <dep>9500</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>9500</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="10"/>
+      <point>
+        <ind>450</ind>
+        <dep>10600</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>10600</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="11"/>
+      <point>
+        <ind>450</ind>
+        <dep>11600</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>11600</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="17"/>
+      <point>
+        <ind>450</ind>
+        <dep>18200</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>18200</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="18"/>
+      <point>
+        <ind>450</ind>
+        <dep>19200</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>19200</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="25"/>
+      <point>
+        <ind>450</ind>
+        <dep>26900</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>26900</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="26"/>
+      <point>
+        <ind>450</ind>
+        <dep>28100</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>28100</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="29"/>
+      <point>
+        <ind>450</ind>
+        <dep>31400</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>31400</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="30"/>
+      <point>
+        <ind>450</ind>
+        <dep>32600</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>32600</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="33"/>
+      <point>
+        <ind>450</ind>
+        <dep>35900</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>35900</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="34"/>
+      <point>
+        <ind>450</ind>
+        <dep>37100</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>37100</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="36"/>
+      <point>
+        <ind>450</ind>
+        <dep>39300</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>39300</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="37"/>
+      <point>
+        <ind>450</ind>
+        <dep>40500</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>40500</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="38"/>
+      <point>
+        <ind>450</ind>
+        <dep>41600</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>41600</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="39"/>
+      <point>
+        <ind>450</ind>
+        <dep>42800</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>42800</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="40"/>
+      <point>
+        <ind>450</ind>
+        <dep>43900</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>43900</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="41"/>
+      <point>
+        <ind>450</ind>
+        <dep>45100</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>45100</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="42"/>
+      <point>
+        <ind>450</ind>
+        <dep>46200</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>46200</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="43"/>
+      <point>
+        <ind>450</ind>
+        <dep>47400</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>47400</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="44"/>
+      <point>
+        <ind>450</ind>
+        <dep>48500</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>48500</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="45"/>
+      <point>
+        <ind>450</ind>
+        <dep>49700</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>49700</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="46"/>
+      <point>
+        <ind>450</ind>
+        <dep>50900</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>50900</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="47"/>
+      <point>
+        <ind>450</ind>
+        <dep>52000</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>52000</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="49"/>
+      <point>
+        <ind>450</ind>
+        <dep>54400</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>54400</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="50"/>
+      <point>
+        <ind>450</ind>
+        <dep>55500</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>55500</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="56"/>
+      <point>
+        <ind>450</ind>
+        <dep>62700</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>62700</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="57"/>
+      <point>
+        <ind>450</ind>
+        <dep>63800</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>63800</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="61"/>
+      <point>
+        <ind>450</ind>
+        <dep>68600</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>68600</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="62"/>
+      <point>
+        <ind>450</ind>
+        <dep>69900</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>69900</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="64"/>
+      <point>
+        <ind>450</ind>
+        <dep>72300</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>72300</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="65"/>
+      <point>
+        <ind>450</ind>
+        <dep>73600</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>73600</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="67"/>
+      <point>
+        <ind>450</ind>
+        <dep>76000</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>76000</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="68"/>
+      <point>
+        <ind>450</ind>
+        <dep>77300</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>77300</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="70"/>
+      <point>
+        <ind>450</ind>
+        <dep>79700</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>79700</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="71"/>
+      <point>
+        <ind>450</ind>
+        <dep>81000</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>81000</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="73"/>
+      <point>
+        <ind>450</ind>
+        <dep>83400</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>83400</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="74"/>
+      <point>
+        <ind>450</ind>
+        <dep>84700</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>84700</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="76"/>
+      <point>
+        <ind>450</ind>
+        <dep>87100</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>87100</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="77"/>
+      <point>
+        <ind>450</ind>
+        <dep>88400</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>88400</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="79"/>
+      <point>
+        <ind>450</ind>
+        <dep>90800</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>90800</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="80"/>
+      <point>
+        <ind>450</ind>
+        <dep>92100</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>92100</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="82"/>
+      <point>
+        <ind>450</ind>
+        <dep>94500</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>94500</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="83"/>
+      <point>
+        <ind>450</ind>
+        <dep>95800</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>95800</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="85"/>
+      <point>
+        <ind>450</ind>
+        <dep>98200</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>98200</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="86"/>
+      <point>
+        <ind>450</ind>
+        <dep>99500</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>99500</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="87"/>
+      <point>
+        <ind>450</ind>
+        <dep>100700</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>100700</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="89"/>
+      <point>
+        <ind>450</ind>
+        <dep>103300</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>103300</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="90"/>
+      <point>
+        <ind>450</ind>
+        <dep>104500</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>104500</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="91"/>
+      <point>
+        <ind>450</ind>
+        <dep>105800</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>105800</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="92"/>
+      <point>
+        <ind>450</ind>
+        <dep>107000</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>107000</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="93"/>
+      <point>
+        <ind>450</ind>
+        <dep>108300</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>108300</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="94"/>
+      <point>
+        <ind>450</ind>
+        <dep>109500</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>109500</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="95"/>
+      <point>
+        <ind>450</ind>
+        <dep>110800</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>110800</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="96"/>
+      <point>
+        <ind>450</ind>
+        <dep>112000</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>112000</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="97"/>
+      <point>
+        <ind>450</ind>
+        <dep>113300</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>113300</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="98"/>
+      <point>
+        <ind>450</ind>
+        <dep>114700</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>114700</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="110"/>
+      <point>
+        <ind>450</ind>
+        <dep>130300</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>130300</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="111"/>
+      <point>
+        <ind>450</ind>
+        <dep>131500</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>131500</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="118"/>
+      <point>
+        <ind>450</ind>
+        <dep>140600</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>140600</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="119"/>
+      <point>
+        <ind>450</ind>
+        <dep>141800</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>141800</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="120"/>
+      <point>
+        <ind>450</ind>
+        <dep>143100</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>143100</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="500"/>
+      <point>
+        <ind>450</ind>
+        <dep>500000</dep>
+      </point>
+      <point>
+        <ind>520</ind>
+        <dep>500000</dep>
+      </point>
+    </rating-points>
+  </simple-rating>
+</ratings>

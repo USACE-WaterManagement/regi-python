@@ -1,0 +1,10 @@
+pytest>=7
+testcontainers>=4.15
+requests>=2.31
+cwms-python>=1.0.8
+
+# regi_python itself is NOT listed here -- it's installed from the wheel
+# built by :regi-headless (see build.gradle's installRegiPythonWheel task),
+# not from PyPI. If you're running pytest directly instead of via Gradle,
+# build the wheel first (./gradlew :regi-headless:buildPythonWheel) and
+# `pip install` it from regi-headless/build/install/regi_python/dist/*.whl.

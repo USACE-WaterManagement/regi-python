@@ -49,11 +49,19 @@ def configure_logging():
     return logger
 
 
+# NetBeans Lookup/Settings runtime always probes for the full module system
+# (org.netbeans.core.startup.Main) so it can listen for module install/uninstall
+# events.
+_SUPPRESSED_JUL_LOGGERS = [
+    "org.netbeans.modules.settings.RecognizeInstanceObjects",
+]
+
+
 def configure_jul_to_python_logging(python_logger):
     """Forward Java JUL records into Python logging."""
     global _java_log_sink
 
-    from java.util.logging import Logger
+    from java.util.logging import Level, Logger
     from usace.rowcps.headless import PythonJulHandler
 
     java_level = _python_level_to_jul_level(python_logger.getEffectiveLevel())
@@ -63,6 +71,9 @@ def configure_jul_to_python_logging(python_logger):
 
     for handler in root_logger.getHandlers():
         root_logger.removeHandler(handler)
+
+    for logger_name in _SUPPRESSED_JUL_LOGGERS:
+        Logger.getLogger(logger_name).setLevel(Level.SEVERE)
 
     PythonLogSink = _create_python_log_sink_class()
     _java_log_sink = PythonLogSink(python_logger)
