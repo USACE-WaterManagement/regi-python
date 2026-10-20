@@ -1,0 +1,126 @@
+name: Integration Tests
+
+# Docker-based CDA integration tests (integration-tests/). The `cda_stack`
+# fixture in integration-tests/conftest.py brings up db + data-api with
+# docker compose and seeds them with cda-etl, so this job only has to run the
+# Gradle task. It is slow (Oracle image pull, ~12 min ETL reseed, calculations),
+# so it runs on demand and on pull requests that touch the code or seed data
+# it exercises, not on every push.
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "integration-tests/**"
+      - "regi-headless/**"
+      - "gradle/**"
+      - "build.gradle"
+      - "settings.gradle"
+      - "buildSrc/**"
+      - ".github/workflows/integration-tests.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  integration-tests:
+    name: CDA integration tests
+    runs-on: ubuntu-latest
+    # Image pull + db start (compose healthcheck allows up to 40 min on a cold
+    # start) + ETL reseed + the calculation tests.
+    timeout-minutes: 120
+
+    env:
+      JUNIT_XML: ${{ github.workspace }}/integration-tests/build/integration-junit.xml
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          # The git-version plugin derives the wheel version from tags/history.
+          fetch-depth: 0
+
+      # The Oracle "database-ready" image is large; free space on the runner
+      # before docker pulls it.
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+          docker image prune --all --force
+          df -h /
+
+      - name: Set up Java
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Make Gradle wrapper executable
+        run: chmod +x ./gradlew
+
+      # integrationTest builds and installs the regi_python wheel and the
+      # test dependencies into its own venv, then runs `pytest -m integration`.
+      # PYTEST_ADDOPTS is picked up by that pytest and writes the report the
+      # "Check for skipped tests" step reads.
+      - name: Run integration tests
+        env:
+          PYTEST_ADDOPTS: "-rs --junitxml=${{ env.JUNIT_XML }}"
+        run: ./gradlew :integration-tests:integrationTest --stacktrace
+
+      # The cda_stack fixture turns "could not bring up docker" or a missing
+      # package into a skip, which would otherwise show up as a green run that
+      # tested nothing. Intentional skips (e.g. a flow group with no output
+      # configured) are allowed; environment skips and an empty run are not.
+      - name: Check for skipped tests
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import os, re, sys
+          import xml.etree.ElementTree as ET
+
+          path = os.environ["JUNIT_XML"]
+          if not os.path.exists(path):
+              sys.exit(f"No JUnit report at {path}: the integration tests did not run.")
+
+          cases = list(ET.parse(path).getroot().iter("testcase"))
+          passed = [c for c in cases if not any(c.find(t) is not None for t in ("skipped", "failure", "error"))]
+          skipped = [(c.get("classname") + "::" + c.get("name"), c.find("skipped").get("message", ""))
+                     for c in cases if c.find("skipped") is not None]
+          env_skip = re.compile(r"docker|compose|not installed|could not bring up|regi_python|cwms-python|wheel", re.I)
+
+          print(f"{len(cases)} tests, {len(passed)} passed, {len(skipped)} skipped")
+          for name, reason in skipped:
+              print(f"  SKIPPED {name}: {reason[:160]}")
+
+          problems = []
+          if not passed:
+              problems.append("no integration test passed")
+          problems += [f"environment skip: {n}: {r[:160]}" for n, r in skipped if env_skip.search(r)]
+          if problems:
+              sys.exit("\n".join(problems))
+          PY
+
+      - name: Collect docker logs
+        if: always()
+        run: |
+          mkdir -p integration-tests/build
+          docker compose -f integration-tests/docker-compose.yml logs --no-color \
+            > integration-tests/build/docker-compose.log 2>&1 || true
+
+      - name: Upload test reports and logs
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: integration-test-reports
+          path: |
+            integration-tests/build/integration-junit.xml
+            integration-tests/build/docker-compose.log
+            integration-tests/regi-projects/regi-python/regi-python.log
+          if-no-files-found: warn
+          retention-days: 14
