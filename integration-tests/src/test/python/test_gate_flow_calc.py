@@ -30,13 +30,11 @@ Not every flow group is testable:
     series" in README.md). Gated_Total's window happens to be all zero
     (gates were closed that week) -- that's real seeded history, not a
     placeholder.
-  - Uncontrolled_Total: its CLOB's `<time_series_set>` is empty
-    (`compose_files/regi-data/SWT/Clobs/FLOW.EUFA.UNCONTROLLED_TOTAL.json`)
-    -- no output ts is configured for this flow group at all. Unlike the
-    other three, this isn't a seeding gap: EUFA has no uncontrolled-spillway
-    structure (no rating for one, unlike e.g. FCOB's
-    `FCOB.Elev;Flow-Uncontrolled_Spillway...` rating), so `computeFlowGroup`
-    genuinely has nothing to write here. Stays skipped for that reason.
+  - EUFA's Uncontrolled_Total is not tested: its CLOB's `<time_series_set>`
+    is empty (`compose_files/regi-data/SWT/Clobs/FLOW.EUFA.UNCONTROLLED_TOTAL.json`)
+    and EUFA has no uncontrolled-spillway rating (unlike FCOB's
+    `FCOB.Elev;Flow-Uncontrolled_Spillway...`), so `computeFlowGroup` has
+    nothing to write. FCOB's Uncontrolled_Total is covered instead.
 """
 
 from datetime import datetime, timezone
@@ -108,18 +106,6 @@ FLOW_GROUPS = {
         "window_start": datetime(2026, 6, 25, tzinfo=timezone.utc),
         "window_end": datetime(2026, 6, 29, tzinfo=timezone.utc),
     },
-    "Uncontrolled_Total": pytest.param(
-        {
-            "flow_group_name": "Flow.EUFA.Uncontrolled_Total",
-            "output_ts_id": None,
-            "expected_ts_id": None,
-        },
-        marks=pytest.mark.skip(
-            reason="FLOW.EUFA.UNCONTROLLED_TOTAL's CLOB has an empty "
-            "<time_series_set/> -- no output ts is configured for this flow "
-            "group at all yet, so computeFlowGroup has nothing to write."
-        ),
-    ),
 }
 
 
