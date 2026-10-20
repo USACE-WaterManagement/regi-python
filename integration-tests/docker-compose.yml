@@ -11,8 +11,12 @@ services:
       - OFFICE_EROC=s0
     ports: [ "1526:1521" ]
     healthcheck:
-      test: [ "CMD", "tnsping", "FREEPDB1" ]
-      interval: 30s
+      # Log in through the listener to the FREEPDB1 service, exactly as data-api
+      # will. `tnsping` only checks that the listener answers, which happens
+      # ~45s before the database opens; data-api then starts, fails to create its
+      # connection pool (ORA-12514: service not registered) and never recovers.
+      test: [ "CMD-SHELL", "echo 'select 1 from dual;' | sqlplus -s \"CWMS_20/$$CWMS_PASSWORD@//localhost:1521/FREEPDB1\" | grep -q '^[[:space:]]*1$$'" ]
+      interval: 10s
       timeout: 50s
       retries: 50
       start_period: 40m
