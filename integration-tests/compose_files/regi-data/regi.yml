@@ -88,6 +88,7 @@ offices:
           - id: KEYS.Flow-Res Out.Ave.1Hour.1Hour.Rev-Regi-Flowgroup
           - id: KEYS.Flow-Res Out.Inst.1Hour.0.Rev-Regi-Flowgroup
           - id: KEYS.Flow-RES-TGs.Ave.1Hour.1Hour.regi
+          - id: KEYS.Flow-RES-TGs.Ave.1Hour.1Hour.REGI-Test-Expected
           - id: KEYS.Flow-Power.Ave.1Hour.1Hour.Rev-Regi-Flowgroup
           - id: KEYS.Flow-Power.Inst.1Hour.0.Rev-Regi-Flowgroup
           - id: KEYS.Flow-Power.Ave.~1Day.1Day.Rev-Regi-Flowgroup
@@ -238,6 +239,7 @@ offices:
           - id: FCOB.Flow-Res Out.Ave.1Hour.1Hour.Rev-Regi-Flowgroup
           - id: FCOB.Flow-Res Out.Inst.1Hour.0.Rev-Regi-Flowgroup
           - id: FCOB.Flow-Uncontrolled.Ave.1Hour.1Hour.Rev-Regi-Flowgroup
+          - id: FCOB.Flow-Uncontrolled.Ave.1Hour.1Hour.REGI-Test-Expected
       - id: WEBB
         enabled: true
         outlets:

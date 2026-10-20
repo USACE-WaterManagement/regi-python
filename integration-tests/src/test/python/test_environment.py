@@ -20,8 +20,7 @@ def test_cda_etl_seeding_completed(cda_stack):
     # cda-etl) before yielding and raises RuntimeError on a non-zero exit,
     # so getting here at all means seeding succeeded.
     #
-    # TODO: once the real cda-etl/data/sample-data/sample-app.yml (copied in
-    # from the cwms-data-api repo, see that directory's README.md) is known,
-    # extend this to assert on specific seeded offices/locations/timeseries
-    # rather than just "the ETL job exited 0".
+    # TODO: extend this to assert on specific seeded offices/locations/
+    # timeseries from compose_files/regi-data/regi.generated.yml rather than
+    # just "the ETL job exited 0".
     assert cda_stack["base_url"]

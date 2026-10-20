@@ -5,8 +5,9 @@ real CDA instance with known data to talk to.
 
 Requires:
   - Docker (with the `docker compose` CLI plugin) available on PATH.
-  - compose_files/ and cda-etl/data/sample-data/ populated from the
-    cwms-data-api repo (see the README.md in each of those directories).
+  - compose_files/ (SQL grants and the REGI ETL config/seed data under
+    compose_files/regi-data/), vendored in this repo.
+  - Network access to GitHub, to build the cda-etl image (see README.md).
 """
 
 import os
@@ -56,7 +57,7 @@ def _require_docker():
 @pytest.fixture(scope="session")
 def cda_stack():
     """
-    Starts db, minio, and data-api (via docker compose), waits for them to
+    Starts db and data-api (via docker compose), waits for them to
     report healthy, then runs cda-etl once as a seeding step. Yields
     connection info for the running data-api.
 
@@ -74,9 +75,9 @@ def cda_stack():
     _require_docker()
 
     # No `pull=True`: `data-api` pulls a real tag, but `cda-etl`/`cda-expander`
-    # are locally pre-built images (see README.md prerequisite #2) with no
-    # registry to pull from -- forcing a pull here fails outright even when
-    # the images are already present and working locally.
+    # are built from the cwms-data-api git repo (see README.md prerequisite
+    # #2) and tagged locally, so there is no registry to pull them from. The
+    # build itself happens in `_seed_via_cda_etl` (`run --build`).
     #
     # `services=["db", "data-api"]` restricts what `--wait` waits *on* --
     # `db_webuser_permissions` and `cda-expander` still run first as their
@@ -115,7 +116,7 @@ def _seed_via_cda_etl(compose: DockerCompose):
         compose_file_name="docker-compose.yml",
         profiles=["seed"],
     )
-    cmd = seed_compose.docker_compose_command() + ["run", "--rm", "cda-etl"]
+    cmd = seed_compose.docker_compose_command() + ["run", "--build", "--rm", "cda-etl"]
     result = subprocess.run(
         cmd, cwd=INTEGRATION_TESTS_ROOT, capture_output=True, text=True
     )
@@ -191,13 +192,33 @@ def regi_jvm(cda_stack):
 
 
 @pytest.fixture
-def run_regi_calculation(regi_jvm):
+def run_regi_calculation(regi_jvm, caplog):
     """
-    Returns `run_headless` (from regi_python), ready to call with a
+    Returns a function that runs `run_headless` (from regi_python) with a
     `callback(registry)` for the current test. Depending on `regi_jvm` (not
     calling regi_session() itself) is what makes JVM startup/shutdown happen
     once per session instead of once per test.
+
+    REGI's scriptable calculations catch and *log* most failures (for
+    example "Unable to compute flow group ...") instead of raising them, so
+    a calculation that did nothing returns normally. Any ERROR-level log
+    record emitted during the run therefore fails the test, otherwise a
+    comparison against already-seeded output could pass without the
+    calculation ever having written anything.
     """
+    import logging
+
     from regi_python import run_headless
 
-    return run_headless
+    def run(callback):
+        caplog.clear()
+        with caplog.at_level(logging.ERROR):
+            run_headless(callback)
+        errors = [
+            f"{record.name}: {record.getMessage()}"
+            for record in caplog.records
+            if record.levelno >= logging.ERROR
+        ]
+        assert not errors, "REGI logged error(s) during the calculation:\n" + "\n".join(errors)
+
+    return run

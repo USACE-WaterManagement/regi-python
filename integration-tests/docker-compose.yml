@@ -1,3 +1,6 @@
+x-cda-etl-build: &cda-etl-build
+  context: ${CDA_ETL_GIT_URL:-https://github.com/USACE/cwms-data-api.git}#${CDA_ETL_GIT_REF:-16219ad9b9a7433bed329de4dcc222e95acb346f}:cda-etl
+
 services:
   db:
     image: ghcr.io/hydrologicengineeringcenter/cwms-database/cwms/database-ready-ora-23.5:26.07.16-RC02
@@ -65,7 +68,8 @@ services:
       start_period: 2s
 
   cda-expander:
-    image: cwms-data-api/etl
+    image: cwms-data-api/etl:local
+    build: *cda-etl-build
     command: >
       sh -c '
       if [ -n "$$SOURCE_CDA_URL" ]; then
@@ -85,7 +89,8 @@ services:
       - SOURCE_CDA_API_KEY=${SOURCE_CDA_API_KEY:-}
 
   cda-etl:
-    image: cwms-data-api/etl
+    image: cwms-data-api/etl:local
+    build: *cda-etl-build
     profiles: ["seed"]
     depends_on:
       data-api:

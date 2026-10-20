@@ -10,7 +10,7 @@
 #
 # expander version : 1.0.0
 # base config      : regi.yml
-# base sha256      : 96e298e22bc8eb60efea17cba8a3bb3692ae2f08bf8ee0c7655ddb6101c33ee9
+# base sha256      : c92ae1a3cc789804bf5e5dece542019910625d3b46171f2cd3bb76470ed80009
 # templates        : regi.templates.yml
 # templates sha256 : 95fb93138444e1b422dc044f73d93c1e63620eab18dcdc7b5ffd28809e0c125c
 
@@ -104,6 +104,7 @@ offices:
     - id: KEYS.Flow-Res Out.Ave.1Hour.1Hour.Rev-Regi-Flowgroup
     - id: KEYS.Flow-Res Out.Inst.1Hour.0.Rev-Regi-Flowgroup
     - id: KEYS.Flow-RES-TGs.Ave.1Hour.1Hour.regi
+    - id: KEYS.Flow-RES-TGs.Ave.1Hour.1Hour.REGI-Test-Expected
     - id: KEYS.Flow-Power.Ave.1Hour.1Hour.Rev-Regi-Flowgroup
     - id: KEYS.Flow-Power.Inst.1Hour.0.Rev-Regi-Flowgroup
     - id: KEYS.Flow-Power.Ave.~1Day.1Day.Rev-Regi-Flowgroup
@@ -256,6 +257,7 @@ offices:
     - id: FCOB.Flow-Res Out.Ave.1Hour.1Hour.Rev-Regi-Flowgroup
     - id: FCOB.Flow-Res Out.Inst.1Hour.0.Rev-Regi-Flowgroup
     - id: FCOB.Flow-Uncontrolled.Ave.1Hour.1Hour.Rev-Regi-Flowgroup
+    - id: FCOB.Flow-Uncontrolled.Ave.1Hour.1Hour.REGI-Test-Expected
   - id: WEBB
     enabled: true
     locations:

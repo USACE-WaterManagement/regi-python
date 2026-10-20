@@ -8,8 +8,8 @@ as opposed to the JPype/reflection-based unit and smoke tests under
 This is adapted from the `cwms-data-api` repo's own `docker-compose.yml`,
 with two changes for automated testing from regi-python:
 
-1. `data-api` and `cda-etl` run from pre-built images instead of being built
-   from a checked-out CDA source tree.
+1. `data-api` runs from a pre-built image, and `cda-etl` is built from the
+   CDA GitHub repo by compose.
 2. Keycloak and the `traefik` HTTPS proxy are removed. Tests authenticate
    with a CWMS API key instead of an OpenID token.
 
@@ -25,17 +25,20 @@ scaffolded but skipped.
 ## Prerequisites
 
 1. **Docker**, with the `docker compose` CLI plugin, running locally.
-2. **Real image references.** `data-api` pulls `ghcr.io/usace/cwms-data-api`,
-   with the tag defaulting to `latest` and overridable via
-   `CDA_DATA_API_VERSION`. Copy `.env.example` to `.env` and fill in
-   `CDA_ETL_IMAGE` with an actual, pre-built image tag for `cda-etl` --
-   that placeholder in `docker-compose.yml` will not pull as-is.
-3. **CDA-owned config and sample data**, copied from a `cwms-data-api`
-   checkout (not vendored in this repo -- see the README in each spot):
-   - `compose_files/` (SQL grant script, TLS certs, Togglz/Tomcat config,
-     entrypoint scripts)
-   - `cda-etl/data/sample-data/` (the `sample-app.yml` ETL config and the
-     sample data files it references)
+2. **Images.** `data-api` pulls `ghcr.io/usace/cwms-data-api`, with the tag
+   defaulting to `latest` and overridable via `CDA_DATA_API_VERSION`.
+   `cda-etl` (and `cda-expander`) are built by Docker directly from
+   `https://github.com/USACE/cwms-data-api.git` (subdir `cda-etl`) and tagged
+   `cwms-data-api/etl:local` -- no published image is needed. Copy
+   `.env.example` to `.env` to override `CDA_ETL_GIT_URL` / `CDA_ETL_GIT_REF`
+   (default: the pinned commit `16219ad9b9a7433bed329de4dcc222e95acb346f`, which is the `2026.09.22-a` release plus the fix that publishes location groups after project locations exist; set `develop` to track latest). The
+   build needs network access to github.com and PyPI. To build manually:
+   `docker compose build cda-etl`.
+3. **Config and seed data**, vendored in this repo under `compose_files/`:
+   - `compose_files/sql/` (SQL grant script for the web user)
+   - `compose_files/regi-data/` (the REGI ETL config -- `regi.yml`,
+     `regi.templates.yml`, and the expander-generated `regi.generated.yml` --
+     plus the seed data files under `SWT/` that it references)
 4. Python deps: `pip install -r requirements.txt` -- includes `cwms-python`,
    which the calculation tests use to read/write CDA data (see "Calculation
    tests" below) instead of hand-rolled `requests` calls.
@@ -62,15 +65,14 @@ Or via Gradle, using the same Gradle-managed Python venv approach
 ```
 
 The `cda_stack` fixture (in `conftest.py`) runs `docker compose up --wait`
-for `db`, `db_webuser_permissions`, `minio`, `minio-setup`, and `data-api`,
-then runs `cda-etl` once as a seeding step via
-`docker compose --profile seed run --rm cda-etl` (it's gated behind the
+for `db` and `data-api` (`db_webuser_permissions` runs first as a one-shot
+job), then runs `cda-etl` once as a seeding step via
+`docker compose --profile seed run --build --rm cda-etl` (it's gated behind the
 `seed` profile so a plain `up` doesn't try to start it as a long-running
 service). The stack is torn down at the end of the session.
 
-Tests are skipped, with an explanatory message, if the required assets or
-real image env vars above aren't in place -- so `pytest` won't hang trying
-to pull placeholder images.
+Tests are skipped, with an explanatory message, if Docker isn't available or
+the stack can't be brought up.
 
 If you've already brought the stack up yourself (`docker compose up --wait
 db data-api && docker compose --profile seed run --rm cda-etl`), the
@@ -201,53 +203,71 @@ verifying its output is correct -- then freezing *that* as the
   `regi.yml`'s (and `regi.generated.yml`'s) EUFA `timeseries:` list, so
   `cda-etl` never loaded it -- that 404 on the expected series is what made
   the test fail. Fixed by adding it to both files.
-- **Gate Flow** (`test_gate_flow_calc.py`): `Project_Total`, `Gated_Total`,
-  and `Turbine_Total` are all implemented and passing end-to-end. EUFA now
-  has real outlets/turbines/gate-changes and `Flow.EUFA.*` location groups
-  seeded, and each flow group's real output ts id was confirmed against a
-  live seeded stack (`EUFA.Flow-Res Out...Rev-Regi-Flowgroup` for
-  Project_Total, `EUFA.Flow-Controlled...Rev-Regi-Flowgroup` for Gated_Total,
-  `EUFA.Flow-Power...Rev-Regi-Flowgroup` for Turbine_Total -- all version
-  "Rev-Regi-Flowgroup", the flow-group analog of Inflow's "Regi-Rev-Adjusted").
-  Gated_Total and Turbine_Total's output ts's already had real point data
-  seeded for the June 2026 comparison window (Gated_Total's happens to be all
-  zero -- gates were closed that week, which is real history, not a
-  placeholder); their `REGI-Test-Expected` references were frozen from those
-  already-seeded values the same way Project_Total's was, and both entries
-  were added to `regi.yml`/`regi.generated.yml`. `Uncontrolled_Total` stays
-  skipped: its CLOB has a genuinely empty `<time_series_set/>` -- EUFA has no
-  uncontrolled-spillway structure at all (no rating for one, unlike e.g.
-  FCOB), so there's nothing for `computeFlowGroup` to write, not a seeding
-  gap.
-- **Gate Settings** (`test_gate_settings_calc.py`): scaffolded but still
-  `pytest.mark.skip`'d. Source inspection of `ScriptableGateSettingsImpl` (in
-  :regi-headless) shows `createGateSettingsOutlet` does *not* write a plain
-  timeseries at all -- it persists real CWMS gate-change records (fetchable
-  via `cwms.get_all_gate_changes`), not an "Opening"-parameter ts. Getting it
-  to resolve an outlet at all against a live stack took two real fixes: (1)
-  `regi.yml`/`regi.generated.yml`'s `locationGroups:` entries for
-  `EUFA-SluiceGate`/`EUFA-TainterGate` were tagged `categoryId: Flow` instead
-  of `categoryId: Rating`, so `cda-etl` never staged the already-seeded
-  `LocationGroups/Rating.json` assignments into CDA under the Rating category
-  that `GateSettingsDataAdapter.getGateObjects()` (in `regi/computation`, not
-  vendored here) requires -- fixed by correcting both entries' `categoryId`;
-  (2) `IControlledOutletGroupContainer.getOutletMap()` turned out to be keyed
-  by each outlet's bare sub-location name (`SG1`, `TG1`), not CDA's
-  fully-qualified id (`EUFA-SG1`) -- `createGateSettingsOutlet` needs the
-  short form, confirmed via temporary diagnostic logging. With both fixed,
-  the outlet resolves and the calculation runs, but this test's own
-  `cwms.get_all_gate_changes` query for the June 2026 window 404s: EUFA's
-  only seeded gate-change history (`GateChanges/EUFA.json`) is mid/late July
-  2026, so there's no head-of-record to bracket the June window against. An
-  alternate project (WEBB, which does have real June gate-change history for
-  `WEBB-TG1`) was tried but hit its own gap -- its
-  `Opening-Spillway_Gates` rating spec's extents can't be determined, so its
-  outlet group gets skipped the same way EUFA's did before fix (1). No
-  project in this seed dataset currently has both a resolvable Rating-category
-  outlet group and gate-change history covering June 2026, so the test stays
-  skipped rather than fabricating gate-change history this repo has no
-  authority to invent -- see the test's module docstring for both traces and
-  what would unskip it.
+- **Gate Flow** (`test_gate_flow_calc.py`): five cases pass end-to-end, one
+  is skipped. Each case runs `computeFlowGroup` for a flow group and compares
+  the series it writes against a frozen `REGI-Test-Expected` series (see
+  "Known-good reference series" above). `FLOW_GROUPS` entries default to EUFA
+  and the June 1 -> June 3..7 window; other projects override `project_id`
+  and, where needed, the window.
+
+  | Case | Output ts compared | Notes |
+  |---|---|---|
+  | `Project_Total` (EUFA) | `Flow-Res Out.Ave.~1Day.1Day` | real seeded history |
+  | `Gated_Total` (EUFA) | `Flow-Controlled.Ave.1Hour.1Hour` | window is all zero (gates closed that week) |
+  | `Turbine_Total` (EUFA) | `Flow-Power.Ave.1Hour.1Hour` | real seeded history |
+  | `FCOB_Uncontrolled_Total` | `FCOB.Flow-Uncontrolled.Ave.1Hour.1Hour` | **synthetic elevations**, see below |
+  | `KEYS_TainterGate_Total` | `KEYS.Flow-RES-TGs.Ave.1Hour.1Hour.regi` | window 06-25..06-29, after KEYS' first gate change; the CLOB's output version is `regi`, not `Rev-Regi-Flowgroup` |
+  | `Uncontrolled_Total` (EUFA) | -- | skipped: its CLOB has an empty `<time_series_set/>` and EUFA has no uncontrolled-spillway rating |
+
+  *FCOB uses synthetic data.* FCOB's real 2026 pool tops out near 1342.3 ft,
+  about 12.5 ft below the uncontrolled-spillway crest (1354.8 ft in
+  `FCOB.Elev;Flow-Uncontrolled_Spillway`), and 2025 has no data on the test
+  CDA, so a real window would only ever produce zeros.
+  `FCOB.Elev.Inst.1Hour.0.Ccp-Rev` is therefore edited for 2026-06-04..06-06
+  to hold 1355.0 / 1356.0 / 1356.5 ft for one day each (exact points on the
+  2013 rating, which is the effective curve; the spec's in-range method is
+  `PREVIOUS`, so exact points avoid any interpolation question). The expected
+  series is computed from those elevations and the rating, not from REGI's
+  output: 23.2450894 / 341.631648 / 576.049241 cfs on the plateaus, and each
+  hour is the mean of the flows at its start and end, so the day-boundary
+  hours are halfway (e.g. 11.6225447 at 06-04 00:00). REGI reproduces every
+  value.
+
+  *Why these tests can fail.* REGI catches and logs most calculation
+  failures (e.g. "Unable to compute flow group ...") instead of raising, and
+  the output series are seeded with history, so an earlier version of these
+  tests passed even though every calculation was failing. Two guards now
+  prevent that: `run_regi_calculation` (in `conftest.py`) fails the test on
+  any ERROR-level log record emitted during the run, and each Gate Flow case
+  calls `clear_timeseries` on its output window first so only data the
+  calculation wrote can satisfy the comparison. Other tests that use
+  `run_regi_calculation` get the error check too.
+
+  *Not covered.* The other EUFA groups (`Controlled`, `EUFA Turbine_Total`,
+  `Lock_Total`, `Pump_*_Total`) have an empty `<time_series_set/>` in their
+  CLOBs, so `computeFlowGroup` has nothing to write; `SluiceGate_Total` and
+  `TainterGate_Total` have output config but no seeded data and no gate-change
+  history that would make them non-zero. KEYS/WEBB/FCOB `Project_Total`,
+  `Gated_Total` and `Turbine_Total`, FCOB `Pump_Out_Total`, and `computeAll`
+  and the multi-location overloads are untested.
+
+- **Gate Settings** (`test_gate_settings_calc.py`): `SG1` and `TG1` pass
+  end-to-end. `createGateSettingsOutlet` does not write a timeseries; it
+  persists CWMS gate-change records, which the test reads back from CDA for
+  the 2026-07-17..07-22 window. Getting there took four fixes (Rating-category
+  location groups in `regi.yml`, the bare sub-location outlet id, the window,
+  and per-outlet opening timeseries), plus the `regi-tools` 10.0.0 bump for
+  the `retrieveRatingGroups()` 409 on commit -- the module docstring has the
+  traces. Frozen values come from the seeded input timeseries and match what
+  REGI wrote: SG1 opens 0.5 ft at 07-17 00:00Z and 1.2 ft at 07-19 00:00Z;
+  TG1 opens 1.0 ft and 3.5 ft at the same times. The gate-changes in the
+  window are deleted before and after each test (EUFA's seeded changes are all
+  outside the window), so what's asserted was written by the calculation.
+  Known gap: the inputs also close each gate at 07-21 12:00Z, and REGI logs
+  that as a modification but stores no gate change for it; the test
+  documents this and fails if that behavior changes. `cwms.get_all_gate_changes`
+  and `delete_gate_change` send an `Accept` header CDA rejects with a 406, so
+  the test calls `cwms.api` with `api_version=1` instead.
 
 ## Notes / things verified against the real images
 

@@ -55,6 +55,23 @@ def fetch_timeseries(
     return points
 
 
+def clear_timeseries(ts_id: str, office_id: str, begin: datetime, end: datetime) -> None:
+    """
+    Deletes a timeseries' values in [begin, end] so a test that follows can
+    only see data the calculation under test wrote itself. Output series are
+    seeded with history (so the stack looks like production); without
+    clearing, a comparison against that history can pass even if the
+    calculation wrote nothing.
+    """
+    import cwms
+
+    try:
+        cwms.delete_timeseries(ts_id=ts_id, office_id=office_id, begin=begin, end=end)
+    except Exception as error:  # nothing to delete in the window is fine
+        if "not found" not in str(error).lower() and "no data" not in str(error).lower():
+            raise
+
+
 def assert_timeseries_matches(
     actual: Sequence[TimeseriesPoint],
     expected: Sequence[TimeseriesPoint],
