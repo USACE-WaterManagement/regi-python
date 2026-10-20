@@ -1,5 +1,5 @@
 x-cda-etl-build: &cda-etl-build
-  context: ${CDA_ETL_GIT_URL:-https://github.com/USACE/cwms-data-api.git}#${CDA_ETL_GIT_REF:-16219ad9b9a7433bed329de4dcc222e95acb346f}:cda-etl
+  context: ${CDA_ETL_GIT_URL:-https://github.com/USACE/cwms-data-api.git}#${CDA_ETL_GIT_REF:-60d50c155aceeaede945a36406a800c0581b9d7a}:cda-etl
 
 services:
   db:

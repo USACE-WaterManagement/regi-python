@@ -31,9 +31,8 @@ scaffolded but skipped.
    `https://github.com/USACE/cwms-data-api.git` (subdir `cda-etl`) and tagged
    `cwms-data-api/etl:local` -- no published image is needed. Copy
    `.env.example` to `.env` to override `CDA_ETL_GIT_URL` / `CDA_ETL_GIT_REF`
-   (default: the pinned commit `16219ad9b9a7433bed329de4dcc222e95acb346f`, which is the `2026.09.22-a` release plus the fix that publishes location groups after project locations exist; set `develop` to track latest). The
-   build needs network access to github.com and PyPI. To build manually:
-   `docker compose build cda-etl`.
+   (set `develop` to track latest). The build needs network access to github.com and PyPI. 
+    To build manually: `docker compose build cda-etl`.
 3. **Config and seed data**, vendored in this repo under `compose_files/`:
    - `compose_files/sql/` (SQL grant script for the web user)
    - `compose_files/regi-data/` (the REGI ETL config -- `regi.yml`,
