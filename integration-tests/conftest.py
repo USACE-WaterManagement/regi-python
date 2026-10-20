@@ -106,7 +106,30 @@ def cda_stack():
         _seed_via_cda_etl(compose)
         yield {"base_url": CDA_BASE_URL, "api_key": CDA_TEST_API_KEY}
     finally:
+        # Must run before compose.stop(), which removes the containers and
+        # their logs.
+        _dump_compose_logs()
         compose.stop()
+
+
+def _dump_compose_logs():
+    """
+    Writes every compose service's logs to $CDA_COMPOSE_LOG when that env var
+    is set (CI sets it so a failed run leaves the db/data-api logs behind).
+    Never raises: diagnostics must not mask the real test result.
+    """
+    log_path = os.environ.get("CDA_COMPOSE_LOG")
+    if not log_path:
+        return
+    try:
+        Path(log_path).parent.mkdir(parents=True, exist_ok=True)
+        result = subprocess.run(
+            ["docker", "compose", "--profile", "seed", "logs", "--no-color", "--timestamps"],
+            cwd=INTEGRATION_TESTS_ROOT, capture_output=True, text=True, timeout=120,
+        )
+        Path(log_path).write_text(result.stdout + result.stderr, encoding="utf-8")
+    except Exception as exc:
+        print(f"Could not collect docker compose logs: {exc}")
 
 
 def _seed_via_cda_etl(compose: DockerCompose):

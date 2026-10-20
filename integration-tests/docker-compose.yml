@@ -38,7 +38,7 @@ services:
         condition: service_healthy
 
   data-api:
-    image: ghcr.io/usace/cwms-data-api:${CDA_DATA_API_VERSION:-latest}
+    image: ghcr.io/usace/cwms-data-api:${CDA_DATA_API_VERSION:-2026.10.20-testa}
     depends_on:
       db:
         condition: service_healthy
@@ -61,9 +61,13 @@ services:
     ports:
       - "${CDA_PORT:-7000}:7000"
     healthcheck:
-      test: ["CMD", "/usr/bin/curl", "-I", "localhost:7000/cwms-data/offices/HEC"]
+      # -f: fail on an HTTP error. Without it curl exits 0 for any response,
+      # so compose reported "healthy" as soon as Tomcat answered -- including
+      # its HTML 404 page while the cwms-data webapp was still deploying --
+      # and cda-etl's first POST (/cwms-data/properties) then got that 404.
+      test: ["CMD", "/usr/bin/curl", "-fsS", "-o", "/dev/null", "localhost:7000/cwms-data/offices/HEC"]
       interval: 5s
-      timeout: 1s
+      timeout: 3s
       retries: 100
       start_period: 2s
 

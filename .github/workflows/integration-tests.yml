@@ -36,6 +36,9 @@ jobs:
 
     env:
       JUNIT_XML: ${{ github.workspace }}/integration-tests/build/integration-junit.xml
+      # conftest.py writes the db/data-api/etl container logs here just before
+      # it tears the stack down (afterwards there is nothing left to collect).
+      CDA_COMPOSE_LOG: ${{ github.workspace }}/integration-tests/build/docker-compose.log
 
     steps:
       - name: Checkout repository
@@ -105,13 +108,6 @@ jobs:
           if problems:
               sys.exit("\n".join(problems))
           PY
-
-      - name: Collect docker logs
-        if: always()
-        run: |
-          mkdir -p integration-tests/build
-          docker compose -f integration-tests/docker-compose.yml logs --no-color \
-            > integration-tests/build/docker-compose.log 2>&1 || true
 
       - name: Upload test reports and logs
         if: always()

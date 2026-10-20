@@ -26,7 +26,7 @@ scaffolded but skipped.
 
 1. **Docker**, with the `docker compose` CLI plugin, running locally.
 2. **Images.** `data-api` pulls `ghcr.io/usace/cwms-data-api`, with the tag
-   defaulting to `latest` and overridable via `CDA_DATA_API_VERSION`.
+   defaulting to the pinned build `2026.10.20-testa` (not `latest`, so runs are reproducible) and overridable via `CDA_DATA_API_VERSION`.
    `cda-etl` (and `cda-expander`) are built by Docker directly from
    `https://github.com/USACE/cwms-data-api.git` (subdir `cda-etl`) and tagged
    `cwms-data-api/etl:local` -- no published image is needed. Copy
