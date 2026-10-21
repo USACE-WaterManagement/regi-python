@@ -1,0 +1,2846 @@
+[
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ALTU-CG1",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ALTU-CG2",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ALTU-CG3",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ALTU-TG1",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ALTU-TG2",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ALTU-TG3",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ALTU-TG4",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ALTU-TG5",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ALTU-TG6",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ALTU-TG7",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ALTU-TG8",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ALTU-TG9",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ALTU-UC",
+    "value": "UncontrolledSpillway"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ARBU-CG1",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ARBU-CG2",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ARBU-LF1",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ARBU-UC",
+    "value": "UncontrolledSpillway"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ARCA-CG1",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ARCA-CG2",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ARCA-LF",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ARCA-LF1",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ARCA-LF2",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ARCA-UC",
+    "value": "UncontrolledSpillway"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "BIGH-LF1",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "BIGH-LF2",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "BIGH-UC",
+    "value": "UncontrolledSpillway"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "BIGH-UCA",
+    "value": "Auxiliary Uncontrolled Spillway"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "BIRC-CG1",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "BIRC-CG2",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "BIRC-LF1",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "BIRC-UC",
+    "value": "UncontrolledSpillway"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "BROK-CG1",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "BROK-CG2",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "BROK-LF1",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "BROK-LF2",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "BROK-TG1",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "BROK-TG2",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "BROK-TG3",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "BROK-TG4",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "BROK-TG5",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "BROK-TG6",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "BROK-TG7",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "BROK-TG8",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "CANT-LF1",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "CANT-LF2",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "CANT-SG1",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "CANT-SG2",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "CANT-TG1",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "CANT-TG10",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "CANT-TG11",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "CANT-TG12",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "CANT-TG13",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "CANT-TG14",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "CANT-TG15",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "CANT-TG16",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "CANT-TG2",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "CANT-TG3",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "CANT-TG4",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "CANT-TG5",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "CANT-TG6",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "CANT-TG7",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "CANT-TG8",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "CANT-TG9",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "CHEN-SG1",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "CHEN-SG2",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "CHEN-UC",
+    "value": "UncontrolledSpillway"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "CHOU-TG1",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "CHOU-TG2",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "CHOU-TG3",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "COPA-LF1",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "COPA-TG1",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "COPA-TG2",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "COPA-TG3",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "COPA-TG4",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "COUN-CG1",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "COUN-CG2",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "COUN-LF1",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "COUN-UC",
+    "value": "UncontrolledSpillway"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "DENI-CG1",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "DENI-CG2",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "DENI-CG3",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "DENI-CG4",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "DENI-CG5",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "DENI-CG6",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "DENI-CH4",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "DENI-UncontrolledSpillway",
+    "value": "UncontrolledSpillway"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ELDR-CG1",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ELDR-CG2",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ELDR-LF1",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ELDR-UC",
+    "value": "UncontrolledSpillway"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ELKC-CG1",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ELKC-CG2",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ELKC-LF1",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ELKC-UC",
+    "value": "UncontrolledSpillway"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "EUFA-SG1",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "EUFA-TG1",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "EUFA-TG10",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "EUFA-TG11",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "EUFA-TG2",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "EUFA-TG3",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "EUFA-TG4",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "EUFA-TG5",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "EUFA-TG6",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "EUFA-TG7",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "EUFA-TG8",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "EUFA-TG9",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FALL-LF1",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FALL-SG1",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FALL-SG2",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FALL-SG3",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FALL-SG4",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FALL-SG5",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FALL-SG6",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FALL-SG7",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FALL-TG1",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FALL-TG2",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FALL-TG3",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FALL-TG4",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FALL-TG5",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FALL-TG6",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FALL-TG7",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FALL-TG8",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FCOB-CG1",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FCOB-CG2",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FCOB-LF1",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FCOB-UC",
+    "value": "UncontrolledSpillway"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-SG1",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-SG10",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-SG2",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-SG3",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-SG4",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-SG5",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-SG6",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-SG7",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-SG8",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-SG9",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-TG1",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-TG10",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-TG11",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-TG12",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-TG13",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-TG14",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-TG15",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-TG16",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-TG17",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-TG18",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-TG19",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-TG2",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-TG20",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-TG21",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-TG22",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-TG23",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-TG24",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-TG25",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-TG26",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-TG27",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-TG28",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-TG29",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-TG3",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-TG30",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-TG4",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-TG5",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-TG6",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-TG7",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-TG8",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FGIB-TG9",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FOSS-CG1",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FOSS-CG2",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FOSS-LF1",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FOSS-UC",
+    "value": "UncontrolledSpillway"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FSUP-CG1",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FSUP-CG2",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FSUP-CG3",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FSUP-LF1",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "FSUP-UC",
+    "value": "UncontrolledSpillway"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "GSAL-LF1",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "GSAL-LF2",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "GSAL-UC",
+    "value": "UncontrolledSpillway"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HEYB-LF1",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HEYB-LF2",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HEYB-LF3",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HEYB-UC",
+    "value": "UncontrolledSpillway"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HEYB-UCA",
+    "value": "Auxiliary Uncontrolled Spillway"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HUDS-TG1",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HUDS-TG10",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HUDS-TG11",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HUDS-TG12",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HUDS-TG13",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HUDS-TG14",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HUDS-TG15",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HUDS-TG16",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HUDS-TG17",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HUDS-TG2",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HUDS-TG3",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HUDS-TG4",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HUDS-TG5",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HUDS-TG6",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HUDS-TG7",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HUDS-TG8",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HUDS-TG9",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HUGO-LF1",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HUGO-LF2",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HUGO-TG1",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HUGO-TG2",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HUGO-TG3",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HUGO-TG4",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HUGO-TG5",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HUGO-TG6",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HULA-LF1",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HULA-LF2",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HULA-SG1",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HULA-SG2",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HULA-SG3",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HULA-SG4",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HULA-SG5",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HULA-SG6",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HULA-SG7",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HULA-SG8",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HULA-SG9",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HULA-TG1",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HULA-TG10",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HULA-TG2",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HULA-TG3",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HULA-TG4",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HULA-TG5",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HULA-TG6",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HULA-TG7",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HULA-TG8",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "HULA-TG9",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "JOHN-LF1",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "JOHN-LF2",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "JOHN-TG1",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "JOHN-TG10",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "JOHN-TG11",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "JOHN-TG12",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "JOHN-TG13",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "JOHN-TG14",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "JOHN-TG2",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "JOHN-TG3",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "JOHN-TG4",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "JOHN-TG5",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "JOHN-TG6",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "JOHN-TG7",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "JOHN-TG8",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "JOHN-TG9",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KAWL-SG1",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KAWL-SG2",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KAWL-TG1",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KAWL-TG2",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KAWL-TG3",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KAWL-TG4",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KAWL-TG5",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KAWL-TG6",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KAWL-TG7",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KAWL-TG8",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KEMP-CG1",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KEMP-CG2",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KEMP-LF1",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KEMP-UC",
+    "value": "UncontrolledSpillway"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KEYS-1G16",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KEYS-LF1",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KEYS-SG1",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KEYS-SG2",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KEYS-SG3",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KEYS-SG4",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KEYS-SG5",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KEYS-SG6",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KEYS-SG7",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KEYS-SG8",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KEYS-SG9",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KEYS-TG1",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KEYS-TG10",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KEYS-TG11",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KEYS-TG12",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KEYS-TG13",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KEYS-TG14",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KEYS-TG15",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KEYS-TG16",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KEYS-TG17",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KEYS-TG18",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KEYS-TG2",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KEYS-TG3",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KEYS-TG4",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KEYS-TG5",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KEYS-TG6",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KEYS-TG7",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KEYS-TG8",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "KEYS-TG9",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "MARI-LF1",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "MARI-TG1",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "MARI-TG2",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "MARI-TG3",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "MCGE-CG1",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "MCGE-CG2",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "MCGE-CG3",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "MCGE-LF1",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "MCGE-UC",
+    "value": "UncontrolledSpillway"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "MERE-CG1",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "MERE-CG2",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "MERE-CG3",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "MERE-LF1",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "MERE-LF2",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "MERE-LF3",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "MERE-LF4",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "MERE-UC",
+    "value": "UncontrolledSpillway"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "NEWT-TG1",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "NEWT-TG2",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "NEWT-TG3",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "OOLO-CG1",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "OOLO-CG2",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "OOLO-CG3",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "OOLO-CG4",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "OOLO-LF1",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "OOLO-TG1",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "OOLO-TG2",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "OOLO-TG3",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "OOLO-TG4",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "OOLO-TG5",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "OOLO-TG6",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "OOLO-TG7",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PATM-LF1",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PATM-UC",
+    "value": "UncontrolledSpillway"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PATM-UCA",
+    "value": "Auxiliary Uncontrolled Spillway"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TG1",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TG10",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TG11",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TG12",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TG13",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TG14",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TG15",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TG16",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TG17",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TG18",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TG19",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TG2",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TG20",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TG21",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TG3",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TG4",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TG5",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TG6",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TG7",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TG8",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TG9",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TGA1",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TGA10",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TGA11",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TGA12",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TGA13",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TGA14",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TGA15",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TGA16",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TGA17",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TGA18",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TGA19",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TGA2",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TGA20",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TGA21",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TGA3",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TGA4",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TGA5",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TGA6",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TGA7",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TGA8",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PENS-TGA9",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PINE-CG1",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PINE-CG2",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PINE-LF1",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PINE-LF2",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PINE-LFA",
+    "value": "Low Flow Auxiliary"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "PINE-UC",
+    "value": "UncontrolledSpillway"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ROBE-TG1",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ROBE-TG10",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ROBE-TG11",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ROBE-TG12",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ROBE-TG13",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ROBE-TG14",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ROBE-TG15",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ROBE-TG16",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ROBE-TG17",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ROBE-TG18",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ROBE-TG2",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ROBE-TG3",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ROBE-TG4",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ROBE-TG5",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ROBE-TG6",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ROBE-TG7",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ROBE-TG8",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "ROBE-TG9",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "SARD-CG1",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "SARD-CG2",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "SARD-LF1",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "SARD-UC",
+    "value": "UncontrolledSpillway"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "SKIA-CG1",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "SKIA-CG2",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "SKIA-LF1",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "SKIA-UC",
+    "value": "UncontrolledSpillway"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TENK-CG1",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TENK-CG2",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TENK-LF",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TENK-TG1",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TENK-TG10",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TENK-TG2",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TENK-TG3",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TENK-TG4",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TENK-TG5",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TENK-TG6",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TENK-TG7",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TENK-TG8",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TENK-TG9",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TENK-TGA1",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TENK-TGA2",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TENK-TGA3",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TENK-TGA4",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TENK-TGA5",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "THUN-CG1",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "THUN-CG2",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "THUN-UC",
+    "value": "UncontrolledSpillway"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TOMS-CG1",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TOMS-LF1",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TOMS-LF2",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TOMS-UC",
+    "value": "UncontrolledSpillway"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TORO-LF1",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TORO-SG1",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TORO-SG2",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TORO-SG3",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TORO-SG4",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TORO-SG5",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TORO-SG6",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TORO-SG7",
+    "value": "SluiceGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TORO-TG1",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TORO-TG2",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TORO-TG3",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TORO-TG4",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TORO-TG5",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TORO-TG6",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TORO-TG7",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "TORO-TG8",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "WAUR-CG1",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "WAUR-CG2",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "WAUR-LF1",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "WAUR-UC",
+    "value": "UncontrolledSpillway"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "WDMA-TG1",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "WDMA-TG10",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "WDMA-TG11",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "WDMA-TG12",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "WDMA-TG2",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "WDMA-TG3",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "WDMA-TG4",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "WDMA-TG5",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "WDMA-TG6",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "WDMA-TG7",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "WDMA-TG8",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "WDMA-TG9",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "WEBB-TG1",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "WEBB-TG10",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "WEBB-TG11",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "WEBB-TG12",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "WEBB-TG2",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "WEBB-TG3",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "WEBB-TG4",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "WEBB-TG5",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "WEBB-TG6",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "WEBB-TG7",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "WEBB-TG8",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "WEBB-TG9",
+    "value": "TainterGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "WIST-CG1",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "WIST-CG2",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "WIST-CG3",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "WIST-CG4",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "WIST-CG5",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "WIST-CG6",
+    "value": "ConduitGate"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "WIST-LF1",
+    "value": "LOW Flow"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.outlet.assignment",
+    "name": "WIST-UC",
+    "value": "UncontrolledSpillway"
+  }
+]

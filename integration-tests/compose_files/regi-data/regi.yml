@@ -413,3 +413,5 @@ offices:
         all: true
       - categoryId: LOCATION LEVEL ASSOCIATION
         all: true
+      - categoryId: characteristic_type*
+        all: true
