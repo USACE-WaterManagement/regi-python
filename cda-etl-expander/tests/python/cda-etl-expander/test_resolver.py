@@ -226,6 +226,34 @@ def test_family_containing_spaces_is_handled(mocker):
     assert resolver.resolve_ids("SWT", "EUFA", SPEC) == ["EUFA.Text.Inst.~1Day.0.Wcds-Rev"]
 
 
+def test_interval_offset_suffix_is_stripped_and_deduplicated(mocker):
+    mocker.patch("cwms.api.get", return_value=[
+        {"name": "Regi_project_INPUT.A.?GLOBAL?",
+         "value": "?GLOBAL?.Flow-Res In.Ave.~1Day~0s.1Day.Regi-Rev-Adjusted"},
+        {"name": "Regi_project_INPUT.B.?GLOBAL?",
+         "value": "?GLOBAL?.Precip-Mean Areal.Total.~1Day~7h.1Day.Metvue-Computed"},
+        {"name": "Regi_project_INPUT.C.?GLOBAL?",
+         "value": "?GLOBAL?.Flow-Res In.Ave.~1Day.1Day.Regi-Rev-Adjusted"},
+    ])
+
+    assert resolver.resolve_ids("SWT", "EUFA", SPEC) == [
+        "EUFA.Flow-Res In.Ave.~1Day.1Day.Regi-Rev-Adjusted",
+        "EUFA.Precip-Mean Areal.Total.~1Day.1Day.Metvue-Computed",
+    ]
+
+
+def test_interval_offset_suffix_is_stripped_from_flow_group_ids(mocker):
+    xml = (
+        "<flow_group><incoming_ts><TSID>"
+        "EUFA.Count-Lockages.Total.~1Day~0s.1Day.Rev-Manual</TSID></incoming_ts></flow_group>"
+    )
+    mocker.patch("cwms.api.get", return_value=[{"id": "FLOW.EUFA.G", "value": xml}])
+
+    ids = resolver.resolve_ids("SWT", "EUFA", {"type": "flowGroupClob"})
+
+    assert ids == ["EUFA.Count-Lockages.Total.~1Day.1Day.Rev-Manual"]
+
+
 def test_malformed_names_are_ignored(mocker):
     mocker.patch("cwms.api.get", return_value=[
         {"name": "NoDotsAtAll", "value": "x"},

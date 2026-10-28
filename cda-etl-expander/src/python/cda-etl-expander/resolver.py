@@ -45,6 +45,7 @@ clob ids themselves (``_resolve_flow_group_clob_ids``), so a project's own
 from __future__ import annotations
 
 import logging
+import re
 import xml.etree.ElementTree as ElementTree
 from typing import Any, Callable, Iterable
 
@@ -80,7 +81,27 @@ def resolve_ids(office_id: str, project_id: str, spec: dict[str, Any]) -> list[s
             f"Unsupported source type '{source_type}'. Supported types: {sorted(_RESOLVERS)}."
         )
 
-    return resolver(office_id, project_id, spec)
+    resolved = resolver(office_id, project_id, spec)
+
+    if source_type == "flowGroupClobIds":
+        return resolved
+
+    return _dedupe(_strip_interval_offset(ts_id) for ts_id in resolved)
+
+
+# REGI writes some intervals with an offset suffix ("~1Day~0s", "~1Day~7h"). CDA
+# only knows the interval itself ("~1Day") and rejects the offset form with
+# "No such interval", so the suffix is dropped from every ts id we emit.
+_INTERVAL_OFFSET = re.compile(r"(\.~?\d+[A-Za-z]+)~\d+[A-Za-z]+(?=\.)")
+
+
+def _strip_interval_offset(ts_id: str) -> str:
+    return _INTERVAL_OFFSET.sub(r"\1", ts_id)
+
+
+def _dedupe(ids: Iterable[str]) -> list[str]:
+    # Stripping can collapse two ids ("~1Day~0s" and "~1Day") into one.
+    return list(dict.fromkeys(ids))
 
 
 def _resolve_from_property_category(
