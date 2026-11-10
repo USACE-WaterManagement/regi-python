@@ -27,6 +27,7 @@ begin
    execute immediate 'grant execute on cwms_20.cwms_upass to web_user';
 
    add_full_admin('M5HECTEST', office_list_t('SWT'));
+   add_full_admin('M5HECTEST', office_list_t('SWF'));
 
    add_full_admin('s0hectest', office_list_t('LRL', 'SPK', 'MVP', 'SWT'));
 

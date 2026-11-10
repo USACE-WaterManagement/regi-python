@@ -25,7 +25,7 @@ comparison case following this pattern.
 from __future__ import annotations
 
 import math
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Sequence
 
 TimeseriesPoint = tuple[datetime, float, int]
@@ -62,14 +62,52 @@ def clear_timeseries(ts_id: str, office_id: str, begin: datetime, end: datetime)
     seeded with history (so the stack looks like production); without
     clearing, a comparison against that history can pass even if the
     calculation wrote nothing.
+
+    Seeded production values can carry the protected quality bit, which CDA's
+    delete silently skips unless `override-protection` is set (and which also
+    stops REGI overwriting them), so it is always set here. The window is read
+    back afterwards: a clear that did nothing must fail loudly, not leave stale
+    data behind.
     """
     import cwms
 
     try:
-        cwms.delete_timeseries(ts_id=ts_id, office_id=office_id, begin=begin, end=end)
-    except Exception as error:  # nothing to delete in the window is fine
-        if "not found" not in str(error).lower() and "no data" not in str(error).lower():
+        cwms.api.delete(
+            f"timeseries/{ts_id}",
+            params={
+                "office": office_id,
+                "begin": begin.isoformat(),
+                "end": end.isoformat(),
+                "end-time-inclusive": "true",
+                "override-protection": "true",
+            },
+        )
+    except cwms.api.ApiError as error:
+        if not _is_empty_result(error):
             raise
+
+    try:
+        remaining = cwms.api.get(
+            "timeseries",
+            params={"office": office_id, "name": ts_id, "begin": begin.isoformat(), "end": end.isoformat(), "unit": "EN"},
+        ).get("values", [])
+    except cwms.api.ApiError as error:
+        if not _is_empty_result(error):
+            raise
+        remaining = []
+    if remaining:
+        raise RuntimeError(f"Could not clear {ts_id!r}: {len(remaining)} value(s) remain in {begin} .. {end}.")
+
+
+def _is_empty_result(error: Exception) -> bool:
+    """
+    Whether a CDA error just means "no such series / nothing in that window": a
+    404 ("TS_ID_NOT_FOUND ... was not found", "ORA-01403: no data found"), or the
+    misleading 400 ("exceeds the maximum length") that v2 returns for an empty
+    window of some series.
+    """
+    message = str(error).lower()
+    return "not found" in message or "no data found" in message or "exceeds the maximum length" in message
 
 
 def assert_timeseries_matches(

@@ -154,7 +154,7 @@ offices:
           - id: EUFA.Precip-Inc.Total.1Hour.1Hour.Ccp-Rev
           - id: EUFA.%-Humidity.Inst.1Hour.0.Ccp-Rev
           - id: EUFA.Flow-Res In.Ave.~1Day.1Day.Regi-Rev-Adjusted
-          - id: EUFA.Flow-Res In.Ave.~1Day.1Day.REGI-Test-Expected
+          - id: EUFA.Flow-Res In.Ave.~1Day.1Day.Raw-Regi-Computed
           - id: EUFA.Flow-Res Out.Ave.~1Day.1Day.Rev-Regi-Flowgroup
           - id: EUFA.Flow-Res Out.Ave.~1Day.1Day.REGI-Test-Expected
           - id: EUFA.Precip-Mean Areal.Total.~1Day.1Day.Metvue-Computed

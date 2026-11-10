@@ -30,10 +30,13 @@ to know how the Docker stack or the Java side works.*
    [`district-scripts/`](../district-scripts/) do (see
    [`docs/PYTHON_API.md`](../docs/PYTHON_API.md) for the calls available).
 3. The test reads back the time series the calculation wrote and compares it
-   with an **expected series** that is stored with the sample data. The test
-   passes when every value in the expected series matches.
+   with the right answer. Usually that is an **expected series** stored with
+   the sample data; the test passes when every value in the expected series
+   matches. Where the answer can be worked out independently, the test
+   calculates it in Python from the sample data instead (the Inflow test does
+   this).
 
-The expected series is just a normal time series whose version is
+An expected series is just a normal time series whose version is
 `REGI-Test-Expected` (for example
 `EUFA.Flow-Power.Ave.1Hour.1Hour.REGI-Test-Expected`). Nothing computes into
 it; it is the frozen, human-checked answer.
@@ -119,30 +122,47 @@ Rules of thumb:
 
 ## Adding a test for another calculation
 
-Copy [`test_inflow_calc.py`](src/test/python/test_inflow_calc.py) (a
-time-series result) or
-[`test_gate_settings_calc.py`](src/test/python/test_gate_settings_calc.py)
-(gate-change records) and change the calculation call. The Inflow test is the
-whole pattern:
+Start from the existing test closest to what you need and change the
+calculation call:
+
+- [`test_gate_flow_calc.py`](src/test/python/test_gate_flow_calc.py) -- compare
+  a series against a frozen expected series.
+- [`test_inflow_calc.py`](src/test/python/test_inflow_calc.py) -- check a
+  series against an independent calculation done in Python, and against
+  properties the result must have (for example, totals that must be conserved).
+- [`test_gate_settings_calc.py`](src/test/python/test_gate_settings_calc.py) --
+  check gate-change records instead of a time series.
+
+The shape every one of them follows:
 
 ```python
-def test_auto_adjust_matches_known_good_inflow(run_regi_calculation, cwms_session):
+def test_my_calculation(run_regi_calculation, cwms_session):
+    # Only data the calculation writes can then satisfy the check.
+    clear_timeseries(OUTPUT_TS_ID, OFFICE_ID, START, END)
+
     def calculate(registry):
         inflow_calc = registry.getCalculation(1.0, "Inflow")
-        inflow_calc.autoAdjust(OFFICE_ID, PROJECT_ID, CALCULATION_START, False, False)
+        inflow_calc.computeInflow(OFFICE_ID, PROJECT_ID, START, END)
 
     run_regi_calculation(calculate)
 
-    computed = fetch_timeseries(ADJUSTED_INFLOW_TS_ID, OFFICE_ID, WINDOW_START, WINDOW_END)
-    expected = fetch_timeseries(EXPECTED_TS_ID, OFFICE_ID, WINDOW_START, WINDOW_END)
-    assert expected, "the expected series didn't seed correctly"
-    assert_timeseries_matches(computed, expected)
+    computed = fetch_timeseries(OUTPUT_TS_ID, OFFICE_ID, START, END)
+    ...  # compare with an expected series or an independent calculation
 ```
 
 - `run_regi_calculation` runs your `calculate(registry)` function exactly as a
   district script's callback runs. It fails the test if REGI logs an error, so
   a calculation that quietly does nothing is caught.
-- `fetch_timeseries` and `assert_timeseries_matches` live in
+- `clear_timeseries` empties the output series for your window first. Seeded
+  production values are often *protected*, which stops REGI overwriting them,
+  and it removes them anyway so the test cannot pass on stale data.
+- **Dates must be UTC.** The Python-to-Java bridge reads any other `tzinfo` as
+  if its wall-clock fields were UTC (a Central-time midnight arrives as UTC
+  midnight, which is 7pm Central). For calculations that work on local days,
+  such as Inflow, pass project-local midnight converted to UTC, as the district
+  scripts do:
+  `datetime(2026, 6, 1, tzinfo=ZoneInfo("America/Chicago")).astimezone(timezone.utc)`.
+- `fetch_timeseries`, `clear_timeseries` and `assert_timeseries_matches` live in
   [`regi_calc_support.py`](src/test/python/regi_calc_support.py). Values must
   match to a tiny tolerance, and the timestamps must line up exactly.
 - Mark the test with `pytestmark = pytest.mark.integration`, as the existing
@@ -424,3 +444,18 @@ up.
 - **Intermittent HTML 404s from `data-api`.** If a load fails with HTML error
   bodies instead of JSON, the CDA webapp wasn't up (or stopped routing);
   `docker compose restart data-api` clears it for a long-lived stack.
+- **Dates and the Python-to-Java bridge.** REGI keys daily rows on
+  project-local midnight, and the bridge reads a non-UTC `tzinfo` as UTC
+  wall-clock. Passing UTC midnight to a daily calculation shows up as a
+  `NullPointerException` on `computedMonthTotal`, a bogus `-3h14m7s` interval
+  offset, or rows stamped at 7pm local time.
+- **`~0s` and `~7h` on association ids are REGI-only.** They tell REGI a daily
+  series is local-regular with that offset; CDA knows nothing about them and
+  the expander strips them when it resolves ids. An output series whose
+  association lacks the suffix gets a bogus offset when REGI creates it, so the
+  seed gives the daily computed-inflow association (`Hourly_computed_inflow_daily`)
+  a `~0s`.
+- **Cold cache.** A `regi-tools` release without the `AtTimeSeriesManager` fix
+  for `retrieveDataSetTxFromCache` reports a cache hit for an empty cache and
+  throws `NoSuchElementException` when it merges an empty map. The Inflow tests
+  hit it on a fresh stack, where the output series do not exist yet.
