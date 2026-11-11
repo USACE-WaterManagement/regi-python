@@ -4,7 +4,7 @@
 hec-server-suite = "9.0.1"
 
 # REGI Dependencies
-regi-tools = "10.0.1"
+regi-tools = "10.0.2"
 regi = "3.5.0-alpha003"
 
 netbeans-lookup = "RELEASE280"
