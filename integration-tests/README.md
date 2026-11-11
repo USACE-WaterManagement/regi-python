@@ -429,33 +429,3 @@ frees disk space, sets up Java and Gradle, and runs the task. It sets
 are uploaded as an artifact even when the run fails. Allow a generous
 timeout: the database image start, the ETL load and the calculations all add
 up.
-
-## Things that have bitten before
-
-- **A JVM that won't exit.** If pytest finishes its tests and then hangs,
-  look for non-daemon threads left in the embedded JVM (`jcmd <pid>
-  Thread.print`). `RowcpsExecutorHandler`'s monitor thread in `regi-tools`
-  once ended only on an interrupt that could be lost and was not a daemon, so
-  it kept the JVM alive; releases of `regi-tools` that make it a daemon and
-  stop it on an explicit shutdown flag don't have the problem.
-- **Stale installed wheel.** After changing `:regi-headless` or a dependency
-  version, rebuild and reinstall the wheel (`buildPythonWheel`) or the JVM
-  loads the old jars. The Gradle task reinstalls it for you.
-- **Intermittent HTML 404s from `data-api`.** If a load fails with HTML error
-  bodies instead of JSON, the CDA webapp wasn't up (or stopped routing);
-  `docker compose restart data-api` clears it for a long-lived stack.
-- **Dates and the Python-to-Java bridge.** REGI keys daily rows on
-  project-local midnight, and the bridge reads a non-UTC `tzinfo` as UTC
-  wall-clock. Passing UTC midnight to a daily calculation shows up as a
-  `NullPointerException` on `computedMonthTotal`, a bogus `-3h14m7s` interval
-  offset, or rows stamped at 7pm local time.
-- **`~0s` and `~7h` on association ids are REGI-only.** They tell REGI a daily
-  series is local-regular with that offset; CDA knows nothing about them and
-  the expander strips them when it resolves ids. An output series whose
-  association lacks the suffix gets a bogus offset when REGI creates it, so the
-  seed gives the daily computed-inflow association (`Hourly_computed_inflow_daily`)
-  a `~0s`.
-- **Cold cache.** A `regi-tools` release without the `AtTimeSeriesManager` fix
-  for `retrieveDataSetTxFromCache` reports a cache hit for an empty cache and
-  throws `NoSuchElementException` when it merges an empty map. The Inflow tests
-  hit it on a fresh stack, where the output series do not exist yet.
