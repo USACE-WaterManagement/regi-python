@@ -22,7 +22,7 @@ REGI reads the computed series (`Raw-Regi-Computed`) while it runs, and CDA
 answers a read of an *empty* series with an error that REGI logs, so the seed
 holds that series with a sentinel value of zero for every day of the month.
 The tests do not clear it: a run that writes nothing leaves zeros, which do not
-match the independent calculation. The seeded production values of the adjusted
+match the recorded values. The seeded production values of the adjusted
 series (`Regi-Rev-Adjusted`) carry the protected quality bit, which stops REGI
 overwriting them, so that series is cleared before the run (`clear_timeseries`
 overrides the protection).
@@ -36,9 +36,7 @@ output series and writes rows off the grid.
 """
 
 import math
-from datetime import datetime, timedelta, timezone
-from pathlib import Path
-from xml.etree import ElementTree
+from datetime import date, datetime, timezone
 from zoneinfo import ZoneInfo
 
 import pytest
@@ -53,28 +51,35 @@ PROJECT_TIME_ZONE = ZoneInfo("America/Chicago")
 
 COMPUTED_TS_ID = "EUFA.Flow-Res In.Ave.~1Day.1Day.Raw-Regi-Computed"
 ADJUSTED_TS_ID = "EUFA.Flow-Res In.Ave.~1Day.1Day.Regi-Rev-Adjusted"
-ELEVATION_TS_ID = "EUFA.Elev.Inst.1Hour.0.Ccp-Rev"
-STORAGE_TS_ID = "EUFA.Stor.Inst.1Hour.0.Ccp-Rev"
-RELEASE_TS_ID = "EUFA.Flow-Res Out.Ave.~1Day.1Day.Rev-Regi-Flowgroup"
-EVAPORATION_TS_ID = "EUFA.Evap.Total.~1Day.1Day.Ccp-Rev"
 
-AREA_RATING = (
-    Path(__file__).resolve().parents[3]
-    / "compose_files" / "regi-data" / "SWT" / "Ratings" / "EUFA.Elev;Area.Linear.Production.xml"
-)
-
-ACRE_FEET_PER_DAY_TO_CFS = 43560.0 / 86400.0
-# REGI scales open-water evaporation by a pan-to-lake multiplier; 0.7 is what it
-# applies to this project's seeded data (the remainder after storage change and
-# release matches 0.7 x the area-weighted evaporation volume to within a few cfs
-# on most days).
-PAN_MULTIPLIER = 0.7
-# The storage-change and release terms are thousands of cfs and agree exactly.
-# The evaporation term depends on REGI's elevation-averaging convention, which
-# this independent calculation only approximates; it is off by up to ~140 cfs on
-# days when the pool is rising quickly. A day misaligned in either of the large
-# terms would be off by thousands.
-TOLERANCE_CFS = 150.0
+# REGI's computed daily inflow (cfs) for the day ending at project-local midnight
+# of each date below (June 2026), from the seeded EUFA data. These were checked
+# once against an independent calculation (storage change + average release +
+# 0.7 x evaporation volume, within 150 cfs per day) and then recorded. The seed
+# is fixed, so any change here is a change in REGI's calculation: if it is
+# intended, regenerate the table from a run; if not, it is a regression. Days
+# after 06-21 are left out because the independent check did not cover them.
+EXPECTED_COMPUTED_INFLOW = {
+    date(2026, 6, 3): 2624.0292865766,
+    date(2026, 6, 4): 3675.9514236595,
+    date(2026, 6, 5): 301.6483822784,
+    date(2026, 6, 6): 1000.6048425474,
+    date(2026, 6, 7): 21274.7255524624,
+    date(2026, 6, 8): 11321.7382125349,
+    date(2026, 6, 9): 8915.5846164727,
+    date(2026, 6, 10): 6992.8995714082,
+    date(2026, 6, 11): 3913.7061393013,
+    date(2026, 6, 12): 2303.1533234863,
+    date(2026, 6, 13): 28013.2758212625,
+    date(2026, 6, 14): 9363.3830035496,
+    date(2026, 6, 15): 16430.2038722679,
+    date(2026, 6, 16): 8745.2876986413,
+    date(2026, 6, 17): 3780.8088021152,
+    date(2026, 6, 18): 2079.0075747677,
+    date(2026, 6, 19): 4289.5905872626,
+    date(2026, 6, 20): -184.3313279051,
+    date(2026, 6, 21): 3866.6160894845,
+}
 
 
 def project_midnight(year: int, month: int, day: int) -> datetime:
@@ -85,37 +90,28 @@ def project_midnight(year: int, month: int, day: int) -> datetime:
 MONTH_START = project_midnight(2026, 6, 1)
 MONTH_END = project_midnight(2026, 7, 1)
 
-# Days whose computed inflow is checked independently. The first day needs the
-# previous day's storage; the last is the final day before the seeded turbine
-# change history ends (2026-06-21 19:00): later computed values no longer match
-# the seeded daily release series (cause not yet identified), so they are not
-# verified independently here.
-CHECK_FIRST = project_midnight(2026, 6, 3)
-CHECK_LAST = project_midnight(2026, 6, 21)
-
-
-def test_compute_inflow_matches_independent_calculation(run_regi_calculation, cwms_session):
-
+def test_compute_inflow_matches_expected_values(run_regi_calculation, cwms_session):
     def calculate(registry):
         inflow_calc = registry.getCalculation(1.0, "Inflow")
         inflow_calc.computeInflow(OFFICE_ID, PROJECT_ID, MONTH_START, MONTH_END)
 
     run_regi_calculation(calculate)
 
-    computed = _values(COMPUTED_TS_ID, CHECK_FIRST, CHECK_LAST)
-    days = [CHECK_FIRST + timedelta(days=n) for n in range((CHECK_LAST - CHECK_FIRST).days + 1)]
-    assert set(days) <= set(computed), (
-        "REGI did not write a computed inflow for: "
-        + ", ".join(day.isoformat() for day in days if day not in computed)
+    first, last = min(EXPECTED_COMPUTED_INFLOW), max(EXPECTED_COMPUTED_INFLOW)
+    computed = _values(
+        COMPUTED_TS_ID,
+        project_midnight(first.year, first.month, first.day),
+        project_midnight(last.year, last.month, last.day),
     )
-
-    inputs = _Inputs.fetch(CHECK_FIRST - timedelta(days=1), CHECK_LAST)
-    off_by = {day: computed[day] - inputs.computed_inflow(day) for day in days}
-    misses = {day: error for day, error in off_by.items() if abs(error) > TOLERANCE_CFS}
-    assert not misses, (
-        f"Computed inflow differs from the independent calculation by more than {TOLERANCE_CFS} cfs "
-        "(day ending at local midnight: REGI minus expected, cfs):\n"
-        + "\n".join(f"  {day.isoformat()}: {error:+.1f}" for day, error in sorted(misses.items()))
+    actual = {time.astimezone(PROJECT_TIME_ZONE).date(): value for time, value in computed.items()}
+    misses = [
+        f"  {day}: REGI {actual.get(day)} vs expected {expected}"
+        for day, expected in EXPECTED_COMPUTED_INFLOW.items()
+        if actual.get(day) != pytest.approx(expected, rel=1e-6)
+    ]
+    assert not misses, "Computed inflow differs from the recorded values (cfs):\n" + "\n".join(misses)
+    assert set(actual) == set(EXPECTED_COMPUTED_INFLOW), (
+        f"Unexpected days in the computed window: {sorted(set(actual) - set(EXPECTED_COMPUTED_INFLOW))}"
     )
 
 
@@ -157,51 +153,3 @@ def test_auto_adjust_conserves_computed_volume(run_regi_calculation, cwms_sessio
 
 def _values(ts_id: str, begin: datetime, end: datetime) -> dict[datetime, float]:
     return {time: value for time, value, _ in fetch_timeseries(ts_id, OFFICE_ID, begin, end)}
-
-
-class _Inputs:
-    """The seeded series REGI reads, and the independent daily inflow computed from them."""
-
-    def __init__(self, elevation, storage, release, evaporation):
-        self.elevation = elevation
-        self.storage = storage
-        self.release = release
-        self.evaporation = evaporation
-        self.area_rating = _load_rating(AREA_RATING)
-
-    @classmethod
-    def fetch(cls, begin: datetime, end: datetime) -> "_Inputs":
-        evaporation_end = end + timedelta(hours=7)  # daily evaporation is stamped at 07:00 local (12:00Z)
-        return cls(
-            _values(ELEVATION_TS_ID, begin, end),
-            _values(STORAGE_TS_ID, begin, end),
-            _values(RELEASE_TS_ID, begin, end),
-            _values(EVAPORATION_TS_ID, begin, evaporation_end),
-        )
-
-    def computed_inflow(self, day_end: datetime) -> float:
-        """Inflow (cfs) of the day ending at `day_end`: storage change + average release + evaporation."""
-        storage_change = (self.storage[day_end] - self.storage[day_end - timedelta(days=1)]) * ACRE_FEET_PER_DAY_TO_CFS
-        return storage_change + self.release[day_end] + self._evaporation_flow(day_end)
-
-    def _evaporation_flow(self, day_end: datetime) -> float:
-        """Evaporation as flow (cfs): a truncated-cone volume between the pool area before and after the evaporation depth."""
-        depth_ft = self.evaporation[day_end + timedelta(hours=7)] / 12.0
-        mean_elevation = sum(self.elevation[day_end - timedelta(hours=hour)] for hour in range(24)) / 24
-        area_before = _interpolate(self.area_rating, mean_elevation)
-        area_after = _interpolate(self.area_rating, mean_elevation - depth_ft)
-        volume_acre_feet = depth_ft / 3 * (area_before + area_after + math.sqrt(area_before * area_after))
-        return PAN_MULTIPLIER * volume_acre_feet * ACRE_FEET_PER_DAY_TO_CFS
-
-
-def _load_rating(path: Path) -> list[tuple[float, float]]:
-    """Points (elevation, value) of the rating's most recent effective curve."""
-    curves = sorted(ElementTree.parse(path).getroot().iter("simple-rating"), key=lambda c: c.findtext("effective-date"))
-    return sorted((float(point.findtext("ind")), float(point.findtext("dep"))) for point in curves[-1].iter("point"))
-
-
-def _interpolate(points: list[tuple[float, float]], x: float) -> float:
-    for (x0, y0), (x1, y1) in zip(points, points[1:]):
-        if x0 <= x <= x1:
-            return y0 + (y1 - y0) * (x - x0) / (x1 - x0)
-    raise ValueError(f"{x} is outside the rating's range {points[0][0]} .. {points[-1][0]}")
