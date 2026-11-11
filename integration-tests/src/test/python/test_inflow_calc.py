@@ -56,9 +56,7 @@ ADJUSTED_TS_ID = "EUFA.Flow-Res In.Ave.~1Day.1Day.Regi-Rev-Adjusted"
 # of each date below (June 2026), from the seeded EUFA data. These were checked
 # once against an independent calculation (storage change + average release +
 # 0.7 x evaporation volume, within 150 cfs per day) and then recorded. The seed
-# is fixed, so any change here is a change in REGI's calculation: if it is
-# intended, regenerate the table from a run; if not, it is a regression. Days
-# after 06-21 are left out because the independent check did not cover them.
+# is fixed, so any change here is a change in REGI's calculation.
 EXPECTED_COMPUTED_INFLOW = {
     date(2026, 6, 3): 2624.0292865766,
     date(2026, 6, 4): 3675.9514236595,
