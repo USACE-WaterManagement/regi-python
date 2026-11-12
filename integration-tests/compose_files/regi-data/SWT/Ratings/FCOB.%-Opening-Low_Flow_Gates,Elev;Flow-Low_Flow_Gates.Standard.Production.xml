@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ratings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://www.hec.usace.army.mil/xmlSchema/cwms/Ratings.xsd">
+  <rating-template office-id="SWT">
+    <parameters-id>%-Opening-Low_Flow_Gates,Elev;Flow-Low_Flow_Gates</parameters-id>
+    <version>Standard</version>
+    <ind-parameter-specs>
+      <ind-parameter-spec position="1">
+        <parameter>%-Opening-Low_Flow_Gates</parameter>
+        <in-range-method>LINEAR</in-range-method>
+        <out-range-low-method>NEAREST</out-range-low-method>
+        <out-range-high-method>NEAREST</out-range-high-method>
+      </ind-parameter-spec>
+      <ind-parameter-spec position="2">
+        <parameter>Elev</parameter>
+        <in-range-method>LINEAR</in-range-method>
+        <out-range-low-method>NEAREST</out-range-low-method>
+        <out-range-high-method>NEAREST</out-range-high-method>
+      </ind-parameter-spec>
+    </ind-parameter-specs>
+    <dep-parameter>Flow-Low_Flow_Gates</dep-parameter>
+    <description/>
+  </rating-template>
+  <rating-spec office-id="SWT">
+    <rating-spec-id>FCOB.%-Opening-Low_Flow_Gates,Elev;Flow-Low_Flow_Gates.Standard.Production</rating-spec-id>
+    <template-id>%-Opening-Low_Flow_Gates,Elev;Flow-Low_Flow_Gates.Standard</template-id>
+    <location-id>FCOB</location-id>
+    <version>Production</version>
+    <source-agency/>
+    <in-range-method>PREVIOUS</in-range-method>
+    <out-range-low-method>NEAREST</out-range-low-method>
+    <out-range-high-method>PREVIOUS</out-range-high-method>
+    <active>true</active>
+    <auto-update>false</auto-update>
+    <auto-activate>false</auto-activate>
+    <auto-migrate-extension>false</auto-migrate-extension>
+    <ind-rounding-specs>
+      <ind-rounding-spec position="1">4444444444</ind-rounding-spec>
+      <ind-rounding-spec position="2">4444444444</ind-rounding-spec>
+    </ind-rounding-specs>
+    <dep-rounding-spec>4444444444</dep-rounding-spec>
+    <description>Ft Cobb Lake, OK Low Flow Gate Discharge Production Rating</description>
+  </rating-spec>
+  <simple-rating office-id="SWT">
+    <rating-spec-id>FCOB.%-Opening-Low_Flow_Gates,Elev;Flow-Low_Flow_Gates.Standard.Production</rating-spec-id>
+    <vertical-datum-info unit="ft">
+      <native-datum>NGVD-29</native-datum>
+      <elevation>1278.999</elevation>
+      <offset estimate="true">
+        <to-datum>NAVD-88</to-datum>
+        <value>0.5279</value>
+      </offset>
+    </vertical-datum-info>
+    <units-id vertical-datum="">%,ft;cfs</units-id>
+    <effective-date>1992-08-17T00:00:00-05:00</effective-date>
+    <create-date>2012-11-05T09:28:13-06:00</create-date>
+    <active>true</active>
+    <description/>
+    <rating-points>
+      <other-ind position="1" value="0"/>
+      <point>
+        <ind>1300</ind>
+        <dep>0</dep>
+      </point>
+      <point>
+        <ind>1380</ind>
+        <dep>0</dep>
+      </point>
+    </rating-points>
+    <rating-points>
+      <other-ind position="1" value="100"/>
+      <point>
+        <ind>1300</ind>
+        <dep>15</dep>
+      </point>
+      <point>
+        <ind>1380</ind>
+        <dep>15</dep>
+      </point>
+    </rating-points>
+  </simple-rating>
+</ratings>

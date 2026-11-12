@@ -64,6 +64,10 @@ public class HeadlessRegiDomainFactory
 		String cdaUrl = System.getenv("CDA_URL");
 		String apiKey = System.getenv("CDA_API_KEY");
 		String officeId = System.getenv("OFFICE_ID");
+		if(!apiKey.startsWith("apikey"))
+		{
+			apiKey = "apikey " + apiKey;
+		}
 
 		CdaAuthenticationSource cdaAuthenticationSource = new CdaAuthenticationSource("", cdaUrl, officeId, new CwmsApiKeyAuthExtension(apiKey));
 		try

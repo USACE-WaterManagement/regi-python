@@ -11,7 +11,7 @@ dependencies = [
 ]
 
 [tool.setuptools]
-packages = ["regi_python"]
+packages = ["regi_python", "regi_python.lib"]
 
 [tool.setuptools.package-data]
 "regi_python" = ["lib/*.jar"]

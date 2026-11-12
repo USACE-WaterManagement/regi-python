@@ -1,0 +1,19 @@
+{
+  "office-id": "SWT",
+  "name": "WEBB-Lock",
+  "latitude": 35.5866666666667,
+  "longitude": -95.1683333333333,
+  "active": true,
+  "public-name": "Lock",
+  "timezone-name": "US/Central",
+  "location-kind": "LOCK",
+  "nation": "US",
+  "state-initial": "OK",
+  "county-name": "Muskogee",
+  "horizontal-datum": "NAD83",
+  "published-longitude": 95.1683333333333,
+  "published-latitude": 35.5866666666667,
+  "vertical-datum": "NGVD29",
+  "elevation": 149.352,
+  "elevation-units": "m"
+}

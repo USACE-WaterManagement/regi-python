@@ -1,0 +1,242 @@
+[
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "BROK-Turbine1",
+    "value": "BROK Turbine"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "BROK-Turbine2",
+    "value": "BROK Turbine"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "DENI-HouseUnit",
+    "value": "House Service Unit"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "DENI-Turbine1",
+    "value": "35-MW Turbines"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "DENI-Turbine2",
+    "value": "35-MW Turbines"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "EUFA-Turbine1",
+    "value": "EUFA Turbine"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "EUFA-Turbine2",
+    "value": "EUFA Turbine"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "EUFA-Turbine3",
+    "value": "EUFA Turbine"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "FGIB-Turbine1",
+    "value": "FGIB Turbine"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "FGIB-Turbine2",
+    "value": "FGIB Turbine"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "FGIB-Turbine3",
+    "value": "FGIB Turbine"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "FGIB-Turbine4",
+    "value": "FGIB Turbine"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "HUDS-SALI_Turbine1",
+    "value": "HUDS-SALI Pumped-back Turbine"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "HUDS-SALI_Turbine2",
+    "value": "HUDS-SALI Pumped-back Turbine"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "HUDS-SALI_Turbine3",
+    "value": "HUDS-SALI Pumped-back Turbine"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "HUDS-SALI_Turbine4",
+    "value": "HUDS-SALI Pumped-back Turbine"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "HUDS-SALI_Turbine5",
+    "value": "HUDS-SALI Pumped-back Turbine"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "HUDS-SALI_Turbine6",
+    "value": "HUDS-SALI Pumped-back Turbine"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "HUDS-Turbine1",
+    "value": "HUDS Turbine"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "HUDS-Turbine2",
+    "value": "HUDS Turbine"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "HUDS-Turbine3",
+    "value": "HUDS Turbine"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "HUDS-Turbine4",
+    "value": "HUDS Turbine"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "KAWL-Turbine1",
+    "value": "KAWL Turbine"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "KEYS-Turbine1",
+    "value": "KEYS Turbine"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "KEYS-Turbine2",
+    "value": "KEYS Turbine"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "PENS-Turbine1",
+    "value": "PENS Turbine"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "PENS-Turbine2",
+    "value": "PENS Turbine"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "PENS-Turbine3",
+    "value": "PENS Turbine"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "PENS-Turbine4",
+    "value": "PENS Turbine"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "PENS-Turbine5",
+    "value": "PENS Turbine"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "PENS-Turbine6",
+    "value": "PENS Turbine"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "ROBE-Turbine1",
+    "value": "ROBE Turbine"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "ROBE-Turbine2",
+    "value": "ROBE Turbine"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "ROBE-Turbine3",
+    "value": "ROBE Turbine"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "ROBE-Turbine4",
+    "value": "ROBE Turbine"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "TENK-Turbine1",
+    "value": "TENK Turbine"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "TENK-Turbine2",
+    "value": "TENK Turbine"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "WEBB-Turbine1",
+    "value": "WEBB Turbine"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "WEBB-Turbine2",
+    "value": "WEBB Turbine"
+  },
+  {
+    "office-id": "SWT",
+    "category": "characteristic_type.turbine.assignment",
+    "name": "WEBB-Turbine3",
+    "value": "WEBB Turbine"
+  }
+]

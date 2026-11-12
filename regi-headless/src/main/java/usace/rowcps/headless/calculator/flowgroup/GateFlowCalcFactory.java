@@ -1,6 +1,6 @@
 package usace.rowcps.headless.calculator.flowgroup;
 
-import rma.services.annotations.ServiceProvider;
+import org.openide.util.lookup.ServiceProvider;
 import usace.rowcps.headless.interfaces.ScriptableCalc;
 import usace.rowcps.headless.ScriptableCalcFactory;
 import usace.rowcps.regi.model.ManagerId;

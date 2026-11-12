@@ -8,7 +8,7 @@ package usace.rowcps.headless.metrics;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import rma.services.annotations.ServiceProvider;
+import org.openide.util.lookup.ServiceProvider;
 import usace.metrics.services.MetricsApp;
 import usace.metrics.services.config.MetricsConfig;
 import usace.rowcps.metrics.RegiMetricsService;

@@ -1,0 +1,34 @@
+{
+  "begin": "2026-07-17T00:00:00+00:00",
+  "date-version-type": "UNVERSIONED",
+  "end": "2026-07-22T00:00:00+00:00",
+  "interval": "PT0S",
+  "interval-offset": -2147483648,
+  "name": "EUFA-SG1.Opening-Sluice_Gates.Inst.0.0.MANUAL",
+  "office-id": "SWT",
+  "time-zone": "US/Central",
+  "total": 3,
+  "units": "ft",
+  "value-columns": [
+    {
+      "name": "date-time",
+      "ordinal": 1,
+      "datatype": "java.sql.Timestamp"
+    },
+    {
+      "name": "value",
+      "ordinal": 2,
+      "datatype": "java.lang.Double"
+    },
+    {
+      "name": "quality-code",
+      "ordinal": 3,
+      "datatype": "int"
+    }
+  ],
+  "values": [
+    [1784246400000, 0.5, 0],
+    [1784419200000, 1.2, 0],
+    [1784635200000, 0.0, 0]
+  ]
+}

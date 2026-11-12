@@ -7,9 +7,9 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 dependencies {
-    annotationProcessor(libs.service.annotations)
     configurations.compileClasspath.extendsFrom(configurations.annotationProcessor)
-    testAnnotationProcessor(libs.service.annotations)
+    annotationProcessor(libs.lookup)
+    testAnnotationProcessor(libs.lookup)
 }
 
 test {
