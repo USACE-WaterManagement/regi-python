@@ -11,7 +11,7 @@ netbeans-lookup = "RELEASE280"
 
 python = "3.11.15"
 conda = "26.3.2-2"
-pswidersk-python-plugin = "3.2.26"
+pswidersk-python-plugin = "3.2.34"
 
 # Test
 junit = "6.1.3"
