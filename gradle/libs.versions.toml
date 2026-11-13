@@ -7,7 +7,7 @@ hec-server-suite = "9.0.1"
 regi-tools = "10.0.2"
 regi = "3.5.0-alpha003"
 
-netbeans-lookup = "RELEASE280"
+netbeans-lookup = "RELEASE310"
 
 python = "3.11.15"
 conda = "26.3.2-2"
